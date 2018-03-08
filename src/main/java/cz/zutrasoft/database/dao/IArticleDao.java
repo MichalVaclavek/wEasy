@@ -1,15 +1,19 @@
-package cz.vitfo.database.dao;
+package cz.zutrasoft.database.dao;
 
 import java.util.List;
 
-import cz.vitfo.database.model.Article;
-import cz.vitfo.database.model.Category;
+import cz.zutrasoft.database.model.Article;
+import cz.zutrasoft.database.model.Category;
+import cz.zutrasoft.database.model.Comment;
 
-public interface ArticleDao {
-
-	public void saveTextAsArticle(String text, Category category);
+public interface IArticleDao
+{
 	public void updateArticle(Article article);
 	public List<Article> getAllArticles();
 	public List<Article> getAllArticlesInCategory(Category category);
-	public Article getArticle(int id);
+	public List<Article> getAllArticlesInCategory(long categoryId);
+	public Article getArticleById(int id);
+	public void saveArticle(Article newArticle);
+	
+	public void deleteArticle(Article article);	
 }

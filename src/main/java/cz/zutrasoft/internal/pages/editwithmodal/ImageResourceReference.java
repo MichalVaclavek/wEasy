@@ -1,4 +1,4 @@
-package cz.vitfo.internal.pages.editwithmodal;
+package cz.zutrasoft.internal.pages.editwithmodal;
 
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.DynamicImageResource;
@@ -6,25 +6,30 @@ import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.util.string.StringValue;
 
-import cz.vitfo.database.daoimpl.ImageDaoImpl;
-import cz.vitfo.database.model.Image;
+import cz.zutrasoft.base.services.ImageService;
+import cz.zutrasoft.base.servicesimpl.ImageServiceImpl;
+import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
+import cz.zutrasoft.database.model.Image;
 
 /**
  * Class that represents my ResourceReference -> my image reference
  * 
- * @author vitfo
+ * @author zutrasoft
  *
  */
-public class ImageResourceReference extends ResourceReference {
+public class ImageResourceReference extends ResourceReference
+{
 
 	private static final long serialVersionUID = 6402188485466805555L;
 
-	public ImageResourceReference() {
+	public ImageResourceReference()
+	{
 		super(ImageResourceReference.class, "imageResourceReference");
 	}
 
 	@Override
-	public IResource getResource() {
+	public IResource getResource()
+	{
 		// Return my class ImageResource representing image resource.
 		return new ImageResource();
 	}
@@ -37,24 +42,30 @@ public class ImageResourceReference extends ResourceReference {
 	 * @author User
 	 *
 	 */
-	private static class ImageResource extends DynamicImageResource {
+	private static class ImageResource extends DynamicImageResource
+	{
 
 		@Override
-		protected byte[] getImageData(Attributes attributes) {
+		protected byte[] getImageData(Attributes attributes)
+		{
 			// get PageParameters from attributes
 			PageParameters parameters = attributes.getParameters();
 			StringValue imageId = parameters.get("imageId");
 
 			byte[] imageBytes = null;
-			try {
+			try
+			{
 				int id = Integer.parseInt(imageId.toString());
-				ImageDaoImpl dao = new ImageDaoImpl();
-				Image img = dao.getImageById(id);
+				//ImageDaoImpl dao = new ImageDaoImpl();
+				ImageService imageService = new ImageServiceImpl();
+				Image img = imageService.getImageById(id);
 				imageBytes = img.getBytes();
-			} catch (Exception e) {
+			} catch (Exception e)
+			{
 			}
 
 			return imageBytes;
 		}
 	}
+	
 }

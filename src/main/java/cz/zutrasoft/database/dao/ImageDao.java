@@ -1,15 +1,16 @@
-package cz.vitfo.database.dao;
+package cz.zutrasoft.database.dao;
 
 import java.util.List;
 
-import cz.vitfo.database.model.Category;
-import cz.vitfo.database.model.Directory;
-import cz.vitfo.database.model.Image;
+import cz.zutrasoft.database.model.Category;
+import cz.zutrasoft.database.model.Directory;
+import cz.zutrasoft.database.model.Image;
 
-public interface ImageDao {
+public interface ImageDao
+{
 
 	public List<Image> getAllImages();
-	public List<Image> getAllImagesInCategory(Category category);
+
 	public List<Image> getAllImagesInDirectory(Directory directory);
 	
 	/**
@@ -32,5 +33,5 @@ public interface ImageDao {
 	 * 
 	 * @param id - id of the image
 	 */
-	public void deleteImage(int id);
+	public void deleteImageById(int id);
 }

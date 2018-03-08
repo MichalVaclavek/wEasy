@@ -1,16 +1,18 @@
-package cz.vitfo.external.panels;
+package cz.zutrasoft.external.panels;
 
 import org.apache.wicket.model.IModel;
 
-import cz.vitfo.database.model.Article;
+import cz.zutrasoft.database.model.Article;
 
-public class BaseLinkPanelModel implements IModel<Article> {
+public class BaseLinkPanelModel implements IModel<Article>
+{
 
 	private static final long serialVersionUID = 7667463351383476220L;
 
 	private Article article;
 	
-	public BaseLinkPanelModel(Article article) {
+	public BaseLinkPanelModel(Article article) 
+	{
 		this.article = article;
 	}
 
@@ -18,7 +20,8 @@ public class BaseLinkPanelModel implements IModel<Article> {
 	public void detach() {}
 
 	@Override
-	public Article getObject() {
+	public Article getObject()
+	{
 		return article;
 	}
 

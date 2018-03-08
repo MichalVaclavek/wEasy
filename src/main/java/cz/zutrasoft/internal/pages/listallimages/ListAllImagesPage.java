@@ -1,4 +1,4 @@
-package cz.vitfo.internal.pages.listallimages;
+package cz.zutrasoft.internal.pages.listallimages;
 
 import java.util.List;
 
@@ -13,21 +13,28 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.resource.ByteArrayResource;
 
-import cz.vitfo.database.dao.ImageDao;
-import cz.vitfo.database.daoimpl.ImageDaoImpl;
-import cz.vitfo.database.model.Image;
-import cz.vitfo.internal.pages.InternalBasePage;
+import cz.zutrasoft.base.services.ImageService;
+import cz.zutrasoft.base.servicesimpl.ImageServiceImpl;
+import cz.zutrasoft.database.dao.ImageDao;
+import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
+import cz.zutrasoft.database.model.Image;
+import cz.zutrasoft.internal.pages.InternalBasePage;
 
-public class ListAllImagesPage extends InternalBasePage  {
+public class ListAllImagesPage extends InternalBasePage
+{
 
 	private static final long serialVersionUID = -6842730542504808757L;
 
-	public ListAllImagesPage() {
-		IModel<List<Image>> imagesModel = new AbstractReadOnlyModel<List<Image>>() {
+	public ListAllImagesPage()
+	{
+		IModel<List<Image>> imagesModel = new AbstractReadOnlyModel<List<Image>>()
+		{
 			@Override
-			public List<Image> getObject() {
-				ImageDaoImpl dao = new ImageDaoImpl();
-				return dao.getAllImages();
+			public List<Image> getObject()
+			{
+				//ImageDaoImpl dao = new ImageDaoImpl();
+				ImageService imageService = new ImageServiceImpl();
+				return imageService.getAllImages();
 			}
 		}; 
 		this.setDefaultModel(imagesModel);
@@ -36,17 +43,21 @@ public class ListAllImagesPage extends InternalBasePage  {
 		container.setOutputMarkupId(true);
 		add(container);
 		
-		ListView images = new ListView<Image>("images", imagesModel) {
+		ListView images = new ListView<Image>("images", imagesModel) 
+		{
 			@Override
-			protected void populateItem(ListItem<Image> item) {
+			protected void populateItem(ListItem<Image> item)
+			{
 				final Image img = item.getModelObject();
 				item.add(new org.apache.wicket.markup.html.image.Image("image", new ByteArrayResource(null, img.getBytes())));
 				item.add(new Label("name", img.getFileName()));
 				item.add(new AjaxLink("delete") {
 					@Override
-					public void onClick(AjaxRequestTarget target) {
-						ImageDao dao = new ImageDaoImpl();
-						dao.deleteImage(img.getId());
+					public void onClick(AjaxRequestTarget target)
+					{
+						//ImageDao dao = new ImageDaoImpl();
+						ImageService imageService = new ImageServiceImpl();
+						imageService.deleteImageById(img.getId());
 						
 						target.add(container);
 					}

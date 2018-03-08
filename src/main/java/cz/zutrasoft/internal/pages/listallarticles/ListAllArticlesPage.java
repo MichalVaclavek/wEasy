@@ -1,4 +1,4 @@
-package cz.vitfo.internal.pages.listallarticles;
+package cz.zutrasoft.internal.pages.listallarticles;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -24,30 +24,39 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import cz.vitfo.database.daoimpl.ArticleDaoImpl;
-import cz.vitfo.database.model.Article;
-import cz.vitfo.internal.pages.InternalBasePage;
-import cz.vitfo.internal.pages.editwithmodal.EditPage;
+import cz.zutrasoft.base.services.ArticleService;
+import cz.zutrasoft.base.servicesimpl.ArticleServiceImpl;
+import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
+import cz.zutrasoft.database.model.Article;
+import cz.zutrasoft.internal.pages.InternalBasePage;
+import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
 
-public class ListAllArticlesPage extends InternalBasePage {
+public class ListAllArticlesPage extends InternalBasePage
+{
 	
 	private static final long serialVersionUID = -5560925637114655639L;
 
-	public ListAllArticlesPage() {
-		
+	public ListAllArticlesPage()
+	{		
 		List<IColumn<Article, String>> columns = new ArrayList<>();
+		
 		columns.add(new PropertyColumn(Model.of("Category"), "category", "category"));
 		columns.add(new PropertyColumn(Model.of("Header"), "header", "header"));
 		columns.add(new PropertyColumn(Model.of("Saved"), "saved", "saved"));
 		
 		ArticlesDataProvider dataProvider = new ArticlesDataProvider();
-		DataTable table = new DataTable("articles", columns, dataProvider, 10) {
+		
+		DataTable table = new DataTable("articles", columns, dataProvider, 10)
+		{
 			@Override
-			protected Item newRowItem(String id, int index, final IModel model) {
+			protected Item newRowItem(String id, int index, final IModel model)
+			{
 				Item rowItem = new Item(id, index, model);
-				rowItem.add(new AjaxEventBehavior("onclick") {
+				rowItem.add(new AjaxEventBehavior("onclick")
+				{
 					@Override
-					protected void onEvent(AjaxRequestTarget target) {
+					protected void onEvent(AjaxRequestTarget target)
+					{
 						Article article = (Article) model.getObject();
 						PageParameters pp = new PageParameters();
 						pp.set(0, article.getId());
@@ -55,6 +64,7 @@ public class ListAllArticlesPage extends InternalBasePage {
 						setResponsePage(new EditPage(pp));
 					}
 				});
+				
 				return rowItem;
 			}
 		};
@@ -65,44 +75,54 @@ public class ListAllArticlesPage extends InternalBasePage {
 		add(table);
 	}
 
-	private static class ArticlesDataProvider extends SortableDataProvider<Article, String> {
+	private static class ArticlesDataProvider extends SortableDataProvider<Article, String>
+	{
 		private List<Article> articles;
 		
-		public ArticlesDataProvider() {
-			ArticleDaoImpl dao = new ArticleDaoImpl();
-			articles = dao.getAllArticles();
+		public ArticlesDataProvider()
+		{
+			//ArticleDaoImpl dao = new ArticleDaoImpl();
+			ArticleService articleService = new ArticleServiceImpl();
+			articles = articleService.getAllArticles();
 			
 			// the defult sorting order
 			setSort("saved", SortOrder.ASCENDING);
 		}
 
 		@Override
-		public Iterator<? extends Article> iterator(long first, long count) {
+		public Iterator<? extends Article> iterator(long first, long count)
+		{
 			List<Article> data = new ArrayList<>(articles);
 			
 			// create comparator for article objects
-			Comparator comparator = new Comparator<Article>() {
-
+			Comparator comparator = new Comparator<Article>()
+			{
 				@Override
-				public int compare(Article o1, Article o2) {
+				public int compare(Article o1, Article o2)
+				{
 					// locale sensitive comparison
 					Collator collator = Collator.getInstance(Session.get().getLocale());
-					if (getSort() != null) {
+					if (getSort() != null)
+					{
 						int orderDirection = getSort().isAscending() ? 1 : -1;
 					
-						if (getSort().getProperty().equals("header")) {
+						if (getSort().getProperty().equals("header"))
+						{
 							// compare header names
 							return orderDirection * (collator.compare(o1.getHeader(), o2.getHeader()));
-						} else if (getSort().getProperty().equals("category")) {
-							// compare category names
-							if (o1.getCategory() != null && o2.getCategory() != null) {
-								return orderDirection * (collator.compare(o1.getCategory().toString(), o2.getCategory().toString()));
-							}
-						} else if (getSort().getProperty().equals("saved")) {
-							// compare timestamp
-							int result = (o1.getSaved().getTime() < o2.getSaved().getTime()) ? 1 : -1;
-							return orderDirection * result;
-						}
+						} else if (getSort().getProperty().equals("category"))
+								{
+									// compare category names
+									if (o1.getCategory() != null && o2.getCategory() != null)
+									{
+										return orderDirection * (collator.compare(o1.getCategory().toString(), o2.getCategory().toString()));
+									}
+						} else if (getSort().getProperty().equals("saved"))
+								{
+									// compare timestamp
+									int result = (o1.getSaved().getTime() < o2.getSaved().getTime()) ? 1 : -1;
+										return orderDirection * result;
+								}
 					}
 					
 					return 0;
@@ -117,18 +137,22 @@ public class ListAllArticlesPage extends InternalBasePage {
 		}
 
 		@Override
-		public long size() {
+		public long size()
+		{
 			return articles.size();
 		}
 
 		@Override
-		public IModel<Article> model(final Article object) {
+		public IModel<Article> model(final Article object) 
+		{
 			return Model.of(object);
 		}
 	}
 	
 	@Override
-	protected IModel<String> getSubTitle() {
+	protected IModel<String> getSubTitle()
+	{
 		return new ResourceModel("submenu.listAllArticlesPage");
 	}
+	
 }

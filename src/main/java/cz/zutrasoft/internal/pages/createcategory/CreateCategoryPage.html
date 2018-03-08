@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- JavaScript text_editor.js je ve skutecnosti soucasti stranky EditPanel.html -->
 <script type="text/javascript" src="scripts/text_editor.js"></script>
 </head>
 <body>
+
 	<wicket:extend>
+	
 		<div wicket:id="feedback"></div>
 		<form wicket:id="form">
 			<input type="text" wicket:id="category" id="category"/><label for="category"><wicket:message key="label.categoryName"/></label><br/>
@@ -14,5 +17,6 @@
 		</form>
 
 	</wicket:extend>
+	
 </body>
 </html>

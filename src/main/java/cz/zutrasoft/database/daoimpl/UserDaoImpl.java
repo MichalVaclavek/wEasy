@@ -1,46 +1,213 @@
-package cz.vitfo.database.daoimpl;
+package cz.zutrasoft.database.daoimpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-import cz.vitfo.database.dao.UserDao;
-import cz.vitfo.database.model.User;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class UserDaoImpl extends DaoImpl implements UserDao {
 
-	@Override
-	public User getUser(String email) {
-		User u = new User();
-		
-		try (Connection con = dataSource.getConnection()) {
-			PreparedStatement ps = con.prepareStatement("select id, username, email, password from " + TableEnum.T_USER + " where email = ?");
-			ps.setString(1, email);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				u.setId(rs.getInt("id"));
-				u.setUsername(rs.getString("username"));
-				u.setEmail(rs.getString("email"));
-				u.setPassword(rs.getString("password"));
-			}
+import cz.zutrasoft.database.dao.IUserDao;
+import cz.zutrasoft.database.model.User;
+
+public class UserDaoImpl implements IUserDao
+{
+
+	static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
+    
+    @Override
+    public User findById(Integer id)
+    {
+        User user = null;
+    	
+    	SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+    	
+    	try
+	    {
+			session.getTransaction().begin();
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+			String sql = "Select u from " + User.class.getName() + " u "
+		               	+ " Where u.id = :id";
+		    
+			Query<User> query = session.createQuery(sql);
+		       
+		    query.setParameter("id", id);
+		       
+		     if (query.getResultList().size() > 0)
+		    	 user = query.getResultList().get(0);
+		
+		     if (user != null)
+		     {
+		         Hibernate.initialize(user.getUserProfiles());
+		     }
+		     
+		     session.getTransaction().commit();
+	    }
+		catch (Exception e)
+		{
+			logger.error(e.getMessage());
+			session.getTransaction().rollback();
 		}
-		return u;
-	}
+            	
+        return user;
+    }
+    
+    /**
+     * SSO a username jsou synonyma. SSO používá Spring.
+     */
+    @Override
+    public User findByUsername(String username)
+    {
+        User user = null;
+    	
+    	logger.info("Username : {}", username);
+        
+    	SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+    	
+    	try
+	    {
+			session.getTransaction().begin();
+			
+			String sql = "Select u from " + User.class.getName() + " u "
+		               	+ " Where u.username = :username";
+		    
+			Query<User> query = session.createQuery(sql);
+		       
+		    query.setParameter("username", username);
+		       
+		    if (query.getResultList().size() > 0)
+		    	user = query.getResultList().get(0);
+				    
+		    if(user != null)
+	        {
+	            Hibernate.initialize(user.getUserProfiles());
+	        }
+		    
+		    session.getTransaction().commit();
+	    }
+		catch (Exception e)
+		{
+			logger.error("Username : {} failed to find. Error: " + e.getMessage(), username);
+			session.getTransaction().rollback();
+		}
+		                   
+        return user;
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    public List<User> findAllUsers()
+    {
+    	List<User> users = null;
+    	
+    	SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+    	
+    	try
+    	{
+    		session.getTransaction().begin();
 
-	@Override
-	public void saveUser(User user) {
-		try (Connection con = dataSource.getConnection()) {
-			PreparedStatement ps = con.prepareStatement("insert into " + TableEnum.T_USER + " (username, email, password) values (?, ?, ?)");
-			ps.setString(1, user.getUsername());
-			ps.setString(2, user.getEmail());
-			ps.setString(3, user.getPassword());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	        String sql = "Select u from " + User.class.getName() + " u order by u.username asc";
+	 
+	        // Create Query object.
+	        Query<User> query = session.createQuery(sql);
+	 
+	        // Execute query.
+	        users = query.getResultList();
+	        session.getTransaction().commit();
+	        
+	        // Zobrazit pro test
+	        for (User u : users)
+	        	System.out.println(u.getUsername());
+    	}
+        catch (Exception e)
+	    {
+        	logger.error(e.getMessage());
+	    	session.getTransaction().rollback();
+	    }
+         
+        return users;
+    }
+    
+    @Override
+    public void save(User user)
+    {
+    	SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+	    	           
+    	try
+    	{
+    		session.getTransaction().begin();
+    		
+    		session.persist(user);
+    		
+    		session.getTransaction().commit();
+    	}
+    	catch (Exception e)
+	    {
+	    	logger.error("UserDaoImp.save() error: {}", e.getMessage());
+	    	session.getTransaction().rollback();
+	    }
+    }
+    
+    @Override
+	public void update(User user)
+	{
+    	SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+	    	           
+    	try
+    	{
+    		session.getTransaction().begin();
+    		
+    		session.saveOrUpdate(user);
+    		
+    		session.getTransaction().commit();
+    	}
+    	catch (Exception e)
+	    {
+	    	logger.error("UserDaoImp.save() error: {}", e.getMessage());
+	    	session.getTransaction().rollback();
+	    }
+		
 	}
+    
+ 
+    @Override
+    //public void deleteByUsername(String sso)
+    public void deleteByUserId(Integer userId)
+    {        
+    	SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+ 
+    	try
+    	{
+    		session.getTransaction().begin();
+	    	
+	    	Object persistentInstance = session.load(User.class, userId); // ocekava se id
+	    	if (persistentInstance != null)
+	    	{
+	    		session.delete(persistentInstance);
+	    		session.getTransaction().commit();
+	    	}
+    	}
+    	catch (Exception e)
+	    {
+    		logger.error(e.getMessage());
+	    	session.getTransaction().rollback();
+	    }
+        
+    }
+
+	
+	
 }

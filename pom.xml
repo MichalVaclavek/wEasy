@@ -20,13 +20,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>cz.vitfo</groupId>
+	<groupId>cz.zutrasoft</groupId>
 	<artifactId>weasy</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 		<!-- TODO project name  -->
-	<name>quickstart</name>
-	<description></description>
+	<name>Zutrasoft</name>
+	<description>Zutrasoft.cz stránky v Apache Wicket. Podle projektu weasy na github.</description>
 	<!--
 		<organization>
 			<name>company name</name>
@@ -40,30 +40,40 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	
 	<properties>
 		<wicket.version>6.17.0</wicket.version>
 		<jetty.version>7.6.13.v20130916</jetty.version>
+		<!--<jetty.version>7.6.13.v20130916</jetty.version>-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
 		<wtp.version>none</wtp.version>
+		<hibernate.version>5.2.10.Final</hibernate.version>  
 	</properties>
+	
 	<dependencies>
-	<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.1-901-1.jdbc4</version>
+	
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+    		<groupId>org.postgresql</groupId>
+    		<artifactId>postgresql</artifactId>
+    		<version>9.4-1200-jdbc41</version>
 		</dependency>
+
 		<!--  WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
+		<!-- Funkcionalita wicketu pro validaci prihlaseneho uzivatele -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-auth-roles</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
+				
+    	
 		<!-- OPTIONAL DEPENDENCY -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
@@ -92,6 +102,7 @@
 		</dependency>
 
 		<!--  JETTY DEPENDENCIES FOR TESTING  -->
+		
 		<dependency>
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all-server</artifactId>
@@ -99,14 +110,79 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!--
+		<dependency>
+    		<groupId>org.eclipse.jetty</groupId>
+    		<artifactId>jetty-http</artifactId>
+    		<version>9.4.8.v20171121</version>
+			</dependency> 
+		-->
 		<!-- Database Connection Pool (datasource) - http://commons.apache.org/proper/commons-dbcp/ -->
+        <!--
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
+        -->
+        <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+        <!--
+		<dependency>
+    		<groupId>com.zaxxer</groupId>
+    		<artifactId>HikariCP</artifactId>
+   			<version>2.3.2</version>
+		</dependency>
+        -->
+        
+        <!-- Hibernate Core -->
+     	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+     	<dependency>
+         	<groupId>org.hibernate</groupId>
+         	<artifactId>hibernate-core</artifactId>
+        	 <version>${hibernate.version}</version>
+     	</dependency>
+     	
+     	<!-- Hikari Connection Pool - je nakonfigurováno v src/main/resources/hibernate.cfg.xml  -->
+     	<!-- Nevim proc, ale musi se použít i druhý zápis. Prvděpodobně tento říká Hibernate,  -->
+     	<!-- že se bude jako CP pracovat s Hikari a druhá Dependency loaduje samotný Hikari CP  -->
+     	<dependency>
+    		<groupId>org.hibernate</groupId>
+    		<artifactId>hibernate-hikaricp</artifactId>
+    		<version>${hibernate.version}</version>
+		</dependency>
+		
+		 <!-- Hikari Connection Pool - je nakonfigurováno v src/main/resources/hibernate.cfg.xml  -->
+		<dependency>
+      		<groupId>com.zaxxer</groupId>
+      		<artifactId>HikariCP</artifactId>
+      		<version>2.6.1</version>
+    	</dependency>
+    	
+    	<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP-java7 
+		<dependency>
+    		<groupId>com.zaxxer</groupId>
+    		<artifactId>HikariCP-java7</artifactId>
+    		<version>2.4.13</version>
+		</dependency>
+     	-->
+     	
+     	<!-- jsr303 validation -->
+     	<!-- Tridy a anotace pro validaci dat ukladanych do DB -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+             <version>5.1.3.Final</version>
+        </dependency>
+        
 	</dependencies>
+	
 	<build>
+	
 		<resources>
 			<resource>
 				<filtering>false</filtering>
@@ -163,9 +239,11 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
 	</build>
 
 	<repositories>
+	
 		<repository>
 			<id>Apache Nexus</id>
 			<url>https://repository.apache.org/content/repositories/snapshots/</url>
@@ -176,5 +254,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		
 	</repositories>
+	
 	</project>

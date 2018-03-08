@@ -1,34 +1,51 @@
-package cz.vitfo.base;
+package cz.zutrasoft.base;
+
+import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.ResourceLink;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.request.resource.SharedResourceReference;
 
-import cz.vitfo.database.daoimpl.TrackingDaoImpl;
-import cz.vitfo.database.model.TrackInfo;
-import cz.vitfo.external.menus.TopMenuPanel;
+import cz.zutrasoft.base.services.CategoryService;
+import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
+import cz.zutrasoft.database.daoimpl.TrackingDaoImpl;
+import cz.zutrasoft.database.model.Category;
+import cz.zutrasoft.database.model.TrackInfo;
+import cz.zutrasoft.external.menus.TopMenuPanel;
+import cz.zutrasoft.external.pages.articlepage.ArticleModel;
+import cz.zutrasoft.external.panels.CategoryPanel;
+import cz.zutrasoft.external.panels.CategoryPanelModel;
 
 /**
  * Base class for all pages.
  * 
  * @author vitfo
  */
-public abstract class BasePage extends WebPage {
+public abstract class BasePage extends WebPage
+{
 
 	private static final long serialVersionUID = 4809590366914866734L;
+	
+	private static CategoryService categoryService = new CategoryServiceImpl();
 
-	public BasePage() {
+	public BasePage()
+	{
 		init();
 	}
 
-	public BasePage(IModel model) {
+	public BasePage(IModel model)
+	{
 		super(model);
 		init();
 	}
@@ -37,7 +54,8 @@ public abstract class BasePage extends WebPage {
 	 * Method for initializing BasePage. 
 	 * This method does not override org.apache.wicket.Page#init().
 	 */
-	private void init() {
+	private void init()
+	{
 		// Sets the page title
 		add(new Label("title", getTitle()));
 		
@@ -47,6 +65,51 @@ public abstract class BasePage extends WebPage {
 		
 		// add top menu panel
 		add(new TopMenuPanel("topMenu"));
+				
+		//Label categoryLabel = new Label("categoriesLabel", new Model(getString("categories.label")));		
+		//add(categoryLabel);
+
+		List<Category> categories = categoryService.getAllCategories();
+		
+		//add(new CategoryPanel("categoriesList", new CategoryPanelModel(categories)));
+		
+		
+		add(new CategoryPanel("categoriesList", new CategoryPanelModel(categories))		
+		{		
+			@Override
+			protected String getPanelTitleKey()
+			{
+				//return(getString("categoriesPanel.title"));
+				//return("categoriesPanel.title");
+				return("categories.label");
+				//return(getString("categories.label"));
+				//return("");
+			}										
+		});
+		
+		
+		// Odkazy pro zmenu lokalizace english nebo cs
+        // v html kodu <a href="#" wicket:id="en">anglicky</a>
+        add(new Link<Void>("en")
+        {
+            @Override
+            public void onClick()
+            {
+                Session.get().setLocale(Locale.ENGLISH);
+                //setTitleModelObject(); // Nastavi spravny zdroj dat modelu, pri kliknuti na lokalizacni odkaz
+            }
+         });
+
+         add(new Link<Void>("cs")
+         {
+             @Override
+             public void onClick()
+             {
+                 Session.get().setLocale(new Locale("cs"));
+                 //getTitle(); // // Nastavi spravny zdroj dat modelu, pri kliknuti na lokalizacni odkaz
+             }
+         });
+		
 	}
 
 	/**
@@ -57,9 +120,10 @@ public abstract class BasePage extends WebPage {
 	protected abstract String getTitle();
 
 	/**
-	 * Tracks users activity. The activity should be saved to the database.
+	 * Tracks users activity. The activity is saved to the database.
 	 */
-	protected void trackUser() {
+	protected void trackUser()
+	{
 		String ip, url, session;
 
 		WebRequest req = (WebRequest) RequestCycle.get().getRequest();
@@ -73,4 +137,5 @@ public abstract class BasePage extends WebPage {
 		TrackingDaoImpl trackingDao = new TrackingDaoImpl();
 		trackingDao.save(info);
 	}
+	
 }

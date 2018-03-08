@@ -1,24 +1,27 @@
-package cz.vitfo.base;
+package cz.zutrasoft.base;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.resource.ByteArrayResource;
 
-import cz.vitfo.database.daoimpl.ImageDaoImpl;
-import cz.vitfo.database.model.Image;
-import cz.vitfo.external.pages.articlepage.ArticlePage;
-import cz.vitfo.external.pages.homepage.HomePage;
-import cz.vitfo.external.pages.loginpage.LoginPage;
-import cz.vitfo.internal.pages.editwithmodal.EditPage;
-import cz.vitfo.internal.pages.editwithmodal.ImageResourceReference;
+import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
+import cz.zutrasoft.database.model.Image;
+import cz.zutrasoft.external.pages.articlepage.ArticlePage;
+import cz.zutrasoft.external.pages.homepage.HomePage;
+import cz.zutrasoft.external.pages.loginpage.LoginPage;
+import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
+import cz.zutrasoft.internal.pages.editwithmodal.ImageResourceReference;
 
 /**
  * Application object for your web application.
  * If you want to run this application without deploying, run the Start class.
  * 
- * @see cz.vitfo.Start#main(String[])
+ * Základní url pro spuštění je http://localhost/weasy/
+ * 
+ * @see cz.zutrasoft.Start#main(String[])
  */
 public class WicketApplication extends AuthenticatedWebApplication
 {
@@ -47,12 +50,23 @@ public class WicketApplication extends AuthenticatedWebApplication
 	}
 
 	@Override
-	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
+	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass()
+	{
 		return BasicAutorizationAndAuthenticationSession.class;
 	}
 
 	@Override
-	protected Class<? extends WebPage> getSignInPageClass() {
+	protected Class<? extends WebPage> getSignInPageClass()
+	{
 		return LoginPage.class;
 	}
+	
+	// Prepnuti do "ostreho" DEPLOYMENT modu
+	@Override
+	public RuntimeConfigurationType getConfigurationType()
+	{
+		return RuntimeConfigurationType.DEPLOYMENT;
+	}		
+	
+	
 }

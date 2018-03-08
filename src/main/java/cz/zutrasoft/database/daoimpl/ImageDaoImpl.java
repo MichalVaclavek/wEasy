@@ -1,123 +1,183 @@
-package cz.vitfo.database.daoimpl;
+package cz.zutrasoft.database.daoimpl;
 
 import java.io.ByteArrayInputStream;
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import cz.vitfo.database.dao.ImageDao;
-import cz.vitfo.database.model.Category;
-import cz.vitfo.database.model.Directory;
-import cz.vitfo.database.model.Image;
+import javax.persistence.criteria.CriteriaQuery;
 
-public class ImageDaoImpl extends DaoImpl implements ImageDao {
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	@Override
-	public List<Image> getAllImages() {
-		List<Image> images = new ArrayList<>();
-		try (Connection con = dataSource.getConnection()) {
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("select id, directory_id, name, data from " + TableEnum.T_IMAGE);
-			while (rs.next()) {
-				Image img = new Image();
-				img.setId(rs.getInt("id"));
-				img.setDirectoryId((Integer) rs.getObject("directory_id"));
-				img.setFileName(rs.getString("name"));
-				img.setBytes(rs.getBytes("data"));
-				images.add(img);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return images;
-	}
+import cz.zutrasoft.database.dao.ImageDao;
+import cz.zutrasoft.database.model.Article;
+import cz.zutrasoft.database.model.Category;
+import cz.zutrasoft.database.model.Comment;
+import cz.zutrasoft.database.model.Directory;
+import cz.zutrasoft.database.model.Image;
+
+public class ImageDaoImpl implements ImageDao
+{
+	static final Logger logger = LoggerFactory.getLogger(ImageDaoImpl.class);
 	
 	@Override
-	public List<Image> getAllImagesInCategory(Category category) {
+	public List<Image> getAllImages()
+	{
 		List<Image> images = new ArrayList<>();
-		try (Connection con = dataSource.getConnection()) {
-			PreparedStatement ps = con.prepareStatement("select id, directory_id, name, data from " + TableEnum.T_IMAGE + " where category_id = ? order by saved DESC");
-			ps.setObject(1, (category != null) ? category.getId() : null);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				Image img = new Image();
-				img.setId(rs.getInt("id"));
-				img.setDirectoryId((Integer) rs.getObject("directory_id"));
-				img.setFileName(rs.getString("name"));
-				img.setBytes(rs.getBytes("data"));
-				images.add(img);
+	       
+		SessionFactory factory = HibernateUtils.getSessionFactory();		 
+        Session session = factory.getCurrentSession();
+ 
+        try
+        {                                 
+           session.getTransaction().begin();
+ 	         	       
+           CriteriaQuery<Image> cq = session.getCriteriaBuilder().createQuery(Image.class);
+           cq.from(Image.class);
+           
+           images = (List<Image>)session.createQuery(cq).getResultList();
+                               
+           session.getTransaction().commit();
+	    } 
+        catch (Exception e)
+	    {
+	    	logger.error("Error retrieving images from DB. Exception: {}", e.getMessage());
+	        session.getTransaction().rollback();
+	    }
+		
+        return images;
+	}
+
+
+	@Override
+	public List<Image> getAllImagesInDirectory(Directory directory)
+	{
+		List<Image> images = new ArrayList<Image>();
+		 
+		SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+
+	    if (directory != null)
+	    {
+	    	try
+		    {
+				session.getTransaction().begin();
+				
+				String sql = "Select i from " + Image.class.getName() + " i "
+			               	+ " Where i.directory.id = :id";
+			    
+				Query<Image> query = session.createQuery(sql);
+			       
+			    query.setParameter("id", directory.getId());
+			       		    		 
+			    images = query.getResultList();
+			    
+			    session.getTransaction().commit();
+		    }
+			catch (Exception e)
+			{
+				logger.error("Error finding images in Directory name {} . Exception: " + e.getMessage(), directory.getName());
+				session.getTransaction().rollback();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	    }
+    	
 		return images;
 	}
 
 	@Override
-	public Image getImageById(int id) {
-		Image img = null;
-		try (Connection con = dataSource.getConnection()) {
-			PreparedStatement ps = con.prepareStatement("select id, directory_id, name, data from " + TableEnum.T_IMAGE + " where id = ?");
-			ps.setInt(1, id);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				img = new Image();
-				img.setId(rs.getInt("id"));
-				img.setFileName(rs.getString("name"));
-				img.setBytes(rs.getBytes("data"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return img;
-	}
-	
-	@Override
-	public List<Image> getAllImagesInDirectory(Directory directory) {
-		List<Image> images = new ArrayList<>();
-		try (Connection con = dataSource.getConnection()) {
-			PreparedStatement ps = con.prepareStatement("select id, directory_id, name, data from " + TableEnum.T_IMAGE + " where directory_id = ? order by saved DESC");
-			ps.setObject(1, directory.getId());
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				Image img = new Image();
-				img.setId(rs.getInt("id"));
-				img.setDirectoryId((Integer) rs.getObject("directory_id")); 
-				img.setFileName(rs.getString("name"));
-				img.setBytes(rs.getBytes("data"));
-				images.add(img);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return images;
-	}
-	
-	@Override
-	public void saveImageFile(Image uploadedImageFile) {
-		try (Connection con = dataSource.getConnection()) {
-			PreparedStatement ps = con.prepareStatement("insert into " + TableEnum.T_IMAGE.name() + " (directory_id, saved, name, data) values (?, current_timestamp, ?, ?)");
-			ps.setObject(1, uploadedImageFile.getDirectoryId());
-			ps.setString(2, uploadedImageFile.getFileName());
-			ps.setBinaryStream(3, new ByteArrayInputStream(uploadedImageFile.getBytes()), uploadedImageFile.getBytes().length);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void saveImageFile(Image uploadedImageFile)
+	{
+		SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+	    
+	    if (uploadedImageFile != null)
+	    {
+	    	if (uploadedImageFile.getSaved() == null)
+	    		uploadedImageFile.setSaved(new Timestamp(new Date().getTime()));
+		    try
+		    {
+		        session.getTransaction().begin();	
+		        		        
+		        session.persist(uploadedImageFile);
+		  	            
+		        session.getTransaction().commit(); // ukonceni transakce
+		        logger.info("Image inserted. Image id: {} ", uploadedImageFile.getFileName());
+		     } 
+		     catch (Exception e)
+		     {
+		    	 logger.error("Error saving image into DB. Exception: {}", e.getMessage());
+		         session.getTransaction().rollback();
+		     }
+	    }
+		
 	}
 
 	@Override
-	public void deleteImage(int id) {
-		try (Connection con = dataSource.getConnection()) {
-			PreparedStatement ps = con.prepareStatement("delete from " + TableEnum.T_IMAGE.name() + " where id = ?");
-			ps.setInt(1, id);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+	public Image getImageById(int id)
+	{
+		Image image = null;
+    	
+    	SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+    	
+    	try
+	    {
+			session.getTransaction().begin();
+			
+			String sql = "Select i from " + Image.class.getName() + " i "
+		               	+ " Where i.id = :id";
+		    
+			Query<Image> query = session.createQuery(sql);
+		       
+		    query.setParameter("id", id);
+		       		    		 
+		    image = query.getResultList().get(query.getFirstResult()); 
+		    
+		    session.getTransaction().commit();
+	    }
+		catch (Exception e)
+		{
+			logger.error("Error finding image by id, Id {} . Exception: " + e.getMessage(), id);
+			session.getTransaction().rollback();
 		}
+                      
+        return image;
 	}
+
+	@Override
+	public void deleteImageById(int id)
+	{
+		SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+ 
+    	try
+    	{
+    		session.getTransaction().begin();
+	    	
+	    	Object persistentInstance = session.load(Image.class, id);
+	    	if (persistentInstance != null)
+	    	{
+	    		session.delete(persistentInstance);
+	    		session.getTransaction().commit();
+	    	}
+    	}
+    	catch (Exception e)
+	    {
+    		logger.error("Error deleting image from DB. Image id {}, Exception: {}", id, e.getMessage());    		
+	    	session.getTransaction().rollback();
+	    }
+	}
+
+	
 }

@@ -1,4 +1,4 @@
-package cz.vitfo.external.pages.loginpage;
+package cz.zutrasoft.external.pages.loginpage;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -13,23 +13,27 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.util.string.Strings;
 
-import cz.vitfo.external.pages.ExternalBasePage;
-import cz.vitfo.external.pages.homepage.HomePage;
-import cz.vitfo.external.pages.registerpage.RegisterPage;
-import cz.vitfo.internal.pages.editwithmodal.EditPage;
+import cz.zutrasoft.external.pages.ExternalBasePage;
+import cz.zutrasoft.external.pages.homepage.HomePage;
+import cz.zutrasoft.external.pages.registerpage.RegisterPage;
+import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
 
-public class LoginPage extends ExternalBasePage {
+public class LoginPage extends ExternalBasePage
+{
 	
-    private String email;
+    private String username;
 	private String password;
 	
 	@Override
-	protected void onInitialize() {
+	protected void onInitialize()
+	{
 		super.onInitialize();
 		
-		add(new Link("register") {
+		add(new Link("register")
+		{
 			@Override
-			public void onClick() {
+			public void onClick()
+			{
 				setResponsePage(RegisterPage.class);
 			}
 		});
@@ -37,16 +41,21 @@ public class LoginPage extends ExternalBasePage {
 		final FeedbackPanel feedback = new FeedbackPanel("feedback");
 		add(feedback);
 		
-		StatelessForm form = new StatelessForm("loginForm") {
+		StatelessForm form = new StatelessForm("loginForm")
+		{
 			@Override
-			protected void onSubmit() {
-				if (Strings.isEmpty(email)) {
+			protected void onSubmit()
+			{
+				if (Strings.isEmpty(username))
+				{
 					return;
 				}
-				boolean authResult = AuthenticatedWebSession.get().signIn(email, password);
-				if (authResult) {
+				boolean authResult = AuthenticatedWebSession.get().signIn(username, password);
+				if (authResult)
+				{
 					setResponsePage(HomePage.class);
-				} else {
+				} else
+				{
 					error(getString("form.login.failed"));
 				}
 			}
@@ -54,7 +63,7 @@ public class LoginPage extends ExternalBasePage {
 		form.setDefaultModel(new CompoundPropertyModel(this));
 		add(form);
 		
-		form.add(new TextField<String>("email").setRequired(true));
+		form.add(new TextField<String>("username").setRequired(true));
 		form.add(new PasswordTextField("password"));
 		
 		SubmitLink submit = new SubmitLink("submit", form);
@@ -62,7 +71,8 @@ public class LoginPage extends ExternalBasePage {
 	}
 
 	@Override
-	protected String getTitle() {
+	protected String getTitle()
+	{
 		return getString("loginpage.title");
 	}
 

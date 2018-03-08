@@ -1,4 +1,4 @@
-package cz.vitfo.internal.pages.editwithmodal;
+package cz.zutrasoft.internal.pages.editwithmodal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,16 +33,25 @@ import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
-import cz.vitfo.database.daoimpl.ArticleDaoImpl;
-import cz.vitfo.database.daoimpl.CategoryDaoImpl;
-import cz.vitfo.database.daoimpl.DirectoryDaoImpl;
-import cz.vitfo.database.daoimpl.ImageDaoImpl;
-import cz.vitfo.database.model.Article;
-import cz.vitfo.database.model.Category;
-import cz.vitfo.database.model.Directory;
-import cz.vitfo.external.pages.homepage.HomePage;
+import cz.zutrasoft.base.services.ArticleService;
+import cz.zutrasoft.base.services.CategoryService;
+import cz.zutrasoft.base.services.DirectoryService;
+import cz.zutrasoft.base.services.ImageService;
+import cz.zutrasoft.base.servicesimpl.ArticleServiceImpl;
+import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
+import cz.zutrasoft.base.servicesimpl.DirectoryServiceImpl;
+import cz.zutrasoft.base.servicesimpl.ImageServiceImpl;
+import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
+import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
+import cz.zutrasoft.database.daoimpl.DirectoryDaoImpl;
+import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
+import cz.zutrasoft.database.model.Article;
+import cz.zutrasoft.database.model.Category;
+import cz.zutrasoft.database.model.Directory;
+import cz.zutrasoft.external.pages.homepage.HomePage;
 
-public class EditPanel extends Panel {
+public class EditPanel extends Panel
+{
 	
 	private static final long serialVersionUID = 3972321151431630835L;
 	
@@ -62,12 +71,14 @@ public class EditPanel extends Panel {
 	
 	private WebMarkupContainer modal;
 
-	public EditPanel(String id) {
+	public EditPanel(String id)
+	{
 		super(id);
 		init();
 	}
 	
-	public EditPanel(String id, Article article) {
+	public EditPanel(String id, Article article)
+	{
 		super(id);
 		this.article = article;
 		selectedCategory = article.getCategory();
@@ -75,7 +86,8 @@ public class EditPanel extends Panel {
 		init();
 	}
 		
-	private void init() {	
+	private void init()
+	{	
 		// add feedback to the page
 		feedback = new FeedbackPanel("feedback");
 		feedback.setOutputMarkupId(true);
@@ -83,36 +95,45 @@ public class EditPanel extends Panel {
 		
 		Form form = new Form("form");
 		form.setOutputMarkupId(true);
-		form.add(new AjaxFormSubmitBehavior(form, "submit") {
+		form.add(new AjaxFormSubmitBehavior(form, "submit")
+		{
 			@Override
-			protected void onSubmit(AjaxRequestTarget target) {
+			protected void onSubmit(AjaxRequestTarget target)
+			{
 				target.appendJavaScript("textEditor.modifyTextArea();");
 				saveText();
 				setResponsePage(HomePage.class);
 			}
 			
 			@Override
-			protected void onError(AjaxRequestTarget target) {
+			protected void onError(AjaxRequestTarget target)
+			{
 				target.add(feedback);
 			}
 		});
+		
 		add(form);
 		
 		// model for categories DropDownChoice
-		IModel<List<Category>> categoriesModel = new AbstractReadOnlyModel<List<Category>>() {
+		IModel<List<Category>> categoriesModel = new AbstractReadOnlyModel<List<Category>>()
+		{
 			@Override
-			public List<Category> getObject() {
-				CategoryDaoImpl dao = new CategoryDaoImpl();
-				return dao.getAllCategories();
+			public List<Category> getObject()
+			{
+				//CategoryDaoImpl dao = new CategoryDaoImpl();
+				CategoryService categorService = new CategoryServiceImpl();
+				return categorService.getAllCategories();
 			}
 		};
 		
-		// add drop down choice to select category -> add it to the model to get just images from this category
+		// Adds drop down choice to select category -> add it to the model to get just images from this category
 		// the default value (null) for selection is specified in .properties file String dropdownchoice_id.null=default value
 		categoriesDDCH = new DropDownChoice<>("categories", new PropertyModel<Category>(this, "selectedCategory"), categoriesModel, new CategoriesRenderer());
-		categoriesDDCH.add(new OnChangeAjaxBehavior() {
+		categoriesDDCH.add(new OnChangeAjaxBehavior()
+		{
 			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
+			protected void onUpdate(AjaxRequestTarget target)
+			{
 				target.add(directoriesDDCH);
 			}
 		});
@@ -120,21 +141,29 @@ public class EditPanel extends Panel {
 		categoriesDDCH.setOutputMarkupId(true);
 		form.add(categoriesDDCH);
 		
-		IModel<List<Directory>> directoriesModel = new AbstractReadOnlyModel<List<Directory>>() {
+		IModel<List<Directory>> directoriesModel = new AbstractReadOnlyModel<List<Directory>>()
+		{
 			@Override
-			public List<Directory> getObject() {
-				DirectoryDaoImpl dao = new DirectoryDaoImpl();
-				if (selectedCategory != null) {
-					return dao.getAllDirectoriesForCategory(selectedCategory.getId());
-				} else {
-					return dao.getAllDirectories();
+			public List<Directory> getObject()
+			{
+				//DirectoryDaoImpl dao = new DirectoryDaoImpl();
+				DirectoryService dirService = new DirectoryServiceImpl();
+				if (selectedCategory != null)
+				{
+					return dirService.getAllDirectoriesForCategory(selectedCategory);
+				} else
+				{
+					return dirService.getAllDirectories();
 				}
 			}
 		};
+		
 		directoriesDDCH = new DropDownChoice<>("directories", new PropertyModel<Directory>(this, "selectedDirectory"), directoriesModel, new DirectoriesRenderer());
-		directoriesDDCH.add(new OnChangeAjaxBehavior() {
+		directoriesDDCH.add(new OnChangeAjaxBehavior()
+		{
 			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
+			protected void onUpdate(AjaxRequestTarget target)
+			{
 				target.add(modal);
 			}
 		});
@@ -152,45 +181,57 @@ public class EditPanel extends Panel {
 		form.add(textSend);
 		
 		// model that contains images
-		IModel<List<cz.vitfo.database.model.Image>> imagesModel = new AbstractReadOnlyModel<List<cz.vitfo.database.model.Image>>() {
+		IModel<List<cz.zutrasoft.database.model.Image>> imagesModel = new AbstractReadOnlyModel<List<cz.zutrasoft.database.model.Image>>()
+		{
 			@Override
-			public List<cz.vitfo.database.model.Image> getObject() {
-				List<cz.vitfo.database.model.Image> images = new ArrayList<>();
-				ImageDaoImpl dao = new ImageDaoImpl();
-				if (selectedDirectory != null) {
-					images = dao.getAllImagesInDirectory(selectedDirectory);
+			public List<cz.zutrasoft.database.model.Image> getObject()
+			{
+				List<cz.zutrasoft.database.model.Image> images = new ArrayList<>();
+				//ImageDaoImpl dao = new ImageDaoImpl();
+				ImageService imageService = new ImageServiceImpl();
+				if (selectedDirectory != null)
+				{
+					images = imageService.getAllImagesInDirectory(selectedDirectory);
 				} 
 				return images;
 			}
 		};
 		
 		// modal window -> it is WebMarkupContainer
-		modal = new WebMarkupContainer("modal") {
-			protected void onConfigure() {
+		modal = new WebMarkupContainer("modal")
+		{
+			protected void onConfigure()
+			{
 				setVisible(isModalVisible);
 			};
 		};
 		add(modal);
 		
-		modal.add(new AjaxLink("closeLink") {
+		modal.add(new AjaxLink("closeLink")
+		{
 			@Override
-			public void onClick(AjaxRequestTarget target) {
+			public void onClick(AjaxRequestTarget target)
+			{
 				target.add(modal);
 				isModalVisible = false;				
 			}
 		});
 		
 		// add all images to container -> it uses ListView repeater
-		ListView<cz.vitfo.database.model.Image> lv = new ListView<cz.vitfo.database.model.Image>("lv", imagesModel) {
+		ListView<cz.zutrasoft.database.model.Image> lv = new ListView<cz.zutrasoft.database.model.Image>("lv", imagesModel)
+		{
 			private final ResourceReference ref = new ImageResourceReference();
 
 			@Override
-			protected void populateItem(final ListItem<cz.vitfo.database.model.Image> item) {
-				final cz.vitfo.database.model.Image image = item.getModelObject();
+			protected void populateItem(final ListItem<cz.zutrasoft.database.model.Image> item)
+			{
+				final cz.zutrasoft.database.model.Image image = item.getModelObject();
 				// add link
-				AjaxLink imageLink = new AjaxLink("imageLink") {
+				AjaxLink imageLink = new AjaxLink("imageLink")
+				{
 					@Override
-					public void onClick(AjaxRequestTarget target) {
+					public void onClick(AjaxRequestTarget target)
+					{
 						PageParameters pp = new PageParameters();
 						pp.set("imageId", image.getId());
 						CharSequence urlForImage = getRequestCycle().urlFor(ref, pp);
@@ -215,9 +256,11 @@ public class EditPanel extends Panel {
 		modal.add(lv);
 		modal.setOutputMarkupPlaceholderTag(true);
 		
-		form.add(new AjaxLink("showImageModalLink") {
+		form.add(new AjaxLink("showImageModalLink")
+		{
 			@Override
-			public void onClick(AjaxRequestTarget target) {
+			public void onClick(AjaxRequestTarget target)
+			{
 				isModalVisible = !isModalVisible;
 				target.add(modal);
 			}
@@ -227,61 +270,74 @@ public class EditPanel extends Panel {
 	}
 	
 	// renderer for DropDownChoice
-	private class CategoriesRenderer implements IChoiceRenderer<Category> {
-
+	private class CategoriesRenderer implements IChoiceRenderer<Category> 
+	{
 		@Override
-		public Object getDisplayValue(Category object) {
+		public Object getDisplayValue(Category object)
+		{
 			return object.getName();
 		}
 
 		@Override
-		public String getIdValue(Category object, int index) {
+		public String getIdValue(Category object, int index)
+		{
 			return String.valueOf(index);
 		}
 	}
 	
-	private class DirectoriesRenderer implements IChoiceRenderer<Directory> {
-
+	private class DirectoriesRenderer implements IChoiceRenderer<Directory>
+	{		
 		@Override
-		public Object getDisplayValue(Directory object) {
+		public Object getDisplayValue(Directory object)
+		{
 			return object.getName();
 		}
 
 		@Override
-		public String getIdValue(Directory object, int index) {
+		public String getIdValue(Directory object, int index)
+		{
 			return String.valueOf(index);
 		}
 	}
 
-	public Category getSelectedCategory() {
+	public Category getSelectedCategory()
+	{
 		return selectedCategory;
 	}
 
-	public void setSelectedCategory(Category selectedCategory) {
+	public void setSelectedCategory(Category selectedCategory)
+	{
 		this.selectedCategory = selectedCategory;
 	}
 	
-	public String getText() {
+	public String getText()
+	{
 		return textFromEdit;
 	}
 
-	public void setText(String text) {
+	public void setText(String text)
+	{
 		this.textFromEdit = text;
 	}
 	
-	private void saveText() {
-		ArticleDaoImpl dao = new ArticleDaoImpl();
-		if (article != null) {
+	private void saveText()
+	{
+		ArticleService articleService = new ArticleServiceImpl();
+		if (article != null) // Jde o novy clanek
+		{
 			article.setCategory(selectedCategory);
 			article.setText(textFromSend);
-			dao.updateArticle(article);
-		} else {
-			dao.saveTextAsArticle(textFromSend, selectedCategory);
+			articleService.updateArticle(article);
+		} else 
+		{ // jde o editaci stavajiciho clanku z DB
+			articleService.saveTextAsArticle(textFromSend, selectedCategory);
 		}
+				
 	}
 	
 	@Override
-	public void renderHead(IHeaderResponse response) {
+	public void renderHead(IHeaderResponse response)
+	{
 		super.renderHead(response);
 		
 		PackageResourceReference ref = new CssResourceReference(EditPage.class, "edit.css");
@@ -291,4 +347,5 @@ public class EditPanel extends Panel {
 		// when editing (text is loaded from database to textarea) replaces tags for the fake ones.
 		response.render(OnDomReadyHeaderItem.forScript("textEditor.modifyArea();"));
 	}
+	
 }

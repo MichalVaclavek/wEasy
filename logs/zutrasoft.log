@@ -1,0 +1,338 @@
+2018-02-17 12:34:18 INFO  RequestListenerInterface:330 - registered listener interface [RequestListenerInterface name=IOnChangeListener, method=public abstract void org.apache.wicket.markup.html.form.IOnChangeListener.onSelectionChanged()]
+2018-02-17 12:34:18 INFO  RequestListenerInterface:330 - registered listener interface [RequestListenerInterface name=IRedirectListener, method=public abstract void org.apache.wicket.IRedirectListener.onRedirect()]
+2018-02-17 12:34:18 INFO  RequestListenerInterface:330 - registered listener interface [RequestListenerInterface name=IResourceListener, method=public abstract void org.apache.wicket.IResourceListener.onResourceRequested()]
+2018-02-17 12:34:18 INFO  Application:616 - [wicket.weasy] init: Wicket extensions initializer
+2018-02-17 12:34:19 INFO  WebApplication:830 - [wicket.weasy] Started Wicket version 6.17.0 in DEPLOYMENT mode
+2018-02-17 12:34:57 INFO  PropertiesFactory:209 - Loading properties files from file:/M:/Java/JavaEE_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/weasy/WEB-INF/classes/cz/zutrasoft/base/WicketApplication_cs.properties with loader org.apache.wicket.resource.IsoPropertiesFilePropertiesLoader@1aae99c6
+2018-02-17 12:34:58 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-02-17 12:34:58 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-02-17 12:34:58 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-02-17 12:34:58 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-02-17 12:34:58 INFO  HikariDataSource:71 - HikariPool-1 - Starting...
+2018-02-17 12:34:58 INFO  PoolBase:503 - HikariPool-1 - Driver does not support get/set network timeout for connections. (Method org.postgresql.jdbc4.Jdbc4Connection.getNetworkTimeout() is not yet implemented.)
+2018-02-17 12:34:58 INFO  HikariDataSource:73 - HikariPool-1 - Start completed.
+2018-02-17 12:34:58 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-02-17 12:34:59 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-02-17 12:34:59 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@5cdeea24
+2018-02-17 12:34:59 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-02-17 12:35:00 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-02-17 12:35:01 INFO  PropertiesFactory:209 - Loading properties files from file:/M:/Java/JavaEE_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/weasy/WEB-INF/classes/cz/zutrasoft/external/menus/TopMenuPanel_cs.properties with loader org.apache.wicket.resource.IsoPropertiesFilePropertiesLoader@1aae99c6
+2018-02-17 12:35:01 INFO  PropertiesFactory:209 - Loading properties files from file:/M:/Java/JavaEE_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/weasy/WEB-INF/classes/cz/zutrasoft/external/menus/TopMenuPanel.properties with loader org.apache.wicket.resource.IsoPropertiesFilePropertiesLoader@1aae99c6
+2018-02-17 12:35:01 INFO  PropertiesFactory:209 - Loading properties files from file:/M:/Java/JavaEE_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/weasy/WEB-INF/classes/cz/zutrasoft/base/WicketApplication.properties with loader org.apache.wicket.resource.IsoPropertiesFilePropertiesLoader@1aae99c6
+2018-02-17 12:35:01 INFO  PropertiesFactory:209 - Loading properties files from jar:file:/M:/Java/JavaEE_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/weasy/WEB-INF/lib/wicket-core-6.17.0.jar!/org/apache/wicket/Application_cs.properties with loader org.apache.wicket.resource.IsoPropertiesFilePropertiesLoader@1aae99c6
+2018-02-17 12:35:01 INFO  PropertiesFactory:209 - Loading properties files from jar:file:/M:/Java/JavaEE_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/weasy/WEB-INF/lib/wicket-core-6.17.0.jar!/org/apache/wicket/Application.properties with loader org.apache.wicket.resource.IsoPropertiesFilePropertiesLoader@1aae99c6
+2018-03-03 20:13:09 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 20:13:09 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 20:13:09 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 20:13:09 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 20:13:10 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 20:13:10 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 20:13:10 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@24c4ddae
+2018-03-03 20:13:11 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 20:13:11 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 20:48:17 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 20:48:17 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 20:48:17 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 20:48:17 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 20:48:17 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 20:48:17 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 20:48:17 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@24c4ddae
+2018-03-03 20:48:18 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 20:48:18 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 20:49:49 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 20:49:49 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 20:49:49 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 20:49:50 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 20:49:50 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 20:49:50 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 20:49:50 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@1fd386c3
+2018-03-03 20:49:50 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 20:49:51 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 20:59:07 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 20:59:07 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 20:59:07 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 20:59:07 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 20:59:07 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 20:59:07 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 20:59:07 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@117632cf
+2018-03-03 20:59:08 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 20:59:09 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:06:32 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:06:32 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:06:32 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:06:32 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:06:33 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:06:33 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:06:33 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@edf4f36
+2018-03-03 21:06:33 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:06:34 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:14:39 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:14:39 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:14:40 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:14:40 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:14:40 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:14:40 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:14:40 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@edf4f36
+2018-03-03 21:14:41 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:14:41 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:16:08 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:16:08 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:16:08 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:16:09 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:16:09 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:16:09 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:16:09 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@2fb68ec6
+2018-03-03 21:16:09 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:16:10 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:18:47 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:18:47 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:18:47 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:18:47 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:18:48 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:18:48 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:18:48 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@6ac4944a
+2018-03-03 21:18:48 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:18:49 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:21:32 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:21:32 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:21:32 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:21:33 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:21:33 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:21:33 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:21:33 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@117632cf
+2018-03-03 21:21:33 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:21:34 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:27:27 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:27:27 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:27:27 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:27:27 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:27:27 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:27:27 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:27:27 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@2fb68ec6
+2018-03-03 21:27:28 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:27:29 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:34:45 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:34:45 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:34:45 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:34:45 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:34:45 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:34:45 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:34:45 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@24c4ddae
+2018-03-03 21:34:46 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:34:46 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:37:46 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:37:46 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:37:46 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:37:46 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:37:47 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:37:47 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:37:47 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@6ac4944a
+2018-03-03 21:37:47 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:37:48 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:43:40 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:43:40 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:43:40 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:43:40 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:43:41 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:43:41 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:43:41 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@379614be
+2018-03-03 21:43:41 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:43:42 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:44:40 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:44:40 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:44:40 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:44:40 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:44:41 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:44:41 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:44:41 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@117632cf
+2018-03-03 21:44:41 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:44:42 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:52:06 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:52:06 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:52:06 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:52:06 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:52:07 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:52:07 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:52:07 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@379614be
+2018-03-03 21:52:07 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:52:08 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:52:23 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:52:23 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:52:24 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:52:24 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:52:24 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:52:24 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:52:24 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@6ac4944a
+2018-03-03 21:52:25 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:52:25 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:57:57 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:57:57 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:57:57 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:57:57 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:57:57 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:57:57 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:57:57 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@379614be
+2018-03-03 21:57:58 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:57:58 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 21:58:21 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 21:58:21 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 21:58:21 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 21:58:21 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 21:58:21 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 21:58:21 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 21:58:21 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@13e9f2e2
+2018-03-03 21:58:22 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 21:58:23 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:03:11 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:03:11 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:03:11 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:03:11 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:03:12 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:03:12 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:03:12 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@13e9f2e2
+2018-03-03 22:03:12 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:03:13 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:05:17 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:05:17 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:05:17 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:05:17 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:05:18 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:05:18 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:05:18 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@379614be
+2018-03-03 22:05:18 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:05:19 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:05:34 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:05:34 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:05:34 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:05:34 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:05:34 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:05:34 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:05:34 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@d71adc2
+2018-03-03 22:05:35 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:05:36 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:17:39 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:17:39 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:17:39 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:17:39 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:17:39 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:17:39 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:17:39 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@5d99c6b5
+2018-03-03 22:17:40 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:17:40 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:18:12 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:18:12 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:18:13 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:18:13 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:18:13 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:18:13 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:18:13 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@1a1d3c1a
+2018-03-03 22:18:14 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:18:14 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:25:54 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:25:54 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:25:54 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:25:54 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:25:54 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:25:54 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:25:54 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@13e9f2e2
+2018-03-03 22:25:55 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:25:56 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:29:03 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:29:03 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:29:03 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:29:04 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:29:04 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:29:04 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:29:04 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@1a1d3c1a
+2018-03-03 22:29:05 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:29:05 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:30:34 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:30:34 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:30:34 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:30:34 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:30:35 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:30:35 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:30:35 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@5d99c6b5
+2018-03-03 22:30:35 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:30:36 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:31:02 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:31:02 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:31:02 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:31:02 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:31:02 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:31:03 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:31:03 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@d71adc2
+2018-03-03 22:31:03 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:31:04 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:37:37 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:37:37 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:37:37 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:37:37 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:37:37 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:37:38 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:37:38 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@5d99c6b5
+2018-03-03 22:37:38 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:37:39 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-03 22:38:12 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-03 22:38:12 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-03 22:38:12 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-03 22:38:12 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-03 22:38:13 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-03 22:38:13 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-03 22:38:13 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@3add81c4
+2018-03-03 22:38:13 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-03 22:38:14 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-04 17:55:32 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-04 17:55:32 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-04 17:55:32 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-04 17:55:32 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-04 17:55:33 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-04 17:55:33 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-04 17:55:33 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@13e9f2e2
+2018-03-04 17:55:33 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-04 17:55:34 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-04 18:04:34 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-04 18:04:34 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-04 18:04:35 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-04 18:04:35 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-04 18:04:35 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-04 18:04:35 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-04 18:04:35 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@13e9f2e2
+2018-03-04 18:04:36 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-04 18:04:36 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-04 18:07:09 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-04 18:07:09 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-04 18:07:09 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-04 18:07:09 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-04 18:07:10 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-04 18:07:10 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-04 18:07:10 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@13e9f2e2
+2018-03-04 18:07:10 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-04 18:07:11 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-04 18:08:56 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-04 18:08:56 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-04 18:08:56 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-04 18:08:56 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-04 18:08:56 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-04 18:08:56 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-04 18:08:56 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@3add81c4
+2018-03-04 18:08:57 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-04 18:08:57 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-04 18:21:26 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-04 18:21:26 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-04 18:21:26 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-04 18:21:27 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-04 18:21:27 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-04 18:21:27 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-04 18:21:27 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@7b7fdc8
+2018-03-04 18:21:27 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-04 18:21:28 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-03-04 18:23:23 INFO  Version:45 - HHH000412: Hibernate Core {5.2.10.Final}
+2018-03-04 18:23:23 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-03-04 18:23:23 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-03-04 18:23:23 INFO  ConnectionProviderInitiator:122 - HHH000130: Instantiating explicit connection provider: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+2018-03-04 18:23:23 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2018-03-04 18:23:23 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2018-03-04 18:23:23 INFO  BasicTypeRegistry:148 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@1c65121
+2018-03-04 18:23:24 INFO  Version:27 - HV000001: Hibernate Validator 5.1.3.Final
+2018-03-04 18:23:25 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory

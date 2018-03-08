@@ -1,8 +1,10 @@
-package cz.vitfo.external.pages.articlepage;
+package cz.zutrasoft.external.pages.articlepage;
 
 import org.apache.wicket.model.IModel;
 
-import cz.vitfo.database.daoimpl.ArticleDaoImpl;
+import cz.zutrasoft.base.services.ArticleService;
+import cz.zutrasoft.base.servicesimpl.ArticleServiceImpl;
+import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
 
 /**
  * Model containing article.
@@ -10,14 +12,16 @@ import cz.vitfo.database.daoimpl.ArticleDaoImpl;
  * @author User
  *
  */
-public class ArticleModel implements IModel<String> {
+public class ArticleModel implements IModel<String>
+{
 
 	private static final long serialVersionUID = -1514779344427109259L;
-	private static ArticleDaoImpl dao = new ArticleDaoImpl();
-	
+	//private static ArticleDaoImpl dao = new ArticleDaoImpl();
+	private static ArticleService articleService = new ArticleServiceImpl();
 	private int articleId;
 	
-	public ArticleModel(int articleId) {
+	public ArticleModel(int articleId)
+	{
 		this.articleId = articleId;
 	}
 
@@ -25,8 +29,9 @@ public class ArticleModel implements IModel<String> {
 	public void detach() {}
 
 	@Override
-	public String getObject() {
-		return dao.getArticle(articleId).getText();
+	public String getObject()
+	{
+		return articleService.getArticleById(articleId).getText();
 	}
 
 	@Override

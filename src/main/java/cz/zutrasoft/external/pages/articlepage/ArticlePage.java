@@ -1,4 +1,4 @@
-package cz.vitfo.external.pages.articlepage;
+package cz.zutrasoft.external.pages.articlepage;
 
 
 import org.apache.wicket.Session;
@@ -16,10 +16,12 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
 
-import cz.vitfo.base.BasicAutorizationAndAuthenticationSession;
-import cz.vitfo.database.daoimpl.CommentDaoImpl;
-import cz.vitfo.database.model.Comment;
-import cz.vitfo.external.pages.ExternalBasePage;
+import cz.zutrasoft.base.BasicAutorizationAndAuthenticationSession;
+import cz.zutrasoft.base.services.CommentService;
+import cz.zutrasoft.base.servicesimpl.CommentServiceImpl;
+import cz.zutrasoft.database.daoimpl.CommentDaoImpl;
+import cz.zutrasoft.database.model.Comment;
+import cz.zutrasoft.external.pages.ExternalBasePage;
 
 /**
  * Page in which appropriate article is shown and comments to this article.
@@ -27,7 +29,8 @@ import cz.vitfo.external.pages.ExternalBasePage;
  * 
  * @author vitfo
  */
-public class ArticlePage extends ExternalBasePage {
+public class ArticlePage extends ExternalBasePage
+{
 
 	private static final long serialVersionUID = -1729677244556988098L;
 	
@@ -36,8 +39,8 @@ public class ArticlePage extends ExternalBasePage {
 	
 	private String commentText;
 	
-	public ArticlePage(PageParameters pp) {
-		
+	public ArticlePage(PageParameters pp)
+	{		
 		// Get parameter and parse it to the int (article id).
 		StringValue sv = pp.get(0);
 		final int articleId = Integer.parseInt(sv.toString());
@@ -49,9 +52,11 @@ public class ArticlePage extends ExternalBasePage {
 		add(articleText);
 		
 		// Container that contains form for adding comments.
-		formContainer = new WebMarkupContainer("formContainer") {
+		formContainer = new WebMarkupContainer("formContainer")
+		{
 			@Override
-			protected void onConfigure() {
+			protected void onConfigure()
+			{
 				// The container (form) should be visible just for loggeg users (roles user and admin).
 				setEnabled(AuthenticatedWebSession.get().getRoles().hasRole(Roles.USER));
 			}
@@ -61,25 +66,20 @@ public class ArticlePage extends ExternalBasePage {
 		add(formContainer);
 		
 		// Form for adding comments.
-		Form form = new Form("form") {
+		Form form = new Form("form")
+		{
 			@Override
-			protected void onSubmit() {
+			protected void onSubmit()
+			{
 				super.onSubmit();
 				
 				// Getting our implementation of a AuthenticatedWebSession that contains some usefull properties (user id).
 				BasicAutorizationAndAuthenticationSession session = (BasicAutorizationAndAuthenticationSession)Session.get();
-				Integer i = session.getUserId();
-				
-				// Creating new comment.
-				Comment comment = new Comment();
-				comment.setArticleId(articleId);
-				comment.setUserId(session.getUserId());
-				comment.setText(commentText);
-				
-				// Saving the comment to the database.
-				CommentDaoImpl dao = new CommentDaoImpl();
-				dao.saveComment(comment);
-				
+				//Integer i = session.getUserId();
+											
+				CommentService commentService = new CommentServiceImpl();
+				commentService.saveTextAsComment(commentText, session.getUserId(), articleId);
+								
 				commentText = "";
 			}
 			
@@ -88,9 +88,11 @@ public class ArticlePage extends ExternalBasePage {
 		formContainer.add(form);
 		
 		form.add(new TextArea<String>("comment", new PropertyModel<String>(this, "commentText")).setRequired(true));
-		form.add(new AjaxSubmitLink("submit", form) {
+		form.add(new AjaxSubmitLink("submit", form)
+		{
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
+			{
 				target.add(formContainer);
 				target.add(commentsContainer);
 			}
@@ -101,9 +103,11 @@ public class ArticlePage extends ExternalBasePage {
 		add(commentsContainer);
 		
 		// Repeater that gets all comments for this article and renders them.
-		ListView<Comment> repeater = new ListView<Comment>("repeater", new CommentsModel(articleId)) {
+		ListView<Comment> repeater = new ListView<Comment>("repeater", new CommentsModel(articleId))
+		{
 			@Override
-			protected void populateItem(ListItem<Comment> item) {
+			protected void populateItem(ListItem<Comment> item)
+			{
 				Comment c = item.getModelObject();
 				item.add(new Label("text", c.getText()));
 				item.add(new Label("created", c.getCreated()));
@@ -113,7 +117,9 @@ public class ArticlePage extends ExternalBasePage {
 	}
 
 	@Override
-	protected String getTitle() {
+	protected String getTitle()
+	{
 		return getString("articlepage.title");
 	}
+	
 }

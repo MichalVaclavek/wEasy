@@ -1,11 +1,20 @@
 /* Basic css style for all pages */
-body {
-	font-family: "Times New Roman", Times, serif;
-	font-size: 1em;
-	color: #2e4372;
-	margin: 0px;
-	padding: 0px;
-	background-color: #95aad6;
+.wrapper 
+{
+	/* width: 90%; */
+	max-width: 1200px;
+  	/* height: 600px; */
+  	margin: 0 auto;
+  	background-color: #9bc09a;
+}
+
+h1 {	
+	/* Nadpis s obrazkem resp. obrazek */
+    padding: 20px 0;
+    text-align: center;
+    border-top: 2px solid #408080;
+    border-bottom: 2px solid #408080;
+    /*width: 50%;*/
 }
 
 img {
@@ -22,12 +31,16 @@ a:hover {
 }
 
 #content {
-	width: 60%;
+	/* width: 70%;*/
 	min-width: 1000px;
-	margin: 20px auto;
+	/*width: auto;*/
+	margin: 5px auto;
 	background-color: #fefeff;
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	padding: 10px;
+	
+	/* float:right; */
+	overflow: hidden;
 }
 
 #top {
@@ -36,17 +49,31 @@ a:hover {
 }
 
 #middle {
+	width: -webkit-fill-available;
 	padding: 10px 0px;
+	display: inline-block;
 }
 
 #bottom {
 	border-top: 1px solid #2e4372;
 	padding: 10px;
+	clear: right;
 }
+
+/* === Base page ==== */
 
 .basePanel {
 	border: 3px solid #2e4372;
-	width: 47%;
+	width: 40%;
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+	vertical-align: top;
+	text-align: left;
+}
+
+.basePanelSingle {
+	width: 100%;
 	display: inline-block;
 	margin: 5px;
 	padding: 5px;
@@ -57,6 +84,12 @@ a:hover {
 .basePanel h2 {
 	margin: 5px;
 	border-bottom: 1px solid #2e4372;
+}
+
+.basePanelSingle h2 {
+	margin-top: auto;
+	margin-bottom: 15px;
+	background-color: #c0ced3;
 }
 
 .baseLinkPanel {
@@ -70,6 +103,41 @@ a:hover {
 .baseLinkPanel a:hover {
 	color: #95aad6;
 }
+
+/* ======= Category list panel =========== */
+
+.categoryListWrapper {
+	height: 100%;
+}
+
+.categoryPanel {
+	background-color: #d4d4d4;
+	float: left;
+	text-align: center;
+	padding: 5px 0px;
+	width: 10%;
+}
+
+.categoriesLabel {
+	text-align: center;
+	background-color: #9bc09a;
+	color: #808080;
+	margin-top: 5px;
+}
+
+.categoryLinkPanel {
+	padding: 3px 5px;
+}
+
+.categoryLinkPanel a {
+	font-size: 110%;
+	color: #408080;
+}
+
+.categoryLinkPanel a:hover {
+	color: #95aad6;
+}
+
 
 .editMenu {
 	margin-top: 5px;
@@ -174,8 +242,11 @@ input[type="submit"], input[type="button"] {
 	margin: 5px 0;
 }
 
+/* ======= Register =========== */
+
 .register {
-	margin: 5px;
+	margin: 10px;
+	display: inline-block
 }
 
 .register a {
@@ -192,6 +263,24 @@ input[type="submit"], input[type="button"] {
 	background-color: blue;
 	color: white;
 }
+
+/* ======= Contact page =========== */
+
+.contactForm {
+	margin: 5px;
+}
+
+.contactForm h3 {
+	margin: 5px;
+}
+
+.contactMessage {
+	border: 1px solid #2e4372;
+	margin: 5px 5px;
+	padding: 5px;
+}
+
+/* ======= Comments =========== */
 
 .formContainer {
 	border-top: 1px solid #2e4372;
@@ -212,6 +301,8 @@ input[type="submit"], input[type="button"] {
 	margin: 0 5px;
 	font-size: smaller;
 }
+
+
 
 .imageContainer .image {
 	display: inline-block;

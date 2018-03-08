@@ -1,4 +1,4 @@
-package cz.vitfo.internal.pages.createdirectory;
+package cz.zutrasoft.internal.pages.createdirectory;
 
 import java.util.List;
 
@@ -13,39 +13,50 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
-import cz.vitfo.database.daoimpl.CategoryDaoImpl;
-import cz.vitfo.database.daoimpl.DirectoryDaoImpl;
-import cz.vitfo.database.model.Category;
-import cz.vitfo.internal.pages.InternalBasePage;
-import cz.vitfo.internal.pages.editwithmodal.EditPage;
+import cz.zutrasoft.base.services.CategoryService;
+import cz.zutrasoft.base.services.DirectoryService;
+import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
+import cz.zutrasoft.base.servicesimpl.DirectoryServiceImpl;
+import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
+import cz.zutrasoft.database.daoimpl.DirectoryDaoImpl;
+import cz.zutrasoft.database.model.Category;
+import cz.zutrasoft.internal.pages.InternalBasePage;
+import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
 
-public class CreateDirectoryPage extends InternalBasePage {
-	
+public class CreateDirectoryPage extends InternalBasePage
+{	
 	private static final long serialVersionUID = 1088502493140163118L;
 	
-	private String directory;
+	private String directoryName;
 	private DropDownChoice<Category> categoryDDCH;
 	private Category selectedCategory = null;
 	
-	public CreateDirectoryPage() {
+	public CreateDirectoryPage()
+	{
 		FeedbackPanel feedback = new FeedbackPanel("feedback");
 		add(feedback);
 		
-		Form form = new Form("form") {
+		Form form = new Form("form")
+		{
 			@Override
-			protected void onSubmit() {
-				DirectoryDaoImpl dao = new DirectoryDaoImpl();
-				dao.saveDirectory(directory, (selectedCategory != null) ? selectedCategory.getId() : null);
+			protected void onSubmit()
+			{
+				DirectoryService  directoryService = new DirectoryServiceImpl();
+				directoryService.saveDirectory(directoryName, (selectedCategory != null) ? selectedCategory : null);
+
 				setResponsePage(EditPage.class);
 			}
 		};
 		add(form);
 		
-		IModel<List<Category>> categoryModel = new AbstractReadOnlyModel<List<Category>>() {
+		IModel<List<Category>> categoryModel = new AbstractReadOnlyModel<List<Category>>()
+		{
 			@Override
-			public List<Category> getObject() {
-				CategoryDaoImpl dao = new CategoryDaoImpl();
-				return dao.getAllCategories();
+			public List<Category> getObject()
+			{
+				//CategoryDaoImpl dao = new CategoryDaoImpl();
+				CategoryService categorService = new CategoryServiceImpl();
+				return categorService.getAllCategories();
 			}
 		};
 		
@@ -54,7 +65,8 @@ public class CreateDirectoryPage extends InternalBasePage {
 		categoryDDCH = new DropDownChoice<Category>("select", new PropertyModel(this, "selectedCategory"), categoryModel, choiceRenderer);
 		form.add(categoryDDCH);
 		
-		TextField<String> directoryTF = new TextField<String>("directory", new PropertyModel<String>(this, "directory"));
+		//TextField<String> directoryTF = new TextField<String>("directory", new PropertyModel<String>(this, "directory"));
+		TextField directoryTF = new TextField("directory", new PropertyModel(this, "directoryName"));
 		directoryTF.setRequired(true);
 		form.add(directoryTF);
 		
@@ -63,7 +75,9 @@ public class CreateDirectoryPage extends InternalBasePage {
 	}
 	
 	@Override
-	protected IModel<String> getSubTitle() {
+	protected IModel<String> getSubTitle()
+	{
 		return new ResourceModel("submenu.createDirectoryPage");
 	}
+	
 }

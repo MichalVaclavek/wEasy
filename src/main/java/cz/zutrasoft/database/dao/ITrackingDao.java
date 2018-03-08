@@ -1,8 +1,8 @@
-package cz.vitfo.database.dao;
+package cz.zutrasoft.database.dao;
 
-import cz.vitfo.database.model.TrackInfo;
+import cz.zutrasoft.database.model.TrackInfo;
 
-public interface TrackingDao {
-
+public interface ITrackingDao
+{
 	public void save(TrackInfo info);
 }

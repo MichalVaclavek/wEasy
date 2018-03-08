@@ -1,4 +1,4 @@
-package cz.vitfo.internal.pages.imageupload;
+package cz.zutrasoft.internal.pages.imageupload;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,16 +17,22 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
-import cz.vitfo.database.daoimpl.CategoryDaoImpl;
-import cz.vitfo.database.daoimpl.DirectoryDaoImpl;
-import cz.vitfo.database.daoimpl.ImageDaoImpl;
-import cz.vitfo.database.model.Category;
-import cz.vitfo.database.model.Directory;
-import cz.vitfo.database.model.Image;
-import cz.vitfo.internal.pages.InternalBasePage;
+import cz.zutrasoft.base.services.CategoryService;
+import cz.zutrasoft.base.services.DirectoryService;
+import cz.zutrasoft.base.services.ImageService;
+import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
+import cz.zutrasoft.base.servicesimpl.DirectoryServiceImpl;
+import cz.zutrasoft.base.servicesimpl.ImageServiceImpl;
+import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
+import cz.zutrasoft.database.daoimpl.DirectoryDaoImpl;
+import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
+import cz.zutrasoft.database.model.Category;
+import cz.zutrasoft.database.model.Directory;
+import cz.zutrasoft.database.model.Image;
+import cz.zutrasoft.internal.pages.InternalBasePage;
 
-public class ImageUploadPage extends InternalBasePage {
-	
+public class ImageUploadPage extends InternalBasePage
+{	
 	private static final long serialVersionUID = -3590469525322776351L;
 	
 	private MultiFileUploadField multiFileUploadField;
@@ -39,23 +45,31 @@ public class ImageUploadPage extends InternalBasePage {
 	
 	private List<FileUpload> uploads;
 	
-	public ImageUploadPage() {
+	public ImageUploadPage()
+	{
 		final FeedbackPanel feedback = new FeedbackPanel("feedback");
 		feedback.setOutputMarkupId(true);
 		add(feedback);
 		
-		Form form = new Form("form") {
+		Form form = new Form("form")
+		{
 			@Override
-			protected void onSubmit() {
-				if (uploads != null) {
-					for (FileUpload fu : uploads) {
+			protected void onSubmit()
+			{
+				if (uploads != null)
+				{
+					for (FileUpload fu : uploads)
+					{
 						String fileExtension = fu.getClientFileName().substring(fu.getClientFileName().lastIndexOf(".") + 1);
-						if (!Arrays.asList(fileExtensions).contains(fileExtension.toLowerCase())) {
+						if (!Arrays.asList(fileExtensions).contains(fileExtension.toLowerCase()))
+						{
 							error("Unrecognized file extension. Supported types: " + Arrays.toString(fileExtensions));
-						} else {
-							Image uploadedImagefile = new Image(selectedDirectory.getId(), fu);
-							ImageDaoImpl dao = new ImageDaoImpl();
-							dao.saveImageFile(uploadedImagefile);
+						} else 
+						{
+							Image uploadedImagefile = new Image(selectedDirectory, fu);
+							//ImageDaoImpl dao = new ImageDaoImpl();
+							ImageService imageService = new ImageServiceImpl();
+							imageService.saveImageFile(uploadedImagefile);
 						}
 					}
 				}
@@ -63,32 +77,42 @@ public class ImageUploadPage extends InternalBasePage {
 		};
 		form.setMultiPart(true);
 		
-		IModel<List<Category>> categoryModel = new AbstractReadOnlyModel<List<Category>>() {
+		IModel<List<Category>> categoryModel = new AbstractReadOnlyModel<List<Category>>()
+		{
 			@Override
-			public List<Category> getObject() {
-				CategoryDaoImpl dao = new CategoryDaoImpl();
-				return dao.getAllCategories();
+			public List<Category> getObject()
+			{
+				//CategoryDaoImpl dao = new CategoryDaoImpl();
+				CategoryService caterService = new CategoryServiceImpl();
+				return caterService.getAllCategories();
 			}
 		};
 		// shows Category "name" property
 		ChoiceRenderer choiceRenderer = new ChoiceRenderer("name");
 		categoryDDCH = new DropDownChoice("categories", new PropertyModel(this, "selectedCategory"), categoryModel, choiceRenderer);
-		categoryDDCH.add(new OnChangeAjaxBehavior() {
+		categoryDDCH.add(new OnChangeAjaxBehavior()
+		{
 			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
+			protected void onUpdate(AjaxRequestTarget target)
+			{
 				target.add(directoryDDCH);
 			}
 		});
 		form.add(categoryDDCH);
 		
-		IModel<List<Directory>> directoryModel = new AbstractReadOnlyModel<List<Directory>>() {
+		IModel<List<Directory>> directoryModel = new AbstractReadOnlyModel<List<Directory>>()
+		{
 			@Override
-			public List<Directory> getObject() {
-				DirectoryDaoImpl dao = new DirectoryDaoImpl();
-				if (selectedCategory == null) {
-					return dao.getAllDirectories();
-				} else {
-					return dao.getAllDirectoriesForCategory(selectedCategory.getId());
+			public List<Directory> getObject()
+			{
+				//DirectoryDaoImpl dao = new DirectoryDaoImpl();
+				DirectoryService dirService = new DirectoryServiceImpl();
+				if (selectedCategory == null)
+				{
+					return dirService.getAllDirectories();
+				} else
+				{
+					return dirService.getAllDirectoriesForCategory(selectedCategory);
 				}
 			}
 		};
@@ -102,25 +126,31 @@ public class ImageUploadPage extends InternalBasePage {
 		multiFileUploadField = new MultiFileUploadField("multiUpload", new PropertyModel<List<FileUpload>>(this, "uploads"), 10);
 		form.add(multiFileUploadField);
 		
-		submitBT = new AjaxButton("submit", form) {
+		submitBT = new AjaxButton("submit", form)
+		{
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
+			{
 				target.add(form);
 				target.add(feedback);
 			}
 			
 			@Override
-			protected void onError(AjaxRequestTarget target, Form<?> form) {
+			protected void onError(AjaxRequestTarget target, Form<?> form)
+			{
 				target.add(form);
 				target.add(feedback);
 			}
 		};
+		
 		form.add(submitBT);
 		add(form);
 	}
 	
 	@Override
-	protected IModel<String> getSubTitle() {
+	protected IModel<String> getSubTitle()
+	{
 		return new ResourceModel("submenu.imageUploadPage");
 	}
+	
 }

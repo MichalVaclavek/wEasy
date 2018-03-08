@@ -6,19 +6,46 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+
+<div class="wrapper">
+	
+	<div id="headerImage">
+         <h1><img src="nadpislogo.png" alt="fungisoft" title="Fungisoft logo"/></h1>
+    </div>
+    
+    <!-- Obalovy div pro Category panel -->
+	<div class="categoryListWrapper">
+	
+		<!--<h2>wicket:message key="link.english"</h2>-->
+		<!-- <div align="center" wicket:id = "categoriesLabel"></div>-->
+		<!--<span wicket:id="categoriesLabel">Text z properties ...</span> -->
+	
+		<div wicket:id="categoriesList" class="categoryPanel"></div>
+	</div>
+	
 	<div id="content">
+	
 		<div id="top">
 			<div wicket:id="topMenu"></div>
 		</div>
-
+					
 		<div id="middle">
+						
 			<wicket:child />
 		</div>
 
 		<div id="bottom">
-			<div class="footer"><wicket:message key="created.by.wicket"/><a href="http://wicket.apache.org/">Apache Wicket</a>.</div>
+			<!-- <div class="footer"><wicket:message key="created.by.wicket"/><a href="http://wicket.apache.org/">Apache Wicket</a>.</div>  -->
+			<div class="footer">
+				<a href="#" wicket:id="en"><wicket:message key="link.english"/></a>
+        		<a href="#" wicket:id="cs"><wicket:message key="link.czech"/></a>
+        	</div>
 			<div class="clear"></div>
 		</div>
+		
 	</div>
+	
+</div>
+	
 </body>
 </html>

@@ -1,4 +1,4 @@
-package cz.vitfo.internal.pages.createcategory;
+package cz.zutrasoft.internal.pages.createcategory;
 
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -8,23 +8,29 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
-import cz.vitfo.database.daoimpl.CategoryDaoImpl;
-import cz.vitfo.internal.pages.InternalBasePage;
-import cz.vitfo.internal.pages.editwithmodal.EditPage;
+import cz.zutrasoft.base.services.CategoryService;
+import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
+import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
+import cz.zutrasoft.internal.pages.InternalBasePage;
+import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
 
-public class CreateCategoryPage extends InternalBasePage {
-	
+public class CreateCategoryPage extends InternalBasePage
+{
 	private String category;
 	
-	public CreateCategoryPage() {
+	public CreateCategoryPage()
+	{
 		FeedbackPanel feedback = new FeedbackPanel("feedback");
 		add(feedback);
 		
-		Form form = new Form("form") {
+		Form form = new Form("form")
+		{
 			@Override
-			protected void onSubmit() {
-				CategoryDaoImpl dao = new CategoryDaoImpl();
-				dao.saveCategory(category);
+			protected void onSubmit()
+			{
+				//CategoryDaoImpl dao = new CategoryDaoImpl();
+				CategoryService categorService = new CategoryServiceImpl();
+				categorService.saveCategory(category);
 				setResponsePage(EditPage.class);
 			}
 		};
@@ -39,7 +45,9 @@ public class CreateCategoryPage extends InternalBasePage {
 	}
 	
 	@Override
-	protected IModel<String> getSubTitle() {
+	protected IModel<String> getSubTitle()
+	{
 		return new ResourceModel("submenu.createCategoryPage");
 	}
+	
 }

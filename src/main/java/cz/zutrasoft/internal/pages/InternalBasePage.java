@@ -1,4 +1,4 @@
-package cz.vitfo.internal.pages;
+package cz.zutrasoft.internal.pages;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
@@ -6,37 +6,41 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 
-import cz.vitfo.base.BasePage;
-import cz.vitfo.internal.menus.AdministrationMenu;
+import cz.zutrasoft.base.BasePage;
+import cz.zutrasoft.internal.menus.AdministrationMenu;
 
 /**
  * Base page for internal (authentificated) pages.
  * 
- * @author vitfo
  */
-public abstract class InternalBasePage extends BasePage {
+public abstract class InternalBasePage extends BasePage
+{
 	
 	private static final long serialVersionUID = -3658285920511775186L;
 
-	public InternalBasePage() {
+	public InternalBasePage()
+	{
 		add(new AdministrationMenu("editMenu"));
 		
-		add(new Label("subtitle", getSubTitle()));
+		add(new Label("subtitle", getSubTitle()));				
 	}
 
 	@Override
-	protected void onConfigure() {
+	protected void onConfigure()
+	{
 		super.onConfigure();
 		
 		AuthenticatedWebApplication application = (AuthenticatedWebApplication) Application.get();
         AuthenticatedWebSession session = AuthenticatedWebSession.get();
-        if (!session.isSignedIn()) {
-                application.restartResponseAtSignInPage();
+        if (!session.isSignedIn())
+        {
+            application.restartResponseAtSignInPage();         
         }
 	}
 	
 	@Override
-	protected String getTitle() {
+	protected String getTitle()
+	{
 		return getString("administration.title");
 	}
 	
@@ -46,4 +50,5 @@ public abstract class InternalBasePage extends BasePage {
 	 * @return subtitle
 	 */
 	protected abstract IModel<String> getSubTitle();
+	
 }

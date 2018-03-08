@@ -1,9 +1,16 @@
-package cz.vitfo.database.dao;
+package cz.zutrasoft.database.dao;
 
-import cz.vitfo.database.model.User;
+import java.util.List;
 
-public interface UserDao {
+import cz.zutrasoft.database.model.User;
 
-	public void saveUser(User user);
-	public User getUser(String email);
+public interface IUserDao 
+{	
+	public User findById(Integer id);    
+	public User findByUsername(String userName);     
+	public void save(User user);  
+	public void update(User user); 
+	
+	public void deleteByUserId(Integer userId);     
+	public List<User> findAllUsers();
 }

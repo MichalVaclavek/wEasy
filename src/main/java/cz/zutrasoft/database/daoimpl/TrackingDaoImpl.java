@@ -1,28 +1,42 @@
-package cz.vitfo.database.daoimpl;
+package cz.zutrasoft.database.daoimpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import cz.vitfo.database.dao.TrackingDao;
-import cz.vitfo.database.model.TrackInfo;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class TrackingDaoImpl extends DaoImpl implements TrackingDao {
+import cz.zutrasoft.database.dao.ITrackingDao;
+import cz.zutrasoft.database.model.TrackInfo;
 
+public class TrackingDaoImpl implements ITrackingDao
+{
+	static final Logger logger = LoggerFactory.getLogger(TrackingDaoImpl.class);
+	
 	@Override
-	public void save(TrackInfo info) {
-		
-		try (Connection con = dataSource.getConnection())  {
-			PreparedStatement ps = con.prepareStatement("insert into " + TableEnum.T_TRACKING + " (ip, url, session, time) values (?, ?, ?, ?)");
-			ps.setString(1, info.getIp());
-			ps.setString(2, info.getUrl());
-			ps.setString(3, info.getSession());
-			ps.setTimestamp(4, new Timestamp(info.getDate().getTime()));
-			
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void save(TrackInfo info)
+	{
+		SessionFactory factory = HibernateUtils.getSessionFactory();		 
+	    Session session = factory.getCurrentSession();
+	       
+	    try
+	    {
+	        session.getTransaction().begin();	 
+	        session.persist(info);
+	  	            
+	        session.getTransaction().commit(); 
+	     } 
+	     catch (Exception e)
+	     {
+	    	 logger.error("Error saving comment into DB. Exception: {}", e.getMessage());
+	         session.getTransaction().rollback();
+	     }
+	 		
 	}
+	
+	
 }
