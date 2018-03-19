@@ -13,7 +13,8 @@ public interface IArticleDao
 	public List<Article> getAllArticlesInCategory(Category category);
 	public List<Article> getAllArticlesInCategory(long categoryId);
 	public Article getArticleById(int id);
-	public void saveArticle(Article newArticle);
+	//public void saveArticle(Article newArticle);
+	public Article saveArticle(Article newArticle);
 	
 	public void deleteArticle(Article article);	
 }

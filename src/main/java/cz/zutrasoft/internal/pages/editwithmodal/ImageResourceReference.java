@@ -57,7 +57,8 @@ public class ImageResourceReference extends ResourceReference
 			{
 				int id = Integer.parseInt(imageId.toString());
 				//ImageDaoImpl dao = new ImageDaoImpl();
-				ImageService imageService = new ImageServiceImpl();
+				//ImageService imageService = new ImageServiceImpl();
+				ImageService imageService = ImageServiceImpl.getInstance();
 				Image img = imageService.getImageById(id);
 				imageBytes = img.getBytes();
 			} catch (Exception e)

@@ -77,7 +77,8 @@ public class ArticlePage extends ExternalBasePage
 				BasicAutorizationAndAuthenticationSession session = (BasicAutorizationAndAuthenticationSession)Session.get();
 				//Integer i = session.getUserId();
 											
-				CommentService commentService = new CommentServiceImpl();
+				//CommentService commentService = new CommentServiceImpl();
+				CommentService commentService = CommentServiceImpl.getInstance();
 				commentService.saveTextAsComment(commentText, session.getUserId(), articleId);
 								
 				commentText = "";

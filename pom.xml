@@ -25,8 +25,8 @@
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 		<!-- TODO project name  -->
-	<name>Zutrasoft</name>
-	<description>Zutrasoft.cz stránky v Apache Wicket. Podle projektu weasy na github.</description>
+	<name>Fungisoft</name>
+	<description>fungisoft.cz stránky v Apache Wicket. Podle projektu weasy na github.</description>
 	<!--
 		<organization>
 			<name>company name</name>
@@ -42,9 +42,9 @@
 	</licenses>
 	
 	<properties>
-		<wicket.version>6.17.0</wicket.version>
+		<!--<wicket.version>6.17.0</wicket.version>-->
+		<wicket.version>7.10.0</wicket.version>
 		<jetty.version>7.6.13.v20130916</jetty.version>
-		<!--<jetty.version>7.6.13.v20130916</jetty.version>-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
 		<wtp.version>none</wtp.version>
@@ -53,6 +53,7 @@
 	
 	<dependencies>
 	
+		<!--  POSTGRES DEPENDENCY -->
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
     		<groupId>org.postgresql</groupId>
@@ -66,14 +67,20 @@
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-		<!-- Funkcionalita wicketu pro validaci prihlaseneho uzivatele -->
+		<!-- https://mvnrepository.com/artifact/org.apache.wicket/wicket-request -->
+		<dependency>
+    		<groupId>org.apache.wicket</groupId>
+    		<artifactId>wicket-request</artifactId>
+    		<version>${wicket.version}</version>
+		</dependency>
+		
+		<!-- Wicket validation of the user roles -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-auth-roles</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-				
-    	
+						   	
 		<!-- OPTIONAL DEPENDENCY -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
@@ -82,16 +89,21 @@
 		</dependency>
 		
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
+		<!-- Use this SLF4J dependency if Postgres DB .jar is not used - Postgres uses SLF4J 1.7.? version -->
+		<!-- Or <exclude> can be used  -->
+		<!--	
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.4</version>
-		</dependency>
+		</dependency>	
+		-->		
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
+			<version>1.2.17</version>
 		</dependency>
+		
 
 		<!--  JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
@@ -101,40 +113,23 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--  JETTY DEPENDENCIES FOR TESTING  -->
-		
+		<!--  JETTY DEPENDENCIES FOR TESTING WITHOUT DEPLOYING IF REQUIRED -->	
+		<!-- 	
 		<dependency>
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all-server</artifactId>
 			<version>${jetty.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
-		<!--
+				
 		<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-http</artifactId>
     		<version>9.4.8.v20171121</version>
-			</dependency> 
+		</dependency> 
 		-->
-		<!-- Database Connection Pool (datasource) - http://commons.apache.org/proper/commons-dbcp/ -->
-        <!--
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
-        </dependency>
-        -->
-        <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
-        <!--
-		<dependency>
-    		<groupId>com.zaxxer</groupId>
-    		<artifactId>HikariCP</artifactId>
-   			<version>2.3.2</version>
-		</dependency>
-        -->
-        
-        <!-- Hibernate Core -->
+		      
+        <!-- JPA Hibernate Core -->
      	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
      	<dependency>
          	<groupId>org.hibernate</groupId>
@@ -142,32 +137,22 @@
         	 <version>${hibernate.version}</version>
      	</dependency>
      	
-     	<!-- Hikari Connection Pool - je nakonfigurováno v src/main/resources/hibernate.cfg.xml  -->
-     	<!-- Nevim proc, ale musi se použít i druhý zápis. Prvděpodobně tento říká Hibernate,  -->
-     	<!-- že se bude jako CP pracovat s Hikari a druhá Dependency loaduje samotný Hikari CP  -->
+     	<!-- JPA Hibernate uses Hikari CP  -->
      	<dependency>
     		<groupId>org.hibernate</groupId>
     		<artifactId>hibernate-hikaricp</artifactId>
     		<version>${hibernate.version}</version>
 		</dependency>
 		
-		 <!-- Hikari Connection Pool - je nakonfigurováno v src/main/resources/hibernate.cfg.xml  -->
+		 <!-- Hikari Connection Pool - see src/main/resources/hibernate.cfg.xml  -->
 		<dependency>
       		<groupId>com.zaxxer</groupId>
       		<artifactId>HikariCP</artifactId>
       		<version>2.6.1</version>
-    	</dependency>
-    	
-    	<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP-java7 
-		<dependency>
-    		<groupId>com.zaxxer</groupId>
-    		<artifactId>HikariCP-java7</artifactId>
-    		<version>2.4.13</version>
-		</dependency>
-     	-->
+    	</dependency>  	
      	
      	<!-- jsr303 validation -->
-     	<!-- Tridy a anotace pro validaci dat ukladanych do DB -->
+     	<!-- Validation of the data saved into DB -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -215,6 +200,7 @@
 				</excludes>
 			</testResource>
 		</testResources>
+		
 		<plugins>
 			<plugin>
 				<inherited>true</inherited>
@@ -229,6 +215,7 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -238,6 +225,12 @@
 					<wtpversion>${wtp.version}</wtpversion>
 				</configuration>
 			</plugin>
+			<!-- For running maven build goal jetty:run  -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.11.v20150529</version>
+  			</plugin>			
 		</plugins>
 		
 	</build>

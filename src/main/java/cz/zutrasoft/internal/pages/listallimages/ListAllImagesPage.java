@@ -33,7 +33,8 @@ public class ListAllImagesPage extends InternalBasePage
 			public List<Image> getObject()
 			{
 				//ImageDaoImpl dao = new ImageDaoImpl();
-				ImageService imageService = new ImageServiceImpl();
+				//ImageService imageService = new ImageServiceImpl();
+				ImageService imageService = ImageServiceImpl.getInstance();
 				return imageService.getAllImages();
 			}
 		}; 
@@ -56,7 +57,8 @@ public class ListAllImagesPage extends InternalBasePage
 					public void onClick(AjaxRequestTarget target)
 					{
 						//ImageDao dao = new ImageDaoImpl();
-						ImageService imageService = new ImageServiceImpl();
+						//ImageService imageService = new ImageServiceImpl();
+						ImageService imageService = ImageServiceImpl.getInstance();
 						imageService.deleteImageById(img.getId());
 						
 						target.add(container);

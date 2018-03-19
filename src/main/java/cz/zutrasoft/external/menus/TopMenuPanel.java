@@ -28,7 +28,7 @@ public class TopMenuPanel extends Panel
 	public TopMenuPanel(String id)
 	{
 		super(id);
-
+		this.
 		add(new BookmarkablePageLink("homepage", HomePage.class));
 		
 		Link loginLink = new Link("login")
@@ -78,7 +78,7 @@ public class TopMenuPanel extends Panel
 				pp.set("logout", "true");
 				
 				// Nevim proc, ale setResponsePage(HomePage.class); nefunguje, vubec se nezavola konstruktor HomePage
-				// Musi se volat s PageParameters, ktere nesmi byt prazdne!
+				// Musi se volat s PageParameters, ktere nesmi byt null.
 				setResponsePage(HomePage.class, pp);
 			}
 
@@ -102,32 +102,8 @@ public class TopMenuPanel extends Panel
 			}
 		
 		};
-		add(contactLink);
-				
-		// Model for displaying username of the logged-in user
-		Model<String> strMdl = new Model<>();
-					
-		Label logedInUser = new Label("username", strMdl);
-		logedInUser.setVisible(false);
-		logedInUser.setOutputMarkupId(true);
-		add(logedInUser);
-		
-		BasicAutorizationAndAuthenticationSession session = null;
-		if (AuthenticatedWebSession.get() instanceof BasicAutorizationAndAuthenticationSession)
-		{
-			session = (BasicAutorizationAndAuthenticationSession) AuthenticatedWebSession.get();
-		}
-		
-		if (session != null)
-		{
-			if (session.isSignedIn())
-			{
-				String userName = session.getUsername();
-				strMdl.setObject(getString("form.loggedinUser") + userName);
-				logedInUser.setVisible(true);
-			}
-		}				
+		add(contactLink);						
 	}
-	
+			
 
 }

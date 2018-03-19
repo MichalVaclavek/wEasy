@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cz.zutrasoft.base.services.IContactMessageService;
+import cz.zutrasoft.base.servicesimpl.ContactMessageServiceImpl;
+
 /**
  * * Otestuje vsechny metody dulezite pro praci s ContactMessage tj. jak metody v DAO vrstve {@code cz.zutrasoft.database.daoimpl},
  * tak i metody v Service vrsve {@code cz.zutrasoft.base.servicesimpl}
@@ -27,6 +30,7 @@ public class TestContactMessage
 	{
 	}
 
+	private static IContactMessageService cmServ;
 
 	/**
 	 * @throws java.lang.Exception
@@ -34,19 +38,19 @@ public class TestContactMessage
 	@Before
 	public void setUp() throws Exception
 	{
+		//cmServ = new ContactMessageServiceImpl();
+		cmServ = ContactMessageServiceImpl.getInstance();
 	}
 
 
 	@Test
-	public void test_Create_New_ContactMessage()
+	public void test_Save_New_ContactMessage()
 	{
-		fail("Not yet implemented");
+		int numOfCmBeforeAdd = cmServ.getAllMessages().size();
+		cmServ.saveContactMessage("Sandokan", "sandokan@moppracem.id", "Dobrý den, jsem tygr z Mopračemu, píšete tu bláboly.");
+		
+		assertTrue(cmServ.getAllMessages().size() == (numOfCmBeforeAdd + 1));		
 	}
 	
-	@Test
-	public void test_Delete_ContactMessage()
-	{
-		fail("Not yet implemented");
-	}
 
 }

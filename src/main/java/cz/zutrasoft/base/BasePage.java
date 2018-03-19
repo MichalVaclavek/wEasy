@@ -6,24 +6,21 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.wicket.Session;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.link.ResourceLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.WebRequest;
-import org.apache.wicket.request.resource.SharedResourceReference;
 
 import cz.zutrasoft.base.services.CategoryService;
 import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.database.daoimpl.TrackingDaoImpl;
+import cz.zutrasoft.base.servicesimpl.TrackingInfoServiceImpl;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.TrackInfo;
 import cz.zutrasoft.external.menus.TopMenuPanel;
-import cz.zutrasoft.external.pages.articlepage.ArticleModel;
 import cz.zutrasoft.external.panels.CategoryPanel;
 import cz.zutrasoft.external.panels.CategoryPanelModel;
 
@@ -31,13 +28,13 @@ import cz.zutrasoft.external.panels.CategoryPanelModel;
  * Base class for all pages.
  * 
  * @author vitfo
+ * @author Michal Václavek
  */
 public abstract class BasePage extends WebPage
 {
-
 	private static final long serialVersionUID = 4809590366914866734L;
 	
-	private static CategoryService categoryService = new CategoryServiceImpl();
+	private static CategoryService categoryService = CategoryServiceImpl.getInstance();
 
 	public BasePage()
 	{
@@ -63,40 +60,59 @@ public abstract class BasePage extends WebPage
 		// If you do not want to track the activity, comment the line.
 		trackUser();
 		
-		// add top menu panel
-		add(new TopMenuPanel("topMenu"));
+		// Add top menu panel
+		TopMenuPanel topMenuPanel = new TopMenuPanel("topMenu");
+		
+		// Model for displaying username of the logged-in user
+		Model<String> strMdl = new Model<>();
+					
+		// Label with logged-in user info into TopMenu Panel
+		final Label logedInUser = new Label("username", strMdl);
+		logedInUser.setVisible(false);
+		logedInUser.setOutputMarkupId(true);
+		add(logedInUser);
+		
+		BasicAutorizationAndAuthenticationSession session = null;
+		if (AuthenticatedWebSession.get() instanceof BasicAutorizationAndAuthenticationSession)
+		{
+			session = (BasicAutorizationAndAuthenticationSession) AuthenticatedWebSession.get();
+		}
+		
+		if (session != null)
+		{
+			if (session.isSignedIn())
+			{
+				String userName = session.getUsername();
+				// Display the username
+				strMdl.setObject(getString("form.loggedinUser") + userName);
+				logedInUser.setVisible(true);
+			}
+		}
+		
+		topMenuPanel.add(logedInUser);
+		
+		add(topMenuPanel);
 				
-		//Label categoryLabel = new Label("categoriesLabel", new Model(getString("categories.label")));		
-		//add(categoryLabel);
-
+		// List of all article's Categories
 		List<Category> categories = categoryService.getAllCategories();
-		
-		//add(new CategoryPanel("categoriesList", new CategoryPanelModel(categories)));
-		
-		
+			
 		add(new CategoryPanel("categoriesList", new CategoryPanelModel(categories))		
 		{		
 			@Override
 			protected String getPanelTitleKey()
 			{
-				//return(getString("categoriesPanel.title"));
-				//return("categoriesPanel.title");
 				return("categories.label");
-				//return(getString("categories.label"));
-				//return("");
 			}										
 		});
 		
 		
-		// Odkazy pro zmenu lokalizace english nebo cs
-        // v html kodu <a href="#" wicket:id="en">anglicky</a>
+		// Links to select localization between english nebo cs
         add(new Link<Void>("en")
         {
             @Override
             public void onClick()
             {
                 Session.get().setLocale(Locale.ENGLISH);
-                //setTitleModelObject(); // Nastavi spravny zdroj dat modelu, pri kliknuti na lokalizacni odkaz
             }
          });
 
@@ -106,8 +122,7 @@ public abstract class BasePage extends WebPage
              public void onClick()
              {
                  Session.get().setLocale(new Locale("cs"));
-                 //getTitle(); // // Nastavi spravny zdroj dat modelu, pri kliknuti na lokalizacni odkaz
-             }
+            }
          });
 		
 	}
@@ -120,7 +135,7 @@ public abstract class BasePage extends WebPage
 	protected abstract String getTitle();
 
 	/**
-	 * Tracks users activity. The activity is saved to the database.
+	 * Tracks user's activity. The activity is saved to the database.
 	 */
 	protected void trackUser()
 	{
@@ -134,8 +149,9 @@ public abstract class BasePage extends WebPage
 
 		TrackInfo info = new TrackInfo(ip, url, session);
 
-		TrackingDaoImpl trackingDao = new TrackingDaoImpl();
-		trackingDao.save(info);
+		TrackingInfoServiceImpl trackingService = TrackingInfoServiceImpl.getInstance();
+		
+		trackingService.save(info);
 	}
 	
 }

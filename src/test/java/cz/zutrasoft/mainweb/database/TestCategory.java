@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -31,18 +32,32 @@ import cz.zutrasoft.database.model.CategoryWithArticles;
 public class TestCategory
 {	
 	
+	private static ICategoryDao categoryDao;
+	
+	private static CategoryService categoryService;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
+	{ 
+		categoryDao = new CategoryDaoImpl();
+		//categoryService = new CategoryServiceImpl();
+		categoryService = CategoryServiceImpl.getInstance();
+		
+		Category categ = new Category("Test_Category1");		
+		categoryService.saveCategory(categ);
+		Category categ2 = new Category("Test_Category2");		
+		categoryService.saveCategory(categ2);
+	}
+	
+	@AfterClass
+	public static void clearAfterClass() throws Exception
 	{
+		categoryService.getAllCategories().forEach(categoryService::deleteCategory);
 	}
 
-
-	private ICategoryDao categoryDao;
-	
-	private CategoryService categoryService;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -50,8 +65,8 @@ public class TestCategory
 	@Before
 	public void setUp() throws Exception
 	{
-		categoryDao = new CategoryDaoImpl();
-		categoryService = new CategoryServiceImpl();
+		//categoryDao = new CategoryDaoImpl();
+		//categoryService = new CategoryServiceImpl();
 	}
 
 	@Parameter
@@ -59,12 +74,10 @@ public class TestCategory
 	
 
 	@Test
-    public void testCreateNewCategoryDao()
+    public void test_Create_New_Category_DAO()
 	{	       				
 		// Vytvoreni a ulozeni nove kategorie clanku
-		//List<Category> categories = categoryService.getAllCategories();
-		       
-        int numberOfCategoriesBeforeCreate = categoryDao.getAllCategories().size();   
+		int numberOfCategoriesBeforeCreate = categoryDao.getAllCategories().size();   
         
         Category category = new Category();       
         category.setName(newCategoryNameForDao);  
@@ -80,10 +93,9 @@ public class TestCategory
 	
 	
 	@Test
-    public void testCreateNewCategoryService()
+    public void test_Create_And_Delete_Category_Service()
 	{	       				
-		// Vytvoreni a ulozeni nove kategorie clanku
-		
+		// Vytvoreni a ulozeni nove kategorie clanku		
 		int numberOfCategoriesBeforeCreate = categoryService.getAllCategories().size(); 
 		
         Category category = new Category();       
@@ -96,10 +108,21 @@ public class TestCategory
         Category categoryGet = categoryService.getCategoryByName(newCategoryNameForService);
         
         assertTrue(categoryGet.getName().equals(category.getName()));
+        
+     // Smazani kategorii
+     	//List<Category> categories = categoryService.getAllCategories();
+     		
+        Category categorDel = categoryService.getCategoryByName(newCategoryNameForService);
+             
+        //int numberOfCategoriesBeforeDelete = categories.size();
+        categoryService.deleteCategory(categorDel);
+             
+        // Pocet vsech clanku se snizil o 1
+        assertTrue(categoryService.getAllCategories().size() == numberOfCategoriesBeforeCreate);  
 	}
 	
 	@Test
-	public void testListAllCategoriesService()
+	public void test_List_All_Categories_Service()
 	{
 		// získání všech Categories z databáze
         List<Category> categories = categoryService.getAllCategories();
@@ -108,7 +131,7 @@ public class TestCategory
 	}
 	
 	@Test
-	public void testListAllCategoriesDao()
+	public void test_List_All_Categories_DAO()
 	{
 		// získání všech Categories z databáze
         List<Category> categories = categoryDao.getAllCategories();
@@ -121,7 +144,7 @@ public class TestCategory
     public ExpectedException exception = ExpectedException.none();
 	
 	@Parameter
-    public String oldCategoryNameToCreateAgain = "Ježeček2";
+    public String categoryNameToCreateAgain = "Ježeček2";
 	
 	/**
 	 * Otestuje, ze nejde vytvorit nova kategorie se jmenem ktere je uz pouzito
@@ -133,9 +156,13 @@ public class TestCategory
 		exception.expect(javax.persistence.PersistenceException.class);
 		
 		Category category = new Category();       
-        category.setName(oldCategoryNameToCreateAgain);  
+        category.setName(categoryNameToCreateAgain);  
         
-        categoryService.saveCategory(category);                    
+        categoryService.saveCategory(category);    
+        
+        Category category2 = new Category();       
+        category2.setName(categoryNameToCreateAgain);  
+        categoryService.saveCategory(category2); 
 	}
 	
 	@Parameter
@@ -145,36 +172,11 @@ public class TestCategory
 	 * Test method for {@link cz.zutrasoft.database.daoimpl.CategoryDaoImpl#saveCategory(java.lang.String)}.
 	 */
 	@Test
-	public void testSaveCategoryString()
+	public void test_Save_Category_String()
 	{ 
-		int numberOfCategoriesBeforeCreate = categoryService.getAllCategories().size(); 
-		
-        categoryDao.saveCategory(newCategoryNameString_For_DAO);
-        
+		int numberOfCategoriesBeforeCreate = categoryService.getAllCategories().size(); 		
+        categoryDao.saveCategory(newCategoryNameString_For_DAO);        
         assertTrue(categoryService.getAllCategories().size() == (numberOfCategoriesBeforeCreate + 1));         
-	}
-
-
-	@Parameter
-    public String oldCategoryNameToDelete = "Veverky4";
-	
-	/**
-	 * Test method for {@link cz.zutrasoft.database.daoimpl.CategoryDaoImpl#delete(cz.zutrasoft.database.model.Category)}.
-	 */
-	@Test
-	public void testDeleteCategoryService()
-	{
-		// Smazani kategorii
-		List<Category> categories = categoryService.getAllCategories();
-		
-        Category categorDel = categoryService.getCategoryByName(oldCategoryNameToDelete);
-        
-        int numberOfCategoriesBeforeDelete = categories.size();
-        categoryService.deleteCategory(categorDel);
-        
-        // Pocet vsech clanku se snizil o 1
-        assertTrue(categoryService.getAllCategories().size() == (numberOfCategoriesBeforeDelete - 1));  
-        
 	}
 
 
@@ -182,7 +184,7 @@ public class TestCategory
 	 * Test method for {@link cz.zutrasoft.database.daoimpl.CategoryDaoImpl#getAllCategoriesWithArticles()}.
 	 */
 	@Test
-	public void testGetAllCategoriesWithArticles()
+	public void test_Get_All_Categories_WithArticles()
 	{
 		// získání všech objektu CategoryWithArticles z DB pomoci DAO
         List<CategoryWithArticles> categories = categoryDao.getAllCategoriesWithArticles();

@@ -17,11 +17,11 @@ import cz.zutrasoft.internal.pages.editwithmodal.ImageResourceReference;
 
 /**
  * Application object for your web application.
- * If you want to run this application without deploying, run the Start class.
  * 
- * Základní url pro spuštění je http://localhost/weasy/
+ * The app. can be run with maven build function using goal jetty:run
+ * Then http://localhost:8080 is the web link to start app.
  * 
- * @see cz.zutrasoft.Start#main(String[])
+ * @see cz.zutrasoft.Start#main(String[]) ??
  */
 public class WicketApplication extends AuthenticatedWebApplication
 {
@@ -61,7 +61,7 @@ public class WicketApplication extends AuthenticatedWebApplication
 		return LoginPage.class;
 	}
 	
-	// Prepnuti do "ostreho" DEPLOYMENT modu
+	// DEPLOYMENT mode on
 	@Override
 	public RuntimeConfigurationType getConfigurationType()
 	{

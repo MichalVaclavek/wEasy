@@ -16,9 +16,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import cz.zutrasoft.base.EncoderDecoder;
 import cz.zutrasoft.base.exceptions.UserSsoNotUniqueException;
 import cz.zutrasoft.base.services.UserService;
+import cz.zutrasoft.base.servicesimpl.EncoderDecoder;
 import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
 import cz.zutrasoft.database.dao.IUserDao;
 import cz.zutrasoft.database.daoimpl.UserDaoImpl;
@@ -54,7 +54,8 @@ public class TestCreateAdminUser
 	@Before
 	public void setUp() throws Exception
 	{
-		userService = new UserServiceImpl();
+		//userService = new UserServiceImpl();
+		userService = UserServiceImpl.getInstance();
 	}
 
 	@Rule

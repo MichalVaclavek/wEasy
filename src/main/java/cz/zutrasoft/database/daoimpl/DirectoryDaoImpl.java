@@ -113,6 +113,7 @@ public class DirectoryDaoImpl implements IDirectoryDao
     	{
     		logger.error("Directory saving into DB failed. Error: " + e.getMessage());
     		session.getTransaction().rollback();
+    		throw e; // to detect that Directory saving failed
     	}
 		
 	}

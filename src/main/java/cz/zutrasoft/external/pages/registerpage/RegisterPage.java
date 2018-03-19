@@ -3,6 +3,7 @@ package cz.zutrasoft.external.pages.registerpage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
@@ -11,6 +12,8 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
+import cz.zutrasoft.base.CustomMessageFP;
+import cz.zutrasoft.base.ExactErrorLevelFilter;
 import cz.zutrasoft.base.services.UserService;
 import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
 //import cz.zutrasoft.base.services.UserServiceImpl;
@@ -34,7 +37,9 @@ public class RegisterPage extends ExternalBasePage
 	
 	public RegisterPage()
 	{
-		final FeedbackPanel feedbackErr = new FeedbackPanel("errorFeedback");
+		//final FeedbackPanel feedbackErr = new FeedbackPanel("errorFeedback");
+        final CustomMessageFP feedbackErr = new CustomMessageFP("errorFeedback", new ExactErrorLevelFilter(FeedbackMessage.ERROR));
+
 		feedbackErr.setOutputMarkupId(true);
 		add(feedbackErr);
 			
@@ -50,7 +55,8 @@ public class RegisterPage extends ExternalBasePage
 				user.setFirstName(firstName);
 				user.setLastName(lastName);
 								
-				UserService userService = new UserServiceImpl();				
+				//UserService userService = new UserServiceImpl();
+				UserService userService = UserServiceImpl.getInstance();
 				
 				if (userService.saveUser(user))	
 				{

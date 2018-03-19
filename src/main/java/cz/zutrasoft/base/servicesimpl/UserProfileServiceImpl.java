@@ -14,6 +14,22 @@ public class UserProfileServiceImpl implements UserProfileService
 {     
     //@Autowired
     IUserProfileDao dao = new UserProfileDaoImpl();
+    
+    private static class SingletonHolder
+	{
+        private static final UserProfileServiceImpl SINGLE_INSTANCE = new UserProfileServiceImpl();
+    }
+	
+	/**
+	 * @return singleton instance of the UserProfileServiceImpl
+	 */
+	public static UserProfileServiceImpl getInstance()
+	{				
+		return SingletonHolder.SINGLE_INSTANCE;			
+	}
+	
+	private UserProfileServiceImpl()
+	{}
      
     public UserProfile findById(int id)
     {

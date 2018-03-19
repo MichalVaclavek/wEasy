@@ -19,6 +19,22 @@ public class ImageServiceImpl implements ImageService
 {
 
 	private ImageDao imageDao = new ImageDaoImpl();
+		
+	private static class SingletonHolder
+	{
+        private static final ImageServiceImpl SINGLE_INSTANCE = new ImageServiceImpl();
+    }
+	
+	/**
+	 * @return singleton instance of the ImageServiceImpl
+	 */
+	public static ImageServiceImpl getInstance()
+	{				
+		return SingletonHolder.SINGLE_INSTANCE;			
+	}
+	
+	private ImageServiceImpl()
+	{}
 	
 	/* (non-Javadoc)
 	 * @see cz.zutrasoft.base.services.ImageService#getAllImages()
@@ -26,7 +42,6 @@ public class ImageServiceImpl implements ImageService
 	@Override
 	public List<Image> getAllImages()
 	{
-		// TODO Auto-generated method stub
 		return imageDao.getAllImages();
 	}
 
@@ -37,7 +52,6 @@ public class ImageServiceImpl implements ImageService
 	@Override
 	public List<Image> getAllImagesInDirectory(Directory directory)
 	{
-		// TODO Auto-generated method stub
 		return imageDao.getAllImagesInDirectory(directory);
 	}
 
@@ -48,7 +62,6 @@ public class ImageServiceImpl implements ImageService
 	@Override
 	public void saveImageFile(Image uploadedImageFile)
 	{
-		// TODO Auto-generated method stub
 		imageDao.saveImageFile(uploadedImageFile);
 	}
 
@@ -59,7 +72,6 @@ public class ImageServiceImpl implements ImageService
 	@Override
 	public Image getImageById(int id)
 	{
-		// TODO Auto-generated method stub
 		return imageDao.getImageById(id);
 	}
 
@@ -70,7 +82,6 @@ public class ImageServiceImpl implements ImageService
 	@Override
 	public void deleteImageById(int id)
 	{
-		// TODO Auto-generated method stub
 		imageDao.deleteImageById(id);
 	}
 

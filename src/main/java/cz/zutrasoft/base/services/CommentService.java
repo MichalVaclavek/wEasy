@@ -8,7 +8,7 @@ import cz.zutrasoft.database.model.User;
 
 public interface CommentService
 {
-	public void saveTextAsComment(String comment, int userID, int articleID);
+	public Comment saveTextAsComment(String comment, int userID, int articleID);
 	public Comment getById(int id);
 	
 	public List<Comment> getAllCommentsForArticleId(int artId);	

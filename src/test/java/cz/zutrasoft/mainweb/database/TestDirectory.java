@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -35,48 +36,53 @@ import cz.zutrasoft.database.model.Directory;
 public class TestDirectory
 {
 
+	private static IDirectoryDao directoryDao;
+	
+	private static DirectoryService directoryService;
+	private static CategoryService categoryService;
+	
+	private static Category categoryForDirectory;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-	}
-
-	private IDirectoryDao directoryDao;
-	
-	private DirectoryService directoryService;
-	
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception
-	{
+		//categoryService = new CategoryServiceImpl();
+		categoryService = CategoryServiceImpl.getInstance();
+		//directoryService = new DirectoryServiceImpl();
+		directoryService = DirectoryServiceImpl.getInstance();
 		directoryDao = new DirectoryDaoImpl();
-		directoryService = new DirectoryServiceImpl();
+		
+		categoryForDirectory = new Category("Test_Category_For_Directory");		
+		categoryService.saveCategory(categoryForDirectory);
+		
+		Directory directory = new Directory();       
+        directory.setName("TestDir1");                 
+        directory.setCategory(categoryForDirectory);
+        
+        directoryService.saveDirectory(directory);
+        
+        Directory directory2 = new Directory();       
+        directory2.setName("TestDir2");                 
+        directory2.setCategory(categoryForDirectory);
+        
+        directoryService.saveDirectory(directory2);
+		
+	}
+	
+	@AfterClass
+	public static void clearAfterClass() throws Exception
+	{
+		directoryService.getAllDirectories().forEach(directoryService::deleteDirectory);
+		categoryService.deleteCategory(categoryForDirectory);
 	}
 	
 		
-    /* ========================== GET FIRST FOUND DIRECTORY =================================== */
-    
-	@Parameter
-    public String oldDirectoryNameToGet = "ObrázkyVeverky";	
-	@Parameter
-    public String oldCategoryNameToGet = "Veverky";
-
-      
-    @Test
-	public void test_Get_FirstDirectory_DAO()
-	{  	
-        Directory directory = directoryDao.getFirstDirectoryByName(oldDirectoryNameToGet);        
-        assertNotNull(directory);       
-        assertTrue(directory.getName().equalsIgnoreCase(oldDirectoryNameToGet));                 
-	}
     
     @Test
-	public void test_Get_AllDirectories_DAO()
+	public void test_Get_AllDirectories_Service()
 	{  	
     	// získání všech Directories z databáze
         List<Directory> directories = directoryService.getAllDirectories();
@@ -84,48 +90,13 @@ public class TestDirectory
         assertTrue(directories.size() > 0);              
 	}
     
-    
-    /* ================= DELETE FIRST FOUND DIRECTORY ========================== */
-    
-    @Parameter
-    public String oldDirectoryName_To_Delete_DAO = "Obrázky_Pejsci3";	
-    	
-	@Test
-	public void test_Delete_First_Directory_DAO()
-	{     
-        Directory directoryDel = directoryDao.getFirstDirectoryByName(oldDirectoryName_To_Delete_DAO);
-        
-        List<Directory> directories = directoryDao.getAllDirectories();
-        
-        int numberOfDirectoriesBeforeDelete = directories.size();
-        directoryDao.delete(directoryDel);
-        
-        // Pocet vsech Directory se snizil o 1
-        assertTrue(directoryDao.getAllDirectories().size() == (numberOfDirectoriesBeforeDelete - 1));      
-	}
+    /* ===== CREATE ======= READ ========= DELETE ================ */
 
-	
-	@Parameter
-    public String oldDirectoryName_To_Delete_Service = "Obrázky_Pejsci4";	
-	
-	@Test
-	public void test_Delete_First_Directory_Service()
-	{
-		Directory directoryDel = directoryService.getDirectoryByName(oldDirectoryName_To_Delete_Service);
-        
-        List<Directory> directories = directoryService.getAllDirectories();
-        
-        int numberOfDirectoriesBeforeDelete = directories.size();
-        directoryService.deleteDirectory(directoryDel);
-        
-        // Pocet vsech Direcory se snizil o 1
-        assertTrue(directoryService.getAllDirectories().size() == (numberOfDirectoriesBeforeDelete - 1));  
-	}
 		
+	//@Parameter
+    //public String knownCategoryNameDAO = "Veverky";
 	@Parameter
-    public String knownCategoryNameDAO = "Veverky";
-	@Parameter
-    public String newDirectoryNameDAO = "ObrázkyDirInVeverkyDAO";	
+    public String newDirectoryNameDAO = "ImagesDirInVeverkyDAO";	
 
 	
 	/**
@@ -135,16 +106,15 @@ public class TestDirectory
 	public void test_CRD_Directory_DAO()
 	{
 		// ------ CREATE ----------- //
-		
 		int numberOfDirectoriesBeforeCreate = directoryDao.getAllDirectories().size();    
     	
-    	ICategoryDao categoryDao = new CategoryDaoImpl();
-        Category category = categoryDao.getCategoryByName(knownCategoryNameDAO);
+    	//ICategoryDao categoryDao = new CategoryDaoImpl();
+        //Category category = categoryDao.getCategoryByName(knownCategoryNameDAO);
         
         // Vytvoreni a ulozeni noveho adresare, napr. pro fotky ?
         Directory directory = new Directory();       
         directory.setName(newDirectoryNameDAO);                 
-        directory.setCategory(category);
+        directory.setCategory(categoryForDirectory);
         
         directoryDao.saveDirectory(directory);
                
@@ -153,28 +123,26 @@ public class TestDirectory
         
         // 	------ READ ----------- //
     	
-        Directory directoryRead = directoryDao.getDirectoryFromCategory(newDirectoryNameDAO, category);
+        Directory directoryRead = directoryDao.getDirectoryFromCategory(newDirectoryNameDAO, categoryForDirectory);
         
         assertNotNull(directoryRead);
         
         assertTrue(directoryRead.getName().equalsIgnoreCase(newDirectoryNameDAO));
-        assertTrue(directoryRead.getCategory().getName().equalsIgnoreCase(knownCategoryNameDAO)); 
+        assertTrue(directoryRead.getCategory().getName().equalsIgnoreCase(categoryForDirectory.getName())); 
         
         //  ------ DELETE ----------- //
-        int numberOfDirectoriesBeforeDelete = directoryDao.getAllDirectoriesForCategory(category).size();
+        //int numberOfDirectoriesBeforeDelete = directoryDao.getAllDirectoriesForCategory(categoryForDirectory).size();
         
-        directoryDao.delete(newDirectoryNameDAO, category);
+        directoryDao.delete(newDirectoryNameDAO, categoryForDirectory);
         
         // Pocet vsech Direcory se snizil o 1
-        assertTrue(directoryDao.getAllDirectoriesForCategory(category).size() == (numberOfDirectoriesBeforeDelete - 1)); 
+        assertTrue(directoryDao.getAllDirectoriesForCategory(categoryForDirectory).size() == numberOfDirectoriesBeforeCreate); 
         
 	}
 	
 	@Parameter
-    public String newDirectoryNameService = "ObrázkyDirInJežečekService";
-    @Parameter
-    public String knownCategoryNameForService = "Ježeček";
-    
+    public String newDirectoryNameService = "ImagesDirService";
+   
     @Rule
     public ExpectedException exception = ExpectedException.none();
 	
@@ -187,41 +155,44 @@ public class TestDirectory
 	public void test_CRD_Directory_Service()
 	{
 		// CREATE
-		int numberOfDirectoriesBeforeCreate = directoryDao.getAllDirectories().size();       
+		int numberOfDirectoriesBeforeCreate = directoryService.getAllDirectories().size();       
       	
-    	CategoryService categoryService = new CategoryServiceImpl();
-        Category category = categoryService.getCategoryByName(knownCategoryNameForService);
+    	//CategoryService categoryService = new CategoryServiceImpl();
+        //Category category = categoryService.getCategoryByName(knownCategoryNameForService);
         
         // Vytvoreni a ulozeni noveho adresare, napr. pro fotky ?
         Directory directory = new Directory();       
         directory.setName(newDirectoryNameService);                 
-        directory.setCategory(category);
+        directory.setCategory(categoryForDirectory);
         
-        directoryService.saveDirectory(directory);
-        
-        // CREATE SAME DIRECTORY AGAIN - THROWS EXCEPTION
-        exception.expect(javax.persistence.PersistenceException.class);
         directoryService.saveDirectory(directory);
         
         // Pocet vsech Directory se musi zvysit o 1
         assertTrue(directoryService.getAllDirectories().size() == (numberOfDirectoriesBeforeCreate + 1));
         
+        // SAVE SAME DIRECTORY AGAIN - THROWS EXCEPTION        
+        Directory directory2 = new Directory();       
+        directory2.setName(newDirectoryNameService);                 
+        directory2.setCategory(categoryForDirectory);
+        
+        exception.expect(javax.persistence.PersistenceException.class);
+        directoryService.saveDirectory(directory2);
+        
+        // Previous attemtp to save same Directory failed, number of Directories unchanged
+        assertTrue(directoryService.getAllDirectories().size() == (numberOfDirectoriesBeforeCreate + 1));
+                       
         // READ
-        Directory directoryRead = directoryService.getOneDirectoryFromCategory(newDirectoryNameService, category);
+        Directory directoryRead = directoryService.getOneDirectoryFromCategory(newDirectoryNameService, categoryForDirectory);
         
         assertNotNull(directoryRead);
         
         assertTrue(directoryRead.getName().equalsIgnoreCase(newDirectoryNameService));
-        assertTrue(directoryRead.getCategory().getName().equalsIgnoreCase(knownCategoryNameForService)); 
-        
-        
-        // DELETE
-        int numberOfDirectoriesBeforeDelete = directoryService.getAllDirectoriesForCategory(category).size();
-        
-        directoryService.deleteDirectory(newDirectoryNameService, category);
-        
+        assertTrue(directoryRead.getCategory().getName().equalsIgnoreCase(categoryForDirectory.getName())); 
+                
+        // DELETE       
+        directoryService.deleteDirectory(newDirectoryNameService, categoryForDirectory);        
         // Pocet vsech Direcory se snizil o 1
-        assertTrue(directoryService.getAllDirectoriesForCategory(category).size() == (numberOfDirectoriesBeforeDelete - 1));  
+        assertTrue(directoryService.getAllDirectoriesForCategory(categoryForDirectory).size() == numberOfDirectoriesBeforeCreate);  
 	}
 		
 	

@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import cz.zutrasoft.base.EncoderDecoder;
+import cz.zutrasoft.base.servicesimpl.EncoderDecoder;
 
 public class TestEncoderDecoder
 {

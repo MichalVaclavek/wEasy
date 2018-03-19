@@ -68,7 +68,8 @@ public class ImageUploadPage extends InternalBasePage
 						{
 							Image uploadedImagefile = new Image(selectedDirectory, fu);
 							//ImageDaoImpl dao = new ImageDaoImpl();
-							ImageService imageService = new ImageServiceImpl();
+							//ImageService imageService = new ImageServiceImpl();
+							ImageService imageService = ImageServiceImpl.getInstance();
 							imageService.saveImageFile(uploadedImagefile);
 						}
 					}
@@ -83,8 +84,9 @@ public class ImageUploadPage extends InternalBasePage
 			public List<Category> getObject()
 			{
 				//CategoryDaoImpl dao = new CategoryDaoImpl();
-				CategoryService caterService = new CategoryServiceImpl();
-				return caterService.getAllCategories();
+				//CategoryService caterService = new CategoryServiceImpl();
+				CategoryService categoryService = CategoryServiceImpl.getInstance();
+				return categoryService.getAllCategories();
 			}
 		};
 		// shows Category "name" property
@@ -106,7 +108,8 @@ public class ImageUploadPage extends InternalBasePage
 			public List<Directory> getObject()
 			{
 				//DirectoryDaoImpl dao = new DirectoryDaoImpl();
-				DirectoryService dirService = new DirectoryServiceImpl();
+				//DirectoryService dirService = new DirectoryServiceImpl();
+				DirectoryService  dirService = DirectoryServiceImpl.getInstance();
 				if (selectedCategory == null)
 				{
 					return dirService.getAllDirectories();

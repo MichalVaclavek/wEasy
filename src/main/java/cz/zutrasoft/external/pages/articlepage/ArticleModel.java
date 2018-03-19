@@ -17,7 +17,8 @@ public class ArticleModel implements IModel<String>
 
 	private static final long serialVersionUID = -1514779344427109259L;
 	//private static ArticleDaoImpl dao = new ArticleDaoImpl();
-	private static ArticleService articleService = new ArticleServiceImpl();
+	//private static ArticleService articleService = new ArticleServiceImpl();
+	private static ArticleService articleService = ArticleServiceImpl.getInstance();
 	private int articleId;
 	
 	public ArticleModel(int articleId)

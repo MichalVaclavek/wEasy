@@ -121,8 +121,9 @@ public class EditPanel extends Panel
 			public List<Category> getObject()
 			{
 				//CategoryDaoImpl dao = new CategoryDaoImpl();
-				CategoryService categorService = new CategoryServiceImpl();
-				return categorService.getAllCategories();
+				//CategoryService categorService = new CategoryServiceImpl();
+				CategoryService categoryService = CategoryServiceImpl.getInstance();
+				return categoryService.getAllCategories();
 			}
 		};
 		
@@ -147,7 +148,8 @@ public class EditPanel extends Panel
 			public List<Directory> getObject()
 			{
 				//DirectoryDaoImpl dao = new DirectoryDaoImpl();
-				DirectoryService dirService = new DirectoryServiceImpl();
+				//DirectoryService dirService = new DirectoryServiceImpl();
+				DirectoryService  dirService = DirectoryServiceImpl.getInstance();
 				if (selectedCategory != null)
 				{
 					return dirService.getAllDirectoriesForCategory(selectedCategory);
@@ -188,7 +190,8 @@ public class EditPanel extends Panel
 			{
 				List<cz.zutrasoft.database.model.Image> images = new ArrayList<>();
 				//ImageDaoImpl dao = new ImageDaoImpl();
-				ImageService imageService = new ImageServiceImpl();
+				//ImageService imageService = new ImageServiceImpl();
+				ImageService imageService = ImageServiceImpl.getInstance();
 				if (selectedDirectory != null)
 				{
 					images = imageService.getAllImagesInDirectory(selectedDirectory);
@@ -283,6 +286,13 @@ public class EditPanel extends Panel
 		{
 			return String.valueOf(index);
 		}
+		
+		@Override
+		public Category getObject(String arg0, IModel<? extends List<? extends Category>> arg1)
+		{
+			return arg1.getObject().get(Integer.valueOf(arg0));
+		}
+				
 	}
 	
 	private class DirectoriesRenderer implements IChoiceRenderer<Directory>
@@ -297,6 +307,12 @@ public class EditPanel extends Panel
 		public String getIdValue(Directory object, int index)
 		{
 			return String.valueOf(index);
+		}
+
+		@Override
+		public Directory getObject(String arg0, IModel<? extends List<? extends Directory>> arg1)
+		{
+			return arg1.getObject().get(Integer.valueOf(arg0));
 		}
 	}
 
@@ -322,7 +338,8 @@ public class EditPanel extends Panel
 	
 	private void saveText()
 	{
-		ArticleService articleService = new ArticleServiceImpl();
+		//ArticleService articleService = new ArticleServiceImpl();
+		ArticleService articleService = ArticleServiceImpl.getInstance();
 		if (article != null) // Jde o novy clanek
 		{
 			article.setCategory(selectedCategory);

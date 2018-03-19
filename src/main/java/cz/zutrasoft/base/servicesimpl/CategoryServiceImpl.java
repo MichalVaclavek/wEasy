@@ -19,6 +19,22 @@ public class CategoryServiceImpl implements CategoryService
 {
 	private ICategoryDao categoryDao = new CategoryDaoImpl();
 	
+	private static class SingletonHolder
+	{
+        private static final CategoryServiceImpl SINGLE_INSTANCE = new CategoryServiceImpl();
+    }
+	
+	/**
+	 * @return
+	 */
+	public static CategoryServiceImpl getInstance()
+	{				
+		return SingletonHolder.SINGLE_INSTANCE;			
+	}
+	
+	private CategoryServiceImpl()
+	{}
+	
 	/* (non-Javadoc)
 	 * @see cz.zutrasoft.base.services.CategoryService#saveCategory(java.lang.String)
 	 */

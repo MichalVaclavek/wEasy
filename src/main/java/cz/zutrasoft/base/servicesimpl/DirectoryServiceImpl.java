@@ -27,6 +27,23 @@ public class DirectoryServiceImpl implements DirectoryService
 	private IDirectoryDao directoryDao = new DirectoryDaoImpl();
 	
 	private ICategoryDao categoryDao = new CategoryDaoImpl();
+	
+	
+		private static class SingletonHolder
+		{
+			private static final DirectoryServiceImpl SINGLE_INSTANCE = new DirectoryServiceImpl();
+		}
+	
+	/**
+	* @return
+	*/
+	public static DirectoryServiceImpl getInstance()
+	{				
+		return SingletonHolder.SINGLE_INSTANCE;			
+	}
+	
+	private DirectoryServiceImpl()
+	{}
 
 	/* (non-Javadoc)
 	 * @see cz.zutrasoft.base.services.DirectoryService#getDirectoryByName(java.lang.String)

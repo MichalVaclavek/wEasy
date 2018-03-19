@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import cz.zutrasoft.base.services.ArticleService;
+//import cz.zutrasoft.base.servicesimpl.EncoderDecoder.SingletonHolder;
 import cz.zutrasoft.database.dao.IArticleDao;
 import cz.zutrasoft.database.dao.IUserDao;
 import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
@@ -29,11 +30,27 @@ public class ArticleServiceImpl implements ArticleService
 
 	private IArticleDao articleDao = new ArticleDaoImpl();
 	
+	private static class SingletonHolder
+	{
+        private static final ArticleServiceImpl SINGLE_INSTANCE = new ArticleServiceImpl();
+    }
+	
+	/**
+	 * @return singleton instance of the ArticleServiceImpl
+	 */
+	public static ArticleServiceImpl getInstance()
+	{				
+		return SingletonHolder.SINGLE_INSTANCE;			
+	}
+	
+	private ArticleServiceImpl()
+	{}
+	
 	/* (non-Javadoc)
 	 * @see cz.zutrasoft.base.services.ArticleService#saveTextAsArticle(java.lang.String, cz.zutrasoft.database.model.Category)
 	 */
 	@Override
-	public void saveTextAsArticle(String text, Category category)
+	public Article saveTextAsArticle(String text, Category category)
 	{
 		if (text == null)
     	{
@@ -43,32 +60,13 @@ public class ArticleServiceImpl implements ArticleService
 		{
 			throw new IllegalArgumentException("Argument [category] cannot be null.");
 		}
-			/*	 
-    	// Upravy pred ulozenim. Header nesmi byt prazdny
-		String header = "Header?";
-		// Hledani html tagu <h1> </h1> apod.
-		if (text.contains("<"))
-		{
-			header = text.substring(0, text.indexOf("</"));
-			header = header.substring(header.indexOf(">") + 1);
-		}
-		else 
-			if (text.contains("&lt;"))
-			{
-				header = text.substring(0, text.indexOf("&lt;/"));
-				header = header.substring(header.indexOf("&gt;") + 1);
-			}
-		
-		if (header.length() > 100)
-		{
-			header = header.substring(0, 100);
-		}
-		*/
-		
+				
 		String header = getHeadeFromSource(text);
 		Article newArticle = new Article(new Timestamp(new Date().getTime()), category, header, text);
 		
 		articleDao.saveArticle(newArticle); 
+		
+		return newArticle;
 	}
 	
 	/**

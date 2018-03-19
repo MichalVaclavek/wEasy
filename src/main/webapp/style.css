@@ -162,14 +162,48 @@ a:hover {
 .feedbackPanel {
         list-style: none;
         color: red;
-        border: 1px solid red;
-        margin: 10px 5px;
+        font-style: italic;
+        font-weight: bold;
+        /*border: 1px solid red;*/
+        margin: 5px 5px;
         padding: 5px;
 }
 
+.feedbackSuccess {
+    list-style: none;
+    color: green;
+    width : 25%;
+    border: 1px solid green;
+    margin: 5px 5px;
+    padding: 10px;
+}
+
+
+.feedbackInfo {
+    list-style: none;
+    color: green;
+    width : 25%;
+    border: 1px solid green;
+    margin: 5px 5px;
+    padding: 10px;
+}
+
+
+.feedbackError {
+	/*display: block;*/
+	width : 25%;
+    list-style: none;
+    color: red;
+    border: 1px solid red;
+    margin: 5px 5px;
+    padding: 5px;
+}
+
+/*
 .feedbackPanel li {
         padding: 2px 0;
 }
+*/
 
 nav ul {
 	font-size: 110%;
@@ -280,6 +314,9 @@ input[type="submit"], input[type="button"] {
 	padding: 5px;
 }
 
+
+
+
 /* ======= Comments =========== */
 
 .formContainer {
@@ -302,7 +339,7 @@ input[type="submit"], input[type="button"] {
 	font-size: smaller;
 }
 
-
+/* ======= IMAGES =========== */
 
 .imageContainer .image {
 	display: inline-block;

@@ -14,7 +14,6 @@ import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cz.zutrasoft.base.EncoderDecoder;
 import cz.zutrasoft.base.exceptions.UserSsoNotUniqueException;
 import cz.zutrasoft.base.services.UserService;
 import cz.zutrasoft.database.dao.IUserDao;
@@ -33,7 +32,25 @@ public class UserServiceImpl implements UserService
  
     //private EncoderDecoder passwordEncoder = EncoderDecoder.init();
     private static EncoderDecoder passwordEncoder = EncoderDecoder.init("12goro.45.7");
+    
+    private static class SingletonHolder
+	{
+        private static final UserServiceImpl SINGLE_INSTANCE = new UserServiceImpl();
+    }
+	
+	/**
+	 * @return singleton instance of the UserServiceImpl
+	 */
+	public static UserServiceImpl getInstance()
+	{				
+		return SingletonHolder.SINGLE_INSTANCE;			
+	}
+	
+	private UserServiceImpl()
+	{}
      
+	
+	
     @Override
     public User findById(Integer id)
     {

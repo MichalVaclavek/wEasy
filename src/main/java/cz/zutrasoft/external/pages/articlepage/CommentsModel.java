@@ -21,7 +21,8 @@ public class CommentsModel implements IModel<List<Comment>>
 	private static final long serialVersionUID = -1514779344427172259L;
 	//private static CommentDaoImpl dao = new CommentDaoImpl();
 	
-	private static CommentService commentService = new CommentServiceImpl();
+	//private static CommentService commentService = new CommentServiceImpl();
+	private static CommentService commentService = CommentServiceImpl.getInstance();
 	
 	private int articleId;
 	

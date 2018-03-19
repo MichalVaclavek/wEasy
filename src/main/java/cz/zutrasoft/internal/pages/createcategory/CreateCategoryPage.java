@@ -29,8 +29,9 @@ public class CreateCategoryPage extends InternalBasePage
 			protected void onSubmit()
 			{
 				//CategoryDaoImpl dao = new CategoryDaoImpl();
-				CategoryService categorService = new CategoryServiceImpl();
-				categorService.saveCategory(category);
+				//CategoryService categorService = new CategoryServiceImpl();
+				CategoryService categoryService = CategoryServiceImpl.getInstance();
+				categoryService.saveCategory(category);
 				setResponsePage(EditPage.class);
 			}
 		};

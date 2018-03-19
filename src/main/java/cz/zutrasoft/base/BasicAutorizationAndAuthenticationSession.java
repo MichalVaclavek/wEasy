@@ -1,22 +1,19 @@
 package cz.zutrasoft.base;
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
 import cz.zutrasoft.base.services.UserService;
 import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
-import cz.zutrasoft.database.daoimpl.UserDaoImpl;
 import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
-import cz.zutrasoft.database.model.UserProfileType;
 
 /**
  * Authentication session for the application.
  * 
- * @author zutrasoft
+ * @author vitfo
+ * @author Michal Václavek
  */
 public class BasicAutorizationAndAuthenticationSession extends AuthenticatedWebSession
 {
@@ -34,13 +31,15 @@ public class BasicAutorizationAndAuthenticationSession extends AuthenticatedWebS
 		super(request);
 	}
 
-	
+	/**
+	 * Authenticate user using username and password using {@link UserServiceImpl}
+	 */
 	@Override
     public boolean authenticate(String username, String password)
     {
-    	// Nacteni usera z DB, decryptovani hesla a porovnani s vlozenymi hodnotami
     	boolean retV = false;  	  	
-    	UserService userService = new UserServiceImpl();
+
+    	UserService userService = UserServiceImpl.getInstance();
     	
     	if (userService.authenticate(username, password))
     	{
@@ -53,12 +52,11 @@ public class BasicAutorizationAndAuthenticationSession extends AuthenticatedWebS
 			retV = true;    		
     	}
     	
-    	return retV;	
-		 
+    	return retV;			 
     }
 
 	/**
-	 * Kontrola a pridani roli uzivateli
+	 * Get Wicket roles of the logged-in user
 	 */
     @Override
     public Roles getRoles()
@@ -68,14 +66,12 @@ public class BasicAutorizationAndAuthenticationSession extends AuthenticatedWebS
         if (isSignedIn())
         {
             roles.add(Roles.USER);
-            //TODO Dodělání načítání a zjišťování Rolí resp. Profilů asi k aktuálnímu uživateli
-           // if (email.equals("admin@zutrasoft.cz"))
-            for(UserProfile userProfile : logedInUser.getUserProfiles())
+
+            for (UserProfile userProfile : logedInUser.getUserProfiles())
     		{
     			if (userProfile.getType().equalsIgnoreCase("ADMIN"))
     			{
-    				roles.add(Roles.ADMIN);
-    				//break;
+    				roles.add(Roles.ADMIN);   				
     			}
             }
                                  

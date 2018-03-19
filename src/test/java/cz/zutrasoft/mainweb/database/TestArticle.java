@@ -3,8 +3,10 @@ package cz.zutrasoft.mainweb.database;
 import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -21,9 +23,9 @@ import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
 import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.database.model.Category;
 
-/**
- * Otestuje vsechny metody dulezite pro praci s Article tj. jak metody v DAO vrstve {@code cz.zutrasoft.database.daoimpl},
- * tak i metody v Service vrsve {@code cz.zutrasoft.base.servicesimpl}
+/** 
+ *	Performes all the important tests for operationg Articles - DAO (package {@code cz.zutrasoft.database.daoimpl}) and
+ *  Service level (package {@code cz.zutrasoft.base.servicesimpl}) methods for basic CRUD operations.
  * 
  * @author Michal Václavek
  *
@@ -31,88 +33,139 @@ import cz.zutrasoft.database.model.Category;
 public class TestArticle
 {
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{}
-
-
-	private IArticleDao articleDao;
-	private ArticleService articleService;
+	@Parameter
+    public static String articleCategoryName = "Veverky";
 	
+	
+	private static IArticleDao articleDao;
+	private static ArticleService articleService;
+	private static CategoryService categoryService;
+	private static Category testCategory;
+
+	/**
+	 * Crates Articles for tetsing methods retrieving Lists of Articles
+	 * Also creates DAO and Service objects for all tests
+	 * 
+	 * @throws Exception
+	 */
+	@BeforeClass
+	public static void create_Articles() throws Exception
+	{
+		// First create DAO and Service objects for all tests
+		articleDao = new ArticleDaoImpl();
+		//articleService = new ArticleServiceImpl();
+		articleService = ArticleServiceImpl.getInstance();
+		
+		// Create few articles to be counted by getArticles() methods
+		//categoryService = new CategoryServiceImpl();
+		categoryService = CategoryServiceImpl.getInstance();
+		testCategory = new Category(articleCategoryName);		
+		categoryService.saveCategory(testCategory);
+        
+        //Category categ = categoryService.getCategoryByName(articleCategoryName);
+       
+        String article1Text = "<h1>New Header - Další skvělý článek do DB.</h1>\r\n Toto je text testovacího článku v kategorii uložený pomocí ArticleServiceImpl " + articleCategoryName;
+        // Save to DB      
+        articleService.saveTextAsArticle(article1Text, testCategory);
+        
+        String article2Text = "<h1>New Header - Další skvělý článek do DB.</h1>\r\n Toto je text testovacího článku v kategorii uložený pomocí ArticleServiceImpl " + articleCategoryName;
+        // Save to DB      
+        articleService.saveTextAsArticle(article2Text, testCategory);
+		
+	}
+	
+	@AfterClass
+	public static void delete_Articles() throws Exception
+	{		
+		articleService.getAllArticles().forEach(articleService::deleteArticle);	
+		categoryService.deleteCategory(testCategory);
+	}
+
+	
+	/** 
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception
 	{
-		articleDao = new ArticleDaoImpl();
-		articleService = new ArticleServiceImpl();
 	}
-
-
-	@Parameter
-    public String knownCategoryName = "Veverky";
 	
+	/* ================== START OF TESTING ============ */
+	
+	/**
+	 * Tests creation, saving, reading and deletition of the Article using {@code ArticleDaoImpl} object
+	 */
 	@Test
-    public void testCreateNewArticleDao()
+    public void test_Create_New_Article_Dao()
 	{						
-		// Vytvoreni a ulozeni noveho clanku
+		// Create Article
         Article article = new Article();
                 
         article.setSaved(new Timestamp(2_800_500_800_004L));
-        article.setText("1111222 Další skvělý článek do DB, kategorie " + knownCategoryName);
+        article.setText("Další skvělý článek do DB, kategorie " + articleCategoryName);
                
         ICategoryDao categoryDao = new CategoryDaoImpl();
            
-        Category cater = categoryDao.getCategoryByName(knownCategoryName);
-        article.setCategory(cater);
-        
-        article.setHeader("11112222 Header - Toto je další článek o ničem v kategorii " + knownCategoryName);
+        Category cater = categoryDao.getCategoryByName(articleCategoryName);
+        article.setCategory(cater);        
+        article.setHeader("Header - Toto je další článek o ničem v kategorii " + articleCategoryName);
 
-        // uložení článku do DB      
+        // Save Article to DB      
         articleDao.saveArticle(article);
-                              
-        List<Article> articles = articleDao.getAllArticles();
-        // Nacteni posledniho clanku a zjisteni, ze se spravne ulozil cas vytvoreni ?? Bude se cist správne posledni článek?
-        Article lastArticle = articles.get(articles.size() - 1);
-        assertTrue(lastArticle.getSaved().getTime() == 2_800_500_800_004L);
+                                     
+        // Read saved Article again from DB
+        Article lastArticle = articleDao.getArticleById(article.getId());
         
-        articleDao.deleteArticle(article);
+        assertTrue(lastArticle.getSaved().getTime() == 2_800_500_800_004L);
+              
+        int numberOfArticlesBeforeDelete = articleDao.getAllArticles().size();        
+        articleDao.deleteArticle(lastArticle);      
+        // Number of saved Articles decreased after deletition of one Article
+        assertTrue(articleDao.getAllArticles().size() == (numberOfArticlesBeforeDelete - 1)); 
                         
 	}
 	
+	/**
+	 * Tests loading all articles related to one {@code Category} using {@code ArticleDaoImpl} object
+	 */
 	@Test
-    public void testLoadAllArticlesInCategoryDao()
+    public void test_Load_All_Articles_In_Category_Dao()
 	{
-		// Nacteni vsech articles v Category
+		// Load all Articles in one Category
 		ICategoryDao categoryDao = new CategoryDaoImpl();
         
-        Category cater = categoryDao.getCategoryByName(knownCategoryName);
+        Category cater = categoryDao.getCategoryByName(articleCategoryName);
 		
         List<Article> articles3 = articleDao.getAllArticlesInCategory(cater);
         assertNotNull(articles3);
         assertTrue(articles3.size() > 0); 
 	}
 	
+	/**
+	 * Tests loading all articles related to one {@code Category} using {@code ArticleServiceImpl} object
+	 */
 	@Test
-    public void testLoadAllArticlesInCategoryService()
+    public void test_Load_All_Articles_In_Category_Service()
 	{
-		CategoryService categoryService = new CategoryServiceImpl();
+		//CategoryService categoryService = new CategoryServiceImpl();
         
-        Category cater = categoryService .getCategoryByName(knownCategoryName);
+        Category cater = categoryService .getCategoryByName(articleCategoryName);
 		
-		// Nacteni vsech articles v Category
+        // Load all Articles in one Category
         List<Article> articles3 = articleService.getAllArticlesInCategory(cater.getId());
         assertNotNull(articles3);
         assertTrue(articles3.size() > 0); 
 	}
 	
 	@Test
-    public void testLoadAllArticlesDao()
+    public void test_Load_All_Articles_Dao()
 	{		        
-		// Nacteni vsech articles
+		// Load all Articles
         List<Article> articles = articleDao.getAllArticles();
         assertNotNull(articles);
         assertTrue(articles.size() > 0);
         
-        //Kontrola, ze clanky maji Category
+        // Check that every Article has a not-null Category
         for (Article art : articles)
         {
         	assertNotNull(art.getCategory().getName());
@@ -120,84 +173,91 @@ public class TestArticle
 	}
 	
 	@Test
-    public void testLoadAllArticlesService()
+    public void test_Load_All_Articles_Service()
 	{
 		List<Article> articles = articleService.getAllArticles();
         assertNotNull(articles);
         assertTrue(articles.size() > 0);
         
-        //Kontrola, ze clanky maji Category
+        // Check that every Article has a not-null Category
         for (Article art : articles)
         {
         	assertNotNull(art.getCategory().getName());
         }
 	}
 	
+	
+	/**
+	 * Tests creation, saving, reading and deletition of the Article using Service object
+	 */
 	@Test
     public void testCreateNewArticleService()
 	{
-		CategoryService categoryService = new CategoryServiceImpl();						               
+		//CategoryService categoryService = new CategoryServiceImpl();
+		CategoryService categoryService = CategoryServiceImpl.getInstance();
            
-        Category categ = categoryService.getCategoryByName(knownCategoryName);
+        Category categ = categoryService.getCategoryByName(articleCategoryName);
        
-        String articleText = "<h1>New Header - Další skvělý článek do DB.</h1>\r\n Toto je text testovacího článku v kategorii uložený pomocí ArticleServiceImpl " + knownCategoryName;
+        String articleText = "<h1>New Header - Další skvělý článek do DB.</h1>\r\n Toto je text testovacího článku v kategorii uložený pomocí ArticleServiceImpl " + articleCategoryName;
 
-        // uložení článku do DB      
+        // Save to DB      
         articleService.saveTextAsArticle(articleText, categ);
                  
-        
+        // Read all Articles
         List<Article> articles = articleService.getAllArticles();
         
-        // Nacteni posledniho clanku a zjisteni, ze se vytvoril a ulozil i cas vytvoreni ...
+        // Get last saved Article and check its creation DateTime, its Header and its Category 
         Article lastArticle = articles.get(articles.size() - 1);
         assertNotNull(lastArticle.getSaved().getTime());
         // Z textu se vytvoril i Header
         assertNotNull(lastArticle.getHeader());
         // Spravne se priradila kategorie
         assertNotNull(lastArticle.getCategory());
-        assertTrue(lastArticle.getCategory().getName().equalsIgnoreCase(knownCategoryName));
+        assertTrue(lastArticle.getCategory().getName().equalsIgnoreCase(articleCategoryName));
         
+        // Delete Article
         articleService.deleteArticle(lastArticle);
                                 
 	}
 	
-	
+	/**
+	 * Tests updating of the Articels functions of the DAO {@code ArticleDaoImpl} object 
+	 */
 	@Test
-    public void testUpdateArticleDao()
+    public void test_Update_Article_Dao()
 	{
-		// Vytvoreni clanku
-		// Vytvoreni a ulozeni noveho clanku
+		// Create and save new Article
         Article article = new Article();
                 
         article.setSaved(new Timestamp(2_800_500_800_004L));
-        article.setText("1111222 Další skvělý článek do DB, kategorie " + knownCategoryName);
+        article.setText("Další skvělý článek do DB, kategorie " + articleCategoryName);
                
         ICategoryDao categoryDao = new CategoryDaoImpl();
            
-        Category cater = categoryDao.getCategoryByName(knownCategoryName);
+        Category cater = categoryDao.getCategoryByName(articleCategoryName);
         article.setCategory(cater);
         
-        article.setHeader("11112222 Header - Toto je další článek o ničem v kategorii " + knownCategoryName);
-
-        // uložení článku do DB      
+        article.setHeader("Header - Toto je další článek o ničem v kategorii " + articleCategoryName);
+    
         articleDao.saveArticle(article);
-		
-		// Update clanku
-		
+		       
+		// Update Article		
 		List<Article> articles = articleDao.getAllArticles();
         
-        // Nacteni posledniho clanku ze seznamu, ktery byl nacten z DB
+        // Load last saved Article in the DB - does this solution really loads last saved article?
+		// Is other words, is this Article the previously created and saved one 
         Article lastArticle = articles.get(articles.size() - 1);
-        // Update clanku a jeho nacteni podle id
-        String newArticleText = "11112222 Opět Upravíme text a header článku pomocí DAO /r/n Nový text 5 ...";
+        // Updates Text and Header of the last saved Article
+        String newArticleText = "Opět Upravíme text a header článku pomocí DAO /r/n Nový text 5 ...";
         String newArticleHeader = "Upravíme i Header článku pomocí DAO";
      
         lastArticle.setText(newArticleText);
         lastArticle.setHeader(newArticleHeader);
         articleDao.updateArticle(lastArticle);
              
+        // Check if Text and header are updated
         Article a = articleDao.getArticleById(lastArticle.getId());
-        // Kontrola jestli se text a Header uložil a změnil
+
         assertNotNull(a);        
         assertTrue(newArticleText.equals(a.getText()));
         assertTrue(newArticleHeader.equals(a.getHeader())); 
@@ -207,67 +267,29 @@ public class TestArticle
 	}
 	
 	@Test
-    public void testUpdateArticleService()
+    public void test_Update_Article_Service()
 	{
 		List<Article> articles = articleService.getAllArticles();
         
-        // Nacteni posledniho clanku ze seznamu, ktery byl nacten z DB
+        // Read one Article from DB
         Article lastArticle = articles.get(articles.size() - 1);
-        // Update clanku a jeho nacteni podle id
-
+        
+        // Update Article's Text and Header
         String header = "New Service Header - Další skvělý článek do DB.";
-        //String newArticleText = "Opět Upravíme text článku pomocí Service.";
-        //String newArticleHeader = "Upravíme i Header článku pomocí Service";
-        String newArticleText = "<h1>" + header + "</h1>\r\n Toto je text testovacího článku v kategorii uložený pomocí ArticleServiceImpl " + knownCategoryName;
-
+        String newArticleText = "<h1>" + header + "</h1>\r\n Toto je text testovacího článku v kategorii uložený pomocí ArticleServiceImpl " + articleCategoryName;
      
         lastArticle.setText(newArticleText);
-        //lastArticle.setHeader(newArticleHeader);
+
         articleService.updateArticle(lastArticle);
              
-        Article a = articleService.getArticleById(lastArticle.getId());
-        // Kontrola jestli se text uložil a změnil
-        assertNotNull(a);        
-        assertTrue(newArticleText.equals(a.getText()));
-        // Updatoval se i Header?
-        assertTrue(header.equals(a.getHeader())); 
+        // Read updated Article from DB again
+        Article articleReadedAfterSave = articleService.getArticleById(lastArticle.getId());
+        // Check if Text and header are updated
+        assertNotNull(articleReadedAfterSave);        
+        assertTrue(newArticleText.equals(articleReadedAfterSave.getText()));
+        assertTrue(header.equals(articleReadedAfterSave.getHeader())); 
         
-        articleService.deleteArticle(a);
-	}
-	
-	
-	//@Test
-    public void testDeleteArticleDao()
-	{
-		 // Smazani clanku  
-		List<Article> articles = articleDao.getAllArticles();
-        
-        // Nacteni posledniho clanku ze seznamu, ktery byl nacten z DB
-        Article lastArticle = articles.get(articles.size() - 1);
-        
-        int numberOfArticlesBeforeDelete = articles.size();
-        
-        articleDao.deleteArticle(lastArticle);
-        
-        // Pocet vsech clanku se snizil o 1
-        assertTrue(articleDao.getAllArticles().size() == (numberOfArticlesBeforeDelete - 1));  
-        
-	}
-	
-	//@Test
-    public void testDeleteArticleService()
-	{
-		List<Article> articles = articleService.getAllArticles();
-        
-        // Nacteni posledniho clanku ze seznamu, ktery byl nacten z DB
-        Article lastArticle = articles.get(articles.size() - 1);
-        
-        int numberOfArticlesBeforeDelete = articles.size();
-        
-        articleService.deleteArticle(lastArticle);
-        
-        // Pocet vsech clanku se snizil o 1
-        assertTrue(articleService.getAllArticles().size() == (numberOfArticlesBeforeDelete - 1));  
+        articleService.deleteArticle(articleReadedAfterSave);
 	}
 	
 

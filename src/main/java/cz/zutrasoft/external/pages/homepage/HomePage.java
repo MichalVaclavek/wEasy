@@ -32,9 +32,11 @@ import cz.zutrasoft.external.panels.CategoryPanel;
 
 public class HomePage extends ExternalBasePage
 {	
-	private static CategoryService categoryService = new CategoryServiceImpl();
+	//private static CategoryService categoryService = new CategoryServiceImpl();
+	private static CategoryService categoryService = CategoryServiceImpl.getInstance();
 	
-	private static ArticleService articleService = new ArticleServiceImpl();
+	//private static ArticleService articleService = new ArticleServiceImpl();
+	private static ArticleService articleService = ArticleServiceImpl.getInstance();
 		
 	/*
 	public HomePage()

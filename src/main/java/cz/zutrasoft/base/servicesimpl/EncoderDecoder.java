@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cz.zutrasoft.base;
+package cz.zutrasoft.base.servicesimpl;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -57,21 +57,12 @@ public class EncoderDecoder
 	 */	
 	private EncoderDecoder()
 	{				
-		//String password = System.getProperty("password");
-		
+		// Nacteni hesla z System.getProperty("password"); tj. java -Dpassword=<password>
 		String passwdFromParam = System.getProperty("password");
-	
-		/*
-		if (passwdFromParam == null)
-		{
-			passwdFromParam = 
-			throw new IllegalArgumentException("Run with -Dpassword=<password>");
-		}
-		*/
+			
 		if (passwdFromParam != null)
 		{
 			password = passwdFromParam;
-			//throw new IllegalArgumentException("Run with -Dpassword=<password>");
 		}
 
 		// The salt (probably) can be stored along with the encrypted data
@@ -81,14 +72,9 @@ public class EncoderDecoder
 		int iterationCount = 40000;
 		// Other values give me java.security.InvalidKeyException: Illegal key size or default parameters
 		int keyLength = 128;
-		//SecretKeySpec key;
     
 		try
-		{
-			/*
-			key = EncoderDecoder.createSecretKey(System.getProperty("password").toCharArray(),
-		        								salt, iterationCount, keyLength);
-			*/
+		{			
 			key = EncoderDecoder.createSecretKey(password.toCharArray(), salt, iterationCount, keyLength);
 		} 
 		catch ( GeneralSecurityException e)
@@ -99,14 +85,14 @@ public class EncoderDecoder
 	}
 	
 	
-	private static class SingletonHolder
-	{
-        private static final EncoderDecoder SINGLE_INSTANCE = new EncoderDecoder();
-    }
+		private static class SingletonHolder
+		{
+			private static final EncoderDecoder SINGLE_INSTANCE = new EncoderDecoder();
+		}
 	
 	/**
 	 * Init pro nacteni hesla z System.getProperty("password"); tj. java -Dpassword=<password>
-	 * @return
+	 * @return singleton instance of the EncoderDecoder
 	 */
 	public static EncoderDecoder init()
 	{				
@@ -171,8 +157,6 @@ public class EncoderDecoder
     }
 
 
-    //public static String decrypt(String string, SecretKeySpec key)
-    	//					throws GeneralSecurityException, IOException
     public String decrypt(String string)	throws GeneralSecurityException, IOException
     {
         String iv = string.split(":")[0];

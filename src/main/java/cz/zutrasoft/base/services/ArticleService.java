@@ -15,7 +15,7 @@ import cz.zutrasoft.database.model.Comment;
  */
 public interface ArticleService
 {
-	public void saveTextAsArticle(String text, Category category);
+	public Article saveTextAsArticle(String text, Category category);
 	public void updateArticle(Article article);
 	
 	public List<Article> getAllArticles();

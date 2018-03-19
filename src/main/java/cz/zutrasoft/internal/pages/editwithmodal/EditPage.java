@@ -37,7 +37,8 @@ public class EditPage extends InternalBasePage
 		StringValue id= params.get(0);
 		try 
 		{
-			ArticleService articleService = new ArticleServiceImpl();
+			//ArticleService articleService = new ArticleServiceImpl();
+			ArticleService articleService = ArticleServiceImpl.getInstance();
 			Article article = articleService.getArticleById(Integer.parseInt(id.toString()));
 			add(new EditPanel("editPanel", article));
 		}

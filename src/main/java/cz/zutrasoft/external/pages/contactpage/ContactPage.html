@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><wicket:message key="text.contact"/></title>
+	<title><wicket:message key="text.contact"/></title>
 </head>
 <body>
 
@@ -12,9 +12,8 @@
 		
 		<h3><wicket:message key="form.contactLabel"/></h3>
 		
-		<div style="color:red" wicket:id="errorFeedback"></div>
-		
-	
+		<div wicket:id="errorFeedback"></div>
+			
 		<label for="name"><wicket:message key="form.name"/></label><br/>
         <input type="text" wicket:id="name" id="name"/><br/>
          
@@ -24,6 +23,8 @@
         <label for="message"><wicket:message key="form.message"/></label><br/>
         <textarea wicket:id="message" id="message" cols="40" rows="10"/><br/>
         <input type="submit" wicket:id="submit" wicket:message="value:form.submit" />
+        
+        <span wicket:id="successFeedback"></span>
          
 	</form>
 	

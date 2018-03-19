@@ -5,19 +5,29 @@ import java.util.Date;
 import java.util.List;
 
 import cz.zutrasoft.base.services.IContactMessageService;
-import cz.zutrasoft.database.dao.IArticleDao;
-import cz.zutrasoft.database.dao.ICommentDao;
 import cz.zutrasoft.database.dao.IContactMessageDao;
-import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
-import cz.zutrasoft.database.daoimpl.CommentDaoImpl;
 import cz.zutrasoft.database.daoimpl.ContactMessageDaoImpl;
-import cz.zutrasoft.database.model.Article;
-import cz.zutrasoft.database.model.Comment;
 import cz.zutrasoft.database.model.ContactMessage;
 
 public class ContactMessageServiceImpl implements IContactMessageService
 {
 	private static IContactMessageDao cmDao = new ContactMessageDaoImpl();
+	
+	private static class SingletonHolder
+	{
+        private static final ContactMessageServiceImpl SINGLE_INSTANCE = new ContactMessageServiceImpl();
+    }
+	
+	/**
+	 * @return singleton instance of the ContactMessageServiceImpl
+	 */
+	public static ContactMessageServiceImpl getInstance()
+	{				
+		return SingletonHolder.SINGLE_INSTANCE;			
+	}
+	
+	private ContactMessageServiceImpl()
+	{}
 	
 	@Override
 	public void saveContactMessage(String userName, String userEmail, String message)

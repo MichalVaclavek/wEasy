@@ -82,7 +82,8 @@ public class ListAllArticlesPage extends InternalBasePage
 		public ArticlesDataProvider()
 		{
 			//ArticleDaoImpl dao = new ArticleDaoImpl();
-			ArticleService articleService = new ArticleServiceImpl();
+			//ArticleService articleService = new ArticleServiceImpl();
+			ArticleService articleService = ArticleServiceImpl.getInstance();
 			articles = articleService.getAllArticles();
 			
 			// the defult sorting order

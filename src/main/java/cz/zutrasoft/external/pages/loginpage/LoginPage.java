@@ -3,6 +3,7 @@ package cz.zutrasoft.external.pages.loginpage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
@@ -13,6 +14,8 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.util.string.Strings;
 
+import cz.zutrasoft.base.CustomMessageFP;
+import cz.zutrasoft.base.ExactErrorLevelFilter;
 import cz.zutrasoft.external.pages.ExternalBasePage;
 import cz.zutrasoft.external.pages.homepage.HomePage;
 import cz.zutrasoft.external.pages.registerpage.RegisterPage;
@@ -38,7 +41,10 @@ public class LoginPage extends ExternalBasePage
 			}
 		});
 		
-		final FeedbackPanel feedback = new FeedbackPanel("feedback");
+		//final FeedbackPanel feedback = new FeedbackPanel("feedback");
+		final CustomMessageFP feedback = new CustomMessageFP("feedback",  new ExactErrorLevelFilter(FeedbackMessage.ERROR));
+	       //feedbackErr = new ContactMessageFP("errorFeedback", new ExactErrorLevelFilter(FeedbackMessage.ERROR));
+
 		add(feedback);
 		
 		StatelessForm form = new StatelessForm("loginForm")

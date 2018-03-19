@@ -41,7 +41,8 @@ public class CreateDirectoryPage extends InternalBasePage
 			@Override
 			protected void onSubmit()
 			{
-				DirectoryService  directoryService = new DirectoryServiceImpl();
+				//DirectoryService  directoryService = new DirectoryServiceImpl();
+				DirectoryService  directoryService = DirectoryServiceImpl.getInstance();
 				directoryService.saveDirectory(directoryName, (selectedCategory != null) ? selectedCategory : null);
 
 				setResponsePage(EditPage.class);
@@ -55,8 +56,9 @@ public class CreateDirectoryPage extends InternalBasePage
 			public List<Category> getObject()
 			{
 				//CategoryDaoImpl dao = new CategoryDaoImpl();
-				CategoryService categorService = new CategoryServiceImpl();
-				return categorService.getAllCategories();
+				//CategoryService categorService = new CategoryServiceImpl();
+				CategoryService categoryService = CategoryServiceImpl.getInstance();
+				return categoryService.getAllCategories();
 			}
 		};
 		

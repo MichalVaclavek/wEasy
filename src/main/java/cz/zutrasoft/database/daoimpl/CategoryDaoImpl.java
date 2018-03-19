@@ -150,7 +150,7 @@ public class CategoryDaoImpl implements ICategoryDao
     	{
     		logger.error("Category saving into DB failed. Error: " + e.getMessage());
     		session.getTransaction().rollback();
-    		throw e;
+    		throw e;  // to detect that Category saving failed
     	}   			
 	}
 

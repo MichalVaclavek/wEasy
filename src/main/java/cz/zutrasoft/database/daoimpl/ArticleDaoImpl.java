@@ -62,10 +62,13 @@ public class ArticleDaoImpl implements IArticleDao
     }
 
 	@Override
-	public void saveArticle(Article newArticle)
+	//public void saveArticle(Article newArticle)
+	public Article saveArticle(Article newArticle)
     {    	
 		SessionFactory factory = HibernateUtils.getSessionFactory(); 
 	    Session session = factory.getCurrentSession();
+	    
+	    Article savedArtToRet = null;
 	    
 	    if (newArticle != null)
 	    {
@@ -80,13 +83,16 @@ public class ArticleDaoImpl implements IArticleDao
 	    		session.getTransaction().commit();
 	    		
 	    		logger.info("Article saved.");
+	    		savedArtToRet = newArticle;
 	    	} 
 		    catch (Exception e)
 	    	{
 	    		logger.error("Article saving failed. Error: " + e.getMessage());
 	    		session.getTransaction().rollback();
 	    	}
-	    }   	
+	    } 
+	    
+	    return savedArtToRet;
     }
 		
 

@@ -21,9 +21,9 @@ import org.junit.rules.ExpectedException;
 import org.junit.runners.Parameterized.Parameter;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import cz.zutrasoft.base.EncoderDecoder;
 import cz.zutrasoft.base.exceptions.UserSsoNotUniqueException;
 import cz.zutrasoft.base.services.UserService;
+import cz.zutrasoft.base.servicesimpl.EncoderDecoder;
 import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
 import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
@@ -40,14 +40,16 @@ public class TestUser
 	private static EncoderDecoder ed;
 	
 	private User uniqueUser;
-	private static String uniqueUserName = "unik8t";
+	private static String uniqueUserName = "unikat";
 	
 	/**
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass()
 	{
-		ed = EncoderDecoder.init("12goro.45.7");		
+		ed = EncoderDecoder.init("12goro.45.7");	
+		//userService = new UserServiceImpl();
+		userService = UserServiceImpl.getInstance();
 	}
 	
 	/**
@@ -66,7 +68,7 @@ public class TestUser
 	@Before
 	public void setUp() throws Exception
 	{
-		userService = new UserServiceImpl();
+		//userService = new UserServiceImpl();
 		
 	}
 		
@@ -295,7 +297,7 @@ public class TestUser
 	@Test
 	public void listAllUsers()
 	{
-		UserService userService = new UserServiceImpl();		
+		//UserService userService = new UserServiceImpl();		
 			
 		// získání všech uživatelů z databáze
         List<User> users = userService.findAllUsers();

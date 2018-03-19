@@ -24,11 +24,28 @@ public class CommentServiceImpl implements CommentService
 {
 	private static ICommentDao comentsDao = new CommentDaoImpl();
 	
+	
+	private static class SingletonHolder
+	{
+        private static final CommentServiceImpl SINGLE_INSTANCE = new CommentServiceImpl();
+    }
+	
+	/**
+	 * @return singleton instance of the CommentServiceImpl
+	 */
+	public static CommentServiceImpl getInstance()
+	{				
+		return SingletonHolder.SINGLE_INSTANCE;			
+	}
+	
+	private CommentServiceImpl()
+	{}
+	
 	/* (non-Javadoc)
 	 * @see cz.zutrasoft.base.services.CommentService#saveComment(cz.zutrasoft.database.model.Comment)
 	 */
 	@Override
-	public void saveTextAsComment(String commentText, int userID, int articleID)
+	public Comment saveTextAsComment(String commentText, int userID, int articleID)
 	{
 		// Vytvoření nového komentáře k ulozeni
         Comment comment = new Comment();
@@ -42,6 +59,8 @@ public class CommentServiceImpl implements CommentService
         comment.setArticle(article);
        
         comentsDao.saveComment(comment);
+        
+        return comment;
 	}
 
 
