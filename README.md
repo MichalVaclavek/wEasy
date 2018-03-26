@@ -4,7 +4,8 @@ This is a fork of **wEasy** https://github.com/vitfo/wEasy - a simple CMS (Conte
 ## Getting Started
 
 The wEasy project's original purpose is to allow practicing on Apache Wicket development creating simple CMS web application (see https://github.com/vitfo/wEasy for original source).
-The application can be used for creating and managing simple web pages then. See http://fungisoft.cz web pages as an example.
+The application can be used for creating and managing simple web pages then. See http://fungisoft.cz web pages as an example of the web created by this application.
+
 
 Following are enhancements added to the original project:
 
@@ -22,6 +23,7 @@ Following are enhancements added to the original project:
   
  Unit tests for testing work with DB.
 
+
 Further possible enhancements:
 
 - https support on Login page
@@ -36,7 +38,6 @@ Basic steps to make app. runnig:
 
 see Installing paragraph for details.
 
-
 ### Prerequisites
 
 Java 8 installed, Maven, created PostgreSQL DB, Tomcat 8.5 installed within IDE.
@@ -44,7 +45,7 @@ Java 8 installed, Maven, created PostgreSQL DB, Tomcat 8.5 installed within IDE.
 ### Installing
 
 Importing project from Github:
-- in Eclipse go to File/Import/Git/Projects from Git, click Next. Select Clone URI, click Next. Then fill in form URI: https://github.com/MichalVaclavek/wEasy, click Next. Select "db_enhancement" branch, click Next. Define your local destination Directory, click Next. Select Import Wizard (.. New Project) and click Finish. Projects will be created in your Eclipse.
+- in Eclipse go to File/Import/Git/Projects from Git, click Next. Select Clone URI, click Next. Then fill in form URI: https://github.com/MichalVaclavek/wEasy, click Next. Select "master" branch, click Next. Define your local destination Directory, click Next. Select Import Wizard (.. New Project) and click Finish. Projects will be created in your Eclipse.
 
 After importing project from GitHub, a DB must be created. If the PostgreSQL DB is used, you can create complete DB using /scripts/postgres_script.sql file included in the source code.
 
