@@ -11,7 +11,6 @@ import cz.zutrasoft.internal.menus.AdministrationMenu;
 
 /**
  * Base page for internal (authentificated) pages.
- * 
  */
 public abstract class InternalBasePage extends BasePage
 {

@@ -2,8 +2,6 @@ package cz.zutrasoft.database.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,34 +10,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 
-
 /**
- * CREATE TABLE t_article<br>
-	(<br>
-  		id serial NOT NULL,<br>
-  		saved timestamptz NOT NULL,<br>
-  		category_id integer,<br>
-  		directory_id integer,<br>
-  		header character varying(1000) NOT NULL,<br>
-  		"text" text NOT NULL,<br>
-
-  		PRIMARY KEY (id),<br>
-  		FOREIGN KEY (category_id) REFERENCES t_category (id)<br>
-	);<br>
-	<p>
-	Třída reprezentující článek na stránce. Obsahuje všechny potřebné atributy a odkaz na {@code Category} (a {@code Directory} ?) 
  * <p>
- * @author Michal Václavek - přidání Hibernate, JPA anotací a rozchození příslušných DAO a Service tříd
- * @author vitfo - původní návrh atributů
+ * Class representing article on the web pages. Contains all needed attributes, including {@code Category} (and {@code Directory} ?) 
+ * </p>
+ * @author Michal Václavek - added Hibernate, JPA annotation
+ * @author vitfo - original atributes 
  */
 @Entity
 @Table(name="t_article")
@@ -50,9 +33,8 @@ public class Article implements Serializable
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;		
 	
-	@NotNull // @NotEmpty není vhodné, musel by se definovat i Validator pro třídu Category
-	//@ManyToOne(fetch = FetchType.LAZY) 
-	@ManyToOne(fetch = FetchType.EAGER) // jde o pohled ze strany Article, tedy mnoho Articles k One Category
+	@NotNull // if @NotEmpty would be used, then the respective Validator should be defined 
+	@ManyToOne(fetch = FetchType.EAGER) // from Article perspective, i.e many Articles to one Category
     @JoinColumn(name = "category_id")
 	private Category category;
 	    	
@@ -69,7 +51,7 @@ public class Article implements Serializable
 	private String text;
 	
    
-    //TODO - nechybi dodelat odkaz na Directory ID ???, ktere se vyskytuje ve vytvareni tabulky
+    //TODO - what about Directory ID ???, which is used in Category table creation
     
 	/* ======================================================================================= */
 	public Article() {}

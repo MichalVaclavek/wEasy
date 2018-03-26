@@ -5,13 +5,14 @@ import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 /**
- * Custom FeedbackPanel, which applies it's css style according {@code FeedbackMessage} level 
+ * Custom FeedbackPanel, which applies it's css style according {@link FeedbackMessage} level.
  * 
  * @author Michal Václavek
- *
  */
 public class CustomMessageFP extends FeedbackPanel
 {
+	private static final long serialVersionUID = -3120930129358139043L;
+
 	public CustomMessageFP(String id)
 	{
         super(id);

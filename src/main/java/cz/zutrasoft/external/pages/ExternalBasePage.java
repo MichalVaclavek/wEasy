@@ -15,7 +15,8 @@ public abstract class ExternalBasePage extends BasePage
 	
 	public ExternalBasePage() {}
 	
-	public ExternalBasePage(IModel model)
+	//@SuppressWarnings("rawtypes")
+	public ExternalBasePage(IModel<Object> model)
 	{
 		super(model);
 	}

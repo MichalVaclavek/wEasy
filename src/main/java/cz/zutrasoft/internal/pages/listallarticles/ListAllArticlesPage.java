@@ -24,9 +24,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import cz.zutrasoft.base.services.ArticleService;
-import cz.zutrasoft.base.servicesimpl.ArticleServiceImpl;
-import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
+import cz.zutrasoft.base.services.IArticleService;
+import cz.zutrasoft.base.servicesimpl.ArticleService;
 import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.internal.pages.InternalBasePage;
 import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
@@ -36,6 +35,7 @@ public class ListAllArticlesPage extends InternalBasePage
 	
 	private static final long serialVersionUID = -5560925637114655639L;
 
+	@SuppressWarnings({"serial", "unchecked", "rawtypes" })
 	public ListAllArticlesPage()
 	{		
 		List<IColumn<Article, String>> columns = new ArrayList<>();
@@ -75,15 +75,14 @@ public class ListAllArticlesPage extends InternalBasePage
 		add(table);
 	}
 
+	@SuppressWarnings("serial")
 	private static class ArticlesDataProvider extends SortableDataProvider<Article, String>
 	{
 		private List<Article> articles;
 		
 		public ArticlesDataProvider()
 		{
-			//ArticleDaoImpl dao = new ArticleDaoImpl();
-			//ArticleService articleService = new ArticleServiceImpl();
-			ArticleService articleService = ArticleServiceImpl.getInstance();
+			IArticleService articleService = ArticleService.getInstance();
 			articles = articleService.getAllArticles();
 			
 			// the defult sorting order
@@ -96,7 +95,7 @@ public class ListAllArticlesPage extends InternalBasePage
 			List<Article> data = new ArrayList<>(articles);
 			
 			// create comparator for article objects
-			Comparator comparator = new Comparator<Article>()
+			Comparator<Article> comparator = new Comparator<Article>()
 			{
 				@Override
 				public int compare(Article o1, Article o2)

@@ -4,25 +4,22 @@ import java.util.List;
 
 import org.apache.wicket.model.IModel;
 
-import cz.zutrasoft.base.services.CommentService;
-import cz.zutrasoft.base.servicesimpl.CommentServiceImpl;
-import cz.zutrasoft.database.daoimpl.CommentDaoImpl;
+import cz.zutrasoft.base.services.ICommentService;
+import cz.zutrasoft.base.servicesimpl.CommentService;
 import cz.zutrasoft.database.model.Comment;
 
 /**
  * Model containing comments for the article.
  * The model needs id of the article.
  * 
- * @author zutrasoft
+ * @author vitfo
+ * @author Michal Václavek
  */
 public class CommentsModel implements IModel<List<Comment>>
 {
-
 	private static final long serialVersionUID = -1514779344427172259L;
-	//private static CommentDaoImpl dao = new CommentDaoImpl();
-	
-	//private static CommentService commentService = new CommentServiceImpl();
-	private static CommentService commentService = CommentServiceImpl.getInstance();
+
+	private static ICommentService commentService = CommentService.getInstance();
 	
 	private int articleId;
 	
@@ -37,7 +34,6 @@ public class CommentsModel implements IModel<List<Comment>>
 	@Override
 	public List<Comment> getObject()
 	{
-		//return dao.getAllCommentsForArticle(articleId);
 		return commentService.getAllCommentsForArticleId(articleId);
 	}
 

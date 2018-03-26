@@ -3,52 +3,36 @@ package cz.zutrasoft.external.pages.homepage;
 import java.util.List;
 
 import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.Component;
-import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
-import org.apache.wicket.authroles.authorization.strategies.role.Roles;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
 
-import cz.zutrasoft.base.services.ArticleService;
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.servicesimpl.ArticleServiceImpl;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
+import cz.zutrasoft.base.services.IArticleService;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.servicesimpl.ArticleService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
 import cz.zutrasoft.database.model.Article;
-import cz.zutrasoft.database.model.Category;
-//import cz.zutrasoft.database.daoimpl.DaoImpl;
 import cz.zutrasoft.database.model.CategoryWithArticles;
 import cz.zutrasoft.external.pages.ExternalBasePage;
-import cz.zutrasoft.external.pages.articlepage.ArticleModel;
 import cz.zutrasoft.external.panels.BasePanel;
 import cz.zutrasoft.external.panels.BasePanelModel;
-import cz.zutrasoft.external.panels.CategoryPanelModel;
-import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
-import cz.zutrasoft.external.panels.CategoryPanel;
+
+
 
 public class HomePage extends ExternalBasePage
 {	
-	//private static CategoryService categoryService = new CategoryServiceImpl();
-	private static CategoryService categoryService = CategoryServiceImpl.getInstance();
-	
-	//private static ArticleService articleService = new ArticleServiceImpl();
-	private static ArticleService articleService = ArticleServiceImpl.getInstance();
+	private static final long serialVersionUID = 511896147294955276L;
+
+	private static ICategoryService categoryService = CategoryService.getInstance();	
+	private static IArticleService articleService = ArticleService.getInstance();
 		
-	/*
-	public HomePage()
-	{
-		this(new PageParameters());
-	}
-	*/
+	@SuppressWarnings("serial")
 	public HomePage(final PageParameters pp)
 	{						
 		super();
 				
-		// creates repeating view
+		// Creates repeating view
 		RepeatingView rv = new RepeatingView("basePanelRepeater");
 		
 		boolean logout  = true;
@@ -64,7 +48,7 @@ public class HomePage extends ExternalBasePage
 		{
 			List<CategoryWithArticles> categoriesWithArticles = categoryService.getAllCategoriesWithArticles();
 
-			// for each category there will be one panel, each panel has its own model that contains list of articles
+			// For each category there will be one panel, each panel has its own model that contains list of articles
 			for (final CategoryWithArticles cwa : categoriesWithArticles)
 			{
 				rv.add(new BasePanel(rv.newChildId(), new BasePanelModel(cwa.getArticles()))
@@ -77,7 +61,7 @@ public class HomePage extends ExternalBasePage
 				});
 			}
 		}
-		else if (pp.get("categoryId") != null) // Show only articles of selected category
+		else if (pp.get("categoryId") != null) // Show only Articles of selected Category
 		{
 			StringValue sv = pp.get("categoryId");
 			final int categoryId = Integer.parseInt(sv.toString());			

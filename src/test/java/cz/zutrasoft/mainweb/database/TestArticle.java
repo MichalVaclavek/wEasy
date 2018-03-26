@@ -3,7 +3,6 @@ package cz.zutrasoft.mainweb.database;
 import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.AfterClass;
@@ -12,10 +11,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runners.Parameterized.Parameter;
 
-import cz.zutrasoft.base.services.ArticleService;
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.servicesimpl.ArticleServiceImpl;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
+import cz.zutrasoft.base.services.IArticleService;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.servicesimpl.ArticleService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
 import cz.zutrasoft.database.dao.IArticleDao;
 import cz.zutrasoft.database.dao.ICategoryDao;
 import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
@@ -35,11 +34,10 @@ public class TestArticle
 
 	@Parameter
     public static String articleCategoryName = "Veverky";
-	
-	
+		
 	private static IArticleDao articleDao;
-	private static ArticleService articleService;
-	private static CategoryService categoryService;
+	private static IArticleService articleService;
+	private static ICategoryService categoryService;
 	private static Category testCategory;
 
 	/**
@@ -54,11 +52,11 @@ public class TestArticle
 		// First create DAO and Service objects for all tests
 		articleDao = new ArticleDaoImpl();
 		//articleService = new ArticleServiceImpl();
-		articleService = ArticleServiceImpl.getInstance();
+		articleService = ArticleService.getInstance();
 		
 		// Create few articles to be counted by getArticles() methods
 		//categoryService = new CategoryServiceImpl();
-		categoryService = CategoryServiceImpl.getInstance();
+		categoryService = CategoryService.getInstance();
 		testCategory = new Category(articleCategoryName);		
 		categoryService.saveCategory(testCategory);
         
@@ -194,7 +192,7 @@ public class TestArticle
     public void testCreateNewArticleService()
 	{
 		//CategoryService categoryService = new CategoryServiceImpl();
-		CategoryService categoryService = CategoryServiceImpl.getInstance();
+		ICategoryService categoryService = CategoryService.getInstance();
            
         Category categ = categoryService.getCategoryByName(articleCategoryName);
        

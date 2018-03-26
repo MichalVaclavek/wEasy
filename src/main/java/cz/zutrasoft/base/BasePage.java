@@ -15,9 +15,9 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.WebRequest;
 
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.TrackingInfoServiceImpl;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
+import cz.zutrasoft.base.servicesimpl.TrackingInfoService;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.TrackInfo;
 import cz.zutrasoft.external.menus.TopMenuPanel;
@@ -34,13 +34,14 @@ public abstract class BasePage extends WebPage
 {
 	private static final long serialVersionUID = 4809590366914866734L;
 	
-	private static CategoryService categoryService = CategoryServiceImpl.getInstance();
+	private static ICategoryService categoryService = CategoryService.getInstance();
 
 	public BasePage()
 	{
 		init();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public BasePage(IModel model)
 	{
 		super(model);
@@ -51,6 +52,7 @@ public abstract class BasePage extends WebPage
 	 * Method for initializing BasePage. 
 	 * This method does not override org.apache.wicket.Page#init().
 	 */
+	@SuppressWarnings("serial")
 	private void init()
 	{
 		// Sets the page title
@@ -106,7 +108,7 @@ public abstract class BasePage extends WebPage
 		});
 		
 		
-		// Links to select localization between english nebo cs
+		// Links to select localization between english or cs
         add(new Link<Void>("en")
         {
             @Override
@@ -149,7 +151,7 @@ public abstract class BasePage extends WebPage
 
 		TrackInfo info = new TrackInfo(ip, url, session);
 
-		TrackingInfoServiceImpl trackingService = TrackingInfoServiceImpl.getInstance();
+		TrackingInfoService trackingService = TrackingInfoService.getInstance();
 		
 		trackingService.save(info);
 	}

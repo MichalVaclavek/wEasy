@@ -9,12 +9,11 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cz.zutrasoft.database.dao.IContactMessageDao;
-import cz.zutrasoft.database.model.Comment;
 import cz.zutrasoft.database.model.ContactMessage;
 
 public class ContactMessageDaoImpl implements IContactMessageDao
@@ -30,11 +29,10 @@ public class ContactMessageDaoImpl implements IContactMessageDao
 		try
 		{
            session.getTransaction().begin();
- 
            session.persist(message);
-
            session.getTransaction().commit();
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
 			logger.error("Error saving contact message: {}", e);
 			session.getTransaction().rollback();
@@ -46,8 +44,7 @@ public class ContactMessageDaoImpl implements IContactMessageDao
 	{
 		List<ContactMessage> messages = new ArrayList<>();
         
-		SessionFactory factory = HibernateUtils.getSessionFactory();
-		 
+		SessionFactory factory = HibernateUtils.getSessionFactory();		 
 		Session session = factory.getCurrentSession();
  
 		try
@@ -56,7 +53,6 @@ public class ContactMessageDaoImpl implements IContactMessageDao
  	        	 	    
            CriteriaQuery<ContactMessage> cq = session.getCriteriaBuilder().createQuery(ContactMessage.class);
            cq.from(ContactMessage.class);
-
            messages = (List<ContactMessage>)session.createQuery(cq).getResultList();
            
            session.getTransaction().commit();
@@ -86,8 +82,7 @@ public class ContactMessageDaoImpl implements IContactMessageDao
 	        CriteriaQuery<ContactMessage> cq = cb.createQuery(ContactMessage.class);
 	        Root<ContactMessage> cms = cq.from(ContactMessage.class);
 
-	        cq.select(cms).where(cb.equal(cms.get("userName"), userName));
-	        
+	        cq.select(cms).where(cb.equal(cms.get("userName"), userName));        
 	        contactMessages = (List<ContactMessage>)session.createQuery(cq).getResultList();
 	 	        
 	         session.getTransaction().commit();

@@ -5,8 +5,6 @@ package cz.zutrasoft.mainweb.database;
 
 import static org.junit.Assert.*;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,12 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import cz.zutrasoft.base.exceptions.UserSsoNotUniqueException;
-import cz.zutrasoft.base.services.UserService;
-import cz.zutrasoft.base.servicesimpl.EncoderDecoder;
-import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
-import cz.zutrasoft.database.dao.IUserDao;
-import cz.zutrasoft.database.daoimpl.UserDaoImpl;
+import cz.zutrasoft.base.services.IUserService;
+import cz.zutrasoft.base.servicesimpl.UserService;
 import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
 
@@ -36,7 +30,7 @@ public class TestCreateAdminUser
 
 	//private static EncoderDecoder passwordEncoder;
 	//private IUserDao userDao;
-	private UserService userService;
+	private IUserService userService;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -55,7 +49,7 @@ public class TestCreateAdminUser
 	public void setUp() throws Exception
 	{
 		//userService = new UserServiceImpl();
-		userService = UserServiceImpl.getInstance();
+		userService = UserService.getInstance();
 	}
 
 	@Rule

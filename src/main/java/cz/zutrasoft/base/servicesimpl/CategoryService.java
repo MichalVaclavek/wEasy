@@ -5,34 +5,36 @@ package cz.zutrasoft.base.servicesimpl;
 
 import java.util.List;
 
-import cz.zutrasoft.base.services.CategoryService;
+import cz.zutrasoft.base.services.ICategoryService;
 import cz.zutrasoft.database.dao.ICategoryDao;
 import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.CategoryWithArticles;
 
 /**
- * @author Michal
+ * Singleton implementation of the I_CategoryService interface
+ * 
+ * @author Michal Václavek
  *
  */
-public class CategoryServiceImpl implements CategoryService
+public class CategoryService implements ICategoryService
 {
 	private ICategoryDao categoryDao = new CategoryDaoImpl();
 	
 	private static class SingletonHolder
 	{
-        private static final CategoryServiceImpl SINGLE_INSTANCE = new CategoryServiceImpl();
+        private static final CategoryService SINGLE_INSTANCE = new CategoryService();
     }
 	
 	/**
-	 * @return
+	 * @return one instance of {@code CategoryService}
 	 */
-	public static CategoryServiceImpl getInstance()
+	public static CategoryService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private CategoryServiceImpl()
+	private CategoryService()
 	{}
 	
 	/* (non-Javadoc)

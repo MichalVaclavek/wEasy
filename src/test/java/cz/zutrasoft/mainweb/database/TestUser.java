@@ -6,7 +6,6 @@ package cz.zutrasoft.mainweb.database;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.HashSet;
 import java.util.List;
@@ -19,37 +18,35 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runners.Parameterized.Parameter;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import cz.zutrasoft.base.exceptions.UserSsoNotUniqueException;
-import cz.zutrasoft.base.services.UserService;
-import cz.zutrasoft.base.servicesimpl.EncoderDecoder;
-import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
+import cz.zutrasoft.base.services.IUserService;
+import cz.zutrasoft.base.servicesimpl.EncoderDecoderService;
+import cz.zutrasoft.base.servicesimpl.UserService;
 import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
-import cz.zutrasoft.database.model.UserProfileType;
 
 /**
- * @author Michal
- *
+ * Testing all methods for handling application users.
+ * 
+ * @author Michal Václavek
  */
 public class TestUser
 {
 
-	private static UserService userService;
-	private static EncoderDecoder ed;
+	private static IUserService userService;
+	private static EncoderDecoderService ed;
 	
 	private User uniqueUser;
-	private static String uniqueUserName = "unikat";
+	private static String uniqueUserName = "uniqueUser";
 	
 	/**
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass()
 	{
-		ed = EncoderDecoder.init("12goro.45.7");	
-		//userService = new UserServiceImpl();
-		userService = UserServiceImpl.getInstance();
+		ed = EncoderDecoderService.init("12goro.45.7");	
+		userService = UserService.getInstance();
 	}
 	
 	/**
@@ -296,9 +293,7 @@ public class TestUser
 	
 	@Test
 	public void listAllUsers()
-	{
-		//UserService userService = new UserServiceImpl();		
-			
+	{			
 		// získání všech uživatelů z databáze
         List<User> users = userService.findAllUsers();
         

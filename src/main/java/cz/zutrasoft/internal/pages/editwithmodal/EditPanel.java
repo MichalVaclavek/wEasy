@@ -33,26 +33,22 @@ import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
-import cz.zutrasoft.base.services.ArticleService;
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.services.DirectoryService;
-import cz.zutrasoft.base.services.ImageService;
-import cz.zutrasoft.base.servicesimpl.ArticleServiceImpl;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.DirectoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.ImageServiceImpl;
-import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
-import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
-import cz.zutrasoft.database.daoimpl.DirectoryDaoImpl;
-import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
+import cz.zutrasoft.base.services.IArticleService;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.services.IDirectoryService;
+import cz.zutrasoft.base.services.IImageService;
+import cz.zutrasoft.base.servicesimpl.ArticleService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
+import cz.zutrasoft.base.servicesimpl.DirectoryService;
+import cz.zutrasoft.base.servicesimpl.ImageService;
 import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.Directory;
 import cz.zutrasoft.external.pages.homepage.HomePage;
 
+@SuppressWarnings({"serial", "unchecked", "rawtypes"})
 public class EditPanel extends Panel
-{
-	
+{	
 	private static final long serialVersionUID = 3972321151431630835L;
 	
 	private boolean isModalVisible = false;
@@ -71,6 +67,7 @@ public class EditPanel extends Panel
 	
 	private WebMarkupContainer modal;
 
+
 	public EditPanel(String id)
 	{
 		super(id);
@@ -85,6 +82,7 @@ public class EditPanel extends Panel
 		textFromEdit = article.getText();
 		init();
 	}
+		
 		
 	private void init()
 	{	
@@ -120,9 +118,7 @@ public class EditPanel extends Panel
 			@Override
 			public List<Category> getObject()
 			{
-				//CategoryDaoImpl dao = new CategoryDaoImpl();
-				//CategoryService categorService = new CategoryServiceImpl();
-				CategoryService categoryService = CategoryServiceImpl.getInstance();
+				ICategoryService categoryService = CategoryService.getInstance();
 				return categoryService.getAllCategories();
 			}
 		};
@@ -130,6 +126,7 @@ public class EditPanel extends Panel
 		// Adds drop down choice to select category -> add it to the model to get just images from this category
 		// the default value (null) for selection is specified in .properties file String dropdownchoice_id.null=default value
 		categoriesDDCH = new DropDownChoice<>("categories", new PropertyModel<Category>(this, "selectedCategory"), categoriesModel, new CategoriesRenderer());
+
 		categoriesDDCH.add(new OnChangeAjaxBehavior()
 		{
 			@Override
@@ -147,9 +144,7 @@ public class EditPanel extends Panel
 			@Override
 			public List<Directory> getObject()
 			{
-				//DirectoryDaoImpl dao = new DirectoryDaoImpl();
-				//DirectoryService dirService = new DirectoryServiceImpl();
-				DirectoryService  dirService = DirectoryServiceImpl.getInstance();
+				IDirectoryService  dirService = DirectoryService.getInstance();
 				if (selectedCategory != null)
 				{
 					return dirService.getAllDirectoriesForCategory(selectedCategory);
@@ -189,9 +184,7 @@ public class EditPanel extends Panel
 			public List<cz.zutrasoft.database.model.Image> getObject()
 			{
 				List<cz.zutrasoft.database.model.Image> images = new ArrayList<>();
-				//ImageDaoImpl dao = new ImageDaoImpl();
-				//ImageService imageService = new ImageServiceImpl();
-				ImageService imageService = ImageServiceImpl.getInstance();
+				IImageService imageService = ImageService.getInstance();
 				if (selectedDirectory != null)
 				{
 					images = imageService.getAllImagesInDirectory(selectedDirectory);
@@ -290,7 +283,17 @@ public class EditPanel extends Panel
 		@Override
 		public Category getObject(String arg0, IModel<? extends List<? extends Category>> arg1)
 		{
-			return arg1.getObject().get(Integer.valueOf(arg0));
+			try
+			{
+				return arg1.getObject().get(Integer.valueOf(arg0));
+			} catch(NumberFormatException e)
+			{
+				if (arg1.getObject().size() > 0)
+					return arg1.getObject().get(Integer.valueOf(0));
+				else
+					return null;
+					
+			}
 		}
 				
 	}
@@ -312,7 +315,17 @@ public class EditPanel extends Panel
 		@Override
 		public Directory getObject(String arg0, IModel<? extends List<? extends Directory>> arg1)
 		{
-			return arg1.getObject().get(Integer.valueOf(arg0));
+			try
+			{
+				return arg1.getObject().get(Integer.valueOf(arg0));
+			} catch(NumberFormatException e)
+			{
+				if (arg1.getObject().size() > 0)
+					return arg1.getObject().get(Integer.valueOf(0));
+				else
+					return null;
+					
+			}
 		}
 	}
 
@@ -338,15 +351,14 @@ public class EditPanel extends Panel
 	
 	private void saveText()
 	{
-		//ArticleService articleService = new ArticleServiceImpl();
-		ArticleService articleService = ArticleServiceImpl.getInstance();
-		if (article != null) // Jde o novy clanek
+		IArticleService articleService = ArticleService.getInstance();
+		if (article != null) // new Article
 		{
 			article.setCategory(selectedCategory);
 			article.setText(textFromSend);
 			articleService.updateArticle(article);
 		} else 
-		{ // jde o editaci stavajiciho clanku z DB
+		{ 	// already saved and edited Article
 			articleService.saveTextAsArticle(textFromSend, selectedCategory);
 		}
 				
@@ -364,5 +376,6 @@ public class EditPanel extends Panel
 		// when editing (text is loaded from database to textarea) replaces tags for the fake ones.
 		response.render(OnDomReadyHeaderItem.forScript("textEditor.modifyArea();"));
 	}
+	
 	
 }

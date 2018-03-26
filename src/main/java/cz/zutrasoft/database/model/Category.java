@@ -1,35 +1,22 @@
 package cz.zutrasoft.database.model;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * CREATE TABLE t_category
-(
-  id serial NOT NULL,
-  name character varying NOT NULL,
-
-  PRIMARY KEY (id)
-);
- * @author Michal
- *
+ * Class representing category of the article.
+ * 	
+ * @author Michal Václavek - JPA Hibernate
+ * @author vitfo - original atributes
  */
-
 @Entity
 @Table(name="t_category")
 public class Category implements Serializable
@@ -43,25 +30,6 @@ public class Category implements Serializable
 	@Column(name="name", nullable=false, unique = true)
 	private String name;
 	
-    //@OneToMany(fetch = FetchType.LAZY)
-	//@JoinTable(name = "t_article", joinColumns = { @JoinColumn(name = "category_id")  })
-    //@OneToMany(mappedBy="id")
-    //@OneToMany(mappedBy="category") // jde o pohled ze strany Category, tedy mnoho Category k Many Articles
-    //private List<Article> articlesInCategory;
-    
-	
-    //@OneToMany(mappedBy="id") // jde o pohled ze strany Category, tedy mnoho Category k Many Articles
-    /*
-	public List<Article> getArticlesInCategory()
-	{
-		return articlesInCategory;
-	}
-
-	public void setArticlesInCategory(List<Article> articlesInCategory)
-	{
-		this.articlesInCategory = articlesInCategory;
-	}
-	*/
 
 	public Category() {}
 	

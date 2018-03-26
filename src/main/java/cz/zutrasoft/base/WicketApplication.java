@@ -1,14 +1,10 @@
 package cz.zutrasoft.base;
 
-import org.apache.wicket.Application;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.request.resource.ByteArrayResource;
 
-import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
-import cz.zutrasoft.database.model.Image;
 import cz.zutrasoft.external.pages.articlepage.ArticlePage;
 import cz.zutrasoft.external.pages.homepage.HomePage;
 import cz.zutrasoft.external.pages.loginpage.LoginPage;

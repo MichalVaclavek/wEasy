@@ -12,15 +12,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runners.Parameterized.Parameter;
 
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.services.DirectoryService;
-import cz.zutrasoft.base.services.ImageService;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.DirectoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.ImageServiceImpl;
-import cz.zutrasoft.database.dao.IDirectoryDao;
-import cz.zutrasoft.database.dao.ImageDao;
-import cz.zutrasoft.database.daoimpl.DirectoryDaoImpl;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.services.IDirectoryService;
+import cz.zutrasoft.base.services.IImageService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
+import cz.zutrasoft.base.servicesimpl.DirectoryService;
+import cz.zutrasoft.base.servicesimpl.ImageService;
+import cz.zutrasoft.database.dao.IImageDao;
 import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.Directory;
@@ -45,13 +43,13 @@ public class TestImage
     public static String imageFileNameToSaveToDB = "M:\\Download\\Vydry\\vydra-2.jpg";
 	//public String imageFileNameToSaveToDB = "\\your\\local\\path\\image.jpg";
 
-	private static DirectoryService directoryService;
+	private static IDirectoryService directoryService;
 	private static Directory imageDir;
 	
-	private static CategoryService categoryService;
+	private static ICategoryService categoryService;
 	private static Category testCategory;
 	
-	private static ImageService imageService;
+	private static IImageService imageService;
 	
 	
 	@BeforeClass
@@ -59,11 +57,11 @@ public class TestImage
 	{
 		// Create Directory for Image
 		//directoryService = new DirectoryServiceImpl();
-		directoryService = DirectoryServiceImpl.getInstance();
+		directoryService = DirectoryService.getInstance();
 		//categoryService = new CategoryServiceImpl();
-		categoryService = CategoryServiceImpl.getInstance();
+		categoryService = CategoryService.getInstance();
 		//imageService = new ImageServiceImpl();
-		imageService = ImageServiceImpl.getInstance();
+		imageService = ImageService.getInstance();
 		
 		testCategory = new Category();       
 		testCategory.setName(imageTestCategoryName);  
@@ -101,7 +99,7 @@ public class TestImage
 	}
 	
 
-	private ImageDao imageDao;
+	private IImageDao imageDao;
 	//private static ImageService imageService;
 
 	@Before

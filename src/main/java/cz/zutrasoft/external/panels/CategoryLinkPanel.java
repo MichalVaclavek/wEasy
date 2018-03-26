@@ -7,43 +7,36 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.database.model.Category;
-import cz.zutrasoft.external.pages.articlepage.ArticlePage;
 import cz.zutrasoft.external.pages.homepage.HomePage;
 
 /**
  * Panel that contains link to CategoryPanel
  * 
- * @author User
- *
+ * @author Michal Václavek
  */
 public abstract class CategoryLinkPanel extends Panel
 {
-	
+	private static final long serialVersionUID = -4055894462340298680L;
+
+	@SuppressWarnings({ "serial" })
 	public CategoryLinkPanel(String id, final IModel<Category> model)
 	{
 		super(id, model);
 		
-		Link link = new Link("link")
+		Link<Object> link = new Link<Object>("link")
 		{
 			@Override
 			public void onClick()
 			{
-				// create page parameter so the correct Category name will be sent to HomePage and will be loaded when clicked on link
+				// Create page parameter so the correct Category id will be sent to HomePage to load and display respective Articles when clicked on link
 				PageParameters pp = new PageParameters();
-				pp.set("categoryId", model.getObject().getId());
-				//pp.set(0, model.getObject().getId());
-				//pp.set(0, model.getObject().getName());
-				//TODO zde se musi zobrazit HomePage, ale se seznamem Articles v Category resp.
-				// mela by stacit BasePage, ktera ale ma nactenu jen jednu Category a jeji clanky
-				//setResponsePage(HomePage.class, pp);
-				//setResponsePage(HomePage.class);
+				pp.set("categoryId", model.getObject().getId());				
 				this.setResponsePage(HomePage.class, pp);
 			}
 		};
 		
-		add(link.add(new Label("linkLabel", new Model(model.getObject().getName()))));
+		add(link.add(new Label("linkLabel", new Model<String>(model.getObject().getName()))));
 	}
 
 }

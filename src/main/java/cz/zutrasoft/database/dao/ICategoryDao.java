@@ -1,9 +1,7 @@
 package cz.zutrasoft.database.dao;
 
 import java.util.List;
-import java.util.Set;
 
-import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.CategoryWithArticles;
 
@@ -16,6 +14,11 @@ public interface ICategoryDao
 	public Category getCategoryByName(String name);
 	public Category getCategoryById(long id);
 	public void delete(Category categorDel);
-		
+	
+	/**
+	 * Gets all {@link CategoryWithArticles} objects (to show in UI).
+	 * 
+	 * @return all {@link CategoryWithArticles} objects
+	 */
 	public List<CategoryWithArticles> getAllCategoriesWithArticles();
 }

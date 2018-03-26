@@ -3,6 +3,7 @@
  */
 package cz.zutrasoft.database.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -13,18 +14,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 /**
- * Třída reprezentující model zprávy zanechávané v Contactpage
+ * Class representing a message user can sent to web admin via respective UI form.
  * 
  * @author Michal Václavek
- *
  */
 @Entity
 @Table(name="t_contact_message")
-public class ContactMessage
+public class ContactMessage implements Serializable
 {
+	private static final long serialVersionUID = -2996183922875213247L;
+
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 	
@@ -41,8 +41,7 @@ public class ContactMessage
     @Column(name="message", length = 900, nullable=false)
     private String textOfMessage;
 
-    
-    
+        
   	public ContactMessage()
   	{}
     

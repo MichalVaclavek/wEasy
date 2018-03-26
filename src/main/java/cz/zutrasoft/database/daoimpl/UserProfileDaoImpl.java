@@ -2,36 +2,28 @@ package cz.zutrasoft.database.daoimpl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-//import org.springframework.stereotype.Repository;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cz.zutrasoft.database.dao.IUserProfileDao;
 import cz.zutrasoft.database.model.UserProfile;
-
- 
-//import cz.zutrasoft.springmvc.model.UserProfile;
  
  
 /**
 * Prevzato z projektu SpringMVCSecureLogin. Jde o vyzuziti Hibernate pro ukladani UserProfile tridy
 * do DB. Bez vyuziti Springu.
 * 
-* @author Michal
-*
+* @author Michal Václavek
 */  
-//@Repository("userProfileDao")
-//public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile> implements UserProfileDao
+//@Repository("userProfileDao") // if Spring is used
 public class UserProfileDaoImpl implements IUserProfileDao
 {
 	static final Logger logger = LoggerFactory.getLogger(UserProfileDaoImpl .class);
 	
+	@SuppressWarnings("unchecked")
     public UserProfile findById(int id)
     {
     	UserProfile up = null;
@@ -46,8 +38,7 @@ public class UserProfileDaoImpl implements IUserProfileDao
 			String sql = "Select up from " + UserProfile.class.getName() + " up "
 		               + " Where up.id = :id";
 		    
-			Query<UserProfile> query = session.createQuery(sql);
-		       
+			Query<UserProfile> query = session.createQuery(sql);	       
 		    query.setParameter("id", id);
 		       
 		     if (query.getResultList().size() > 0)
@@ -62,7 +53,6 @@ public class UserProfileDaoImpl implements IUserProfileDao
 		}
     	
     	return up;
-    	//return getByKey(id);
     }
  
     @SuppressWarnings("unchecked")
@@ -72,7 +62,6 @@ public class UserProfileDaoImpl implements IUserProfileDao
     	
     	SessionFactory factory = HibernateUtils.getSessionFactory();		 
 	    Session session = factory.getCurrentSession();
- 
     	
     	try
 	    {
@@ -81,8 +70,7 @@ public class UserProfileDaoImpl implements IUserProfileDao
 			String sql = "Select up from " + UserProfile.class.getName() + " up "
 		               	+ " Where up.type = :type";
 		    
-			Query<UserProfile> query = session.createQuery(sql);
-		       
+			Query<UserProfile> query = session.createQuery(sql);		       
 		    query.setParameter("type", type);
 		       
 		     if (query.getResultList().size() > 0)
@@ -97,12 +85,6 @@ public class UserProfileDaoImpl implements IUserProfileDao
 		}
     	
     	return up;
-    	
-    	/*
-    	Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("type", type));
-        return (UserProfile) crit.uniqueResult();
-        */
     }
      
     @SuppressWarnings("unchecked")
@@ -112,20 +94,16 @@ public class UserProfileDaoImpl implements IUserProfileDao
     	
     	SessionFactory factory = HibernateUtils.getSessionFactory();		 
 	    Session session = factory.getCurrentSession();
-
-    	
+   	
     	try
     	{
     		session.getTransaction().begin();
 		       
 	        // Create an HQL statement, query the object.
-	        // Equivalent to the SQL statement:
-	        // Select e.* from EMPLOYEE e order by e.EMP_NAME, e.EMP_NO
-	        String sql = "Select up from " + UserProfile.class.getName() + " up order by up.type asc";
+	        String hql = "Select up from " + UserProfile.class.getName() + " up order by up.type asc";
 	 
 	        // Create Query object.
-	        Query<UserProfile> query = session.createQuery(sql);
-	 
+	        Query<UserProfile> query = session.createQuery(hql); 
 	        // Execute query.
 	        userProfiles = query.getResultList();
 	        session.getTransaction().commit();
@@ -137,12 +115,6 @@ public class UserProfileDaoImpl implements IUserProfileDao
 	    }
          
         return userProfiles;
-    	
-    	/*
-    	Criteria crit = createEntityCriteria();
-        crit.addOrder(Order.asc("type"));
-        return (List<UserProfile>)crit.list();
-        */
     }
 
     

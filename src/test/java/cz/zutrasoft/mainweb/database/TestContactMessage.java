@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import cz.zutrasoft.base.services.IContactMessageService;
-import cz.zutrasoft.base.servicesimpl.ContactMessageServiceImpl;
+import cz.zutrasoft.base.servicesimpl.ContactMessageService;
 
 /**
  * * Otestuje vsechny metody dulezite pro praci s ContactMessage tj. jak metody v DAO vrstve {@code cz.zutrasoft.database.daoimpl},
@@ -39,7 +39,7 @@ public class TestContactMessage
 	public void setUp() throws Exception
 	{
 		//cmServ = new ContactMessageServiceImpl();
-		cmServ = ContactMessageServiceImpl.getInstance();
+		cmServ = ContactMessageService.getInstance();
 	}
 
 

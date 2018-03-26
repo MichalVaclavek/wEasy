@@ -13,29 +13,31 @@ import cz.zutrasoft.external.pages.articlepage.ArticlePage;
 /**
  * Panel that contains link to Article's ArticlePage.
  * 
- * @author User
- *
+ * @author vitfo
+ * @author Michal Václavek
  */
 public abstract class BaseLinkPanel extends Panel
 {
-	
+	private static final long serialVersionUID = 2653710423208593686L;
+
+	@SuppressWarnings({"serial", "unchecked" })
 	public BaseLinkPanel(String id, final IModel<Article> model)
 	{
 		super(id, model);
 		
-		Link link = new Link("link")
+		Link<?> link = new Link<Object>("link")
 		{
 			@Override
 			public void onClick()
 			{
-				// create page parameter so the correct article will be loaded when clicked on link
+				// Create page parameter so the correct article will be loaded when clicked on link
 				PageParameters pp = new PageParameters();
 				pp.set(0, model.getObject().getId());
 				setResponsePage(ArticlePage.class, pp);
 			}
 		};
 		
-		add(link.add(new Label("linkLabel", new Model(model.getObject().getHeader()))));
+		add(link.add(new Label("linkLabel", new Model<String>(model.getObject().getHeader()))));
 	}
 
 }

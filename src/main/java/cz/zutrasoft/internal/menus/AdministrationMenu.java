@@ -12,14 +12,14 @@ import cz.zutrasoft.internal.pages.listallimages.ListAllImagesPage;
 
 public class AdministrationMenu extends Panel 
 {
-
 	private static final long serialVersionUID = 2362601721898307535L;
 
+	@SuppressWarnings({ "serial" })
 	public AdministrationMenu(String id)
 	{
 		super(id);
 		
-		add(new Link("edit")
+		add(new Link<Object>("edit")
 		{
 			@Override
 			public void onClick()
@@ -28,7 +28,7 @@ public class AdministrationMenu extends Panel
 			}
 		});
 		
-		add(new Link("listAllArticles")
+		add(new Link<Object>("listAllArticles")
 		{
 			@Override
 			public void onClick()
@@ -37,7 +37,7 @@ public class AdministrationMenu extends Panel
 			}
 		});
 		
-		add(new Link("imageUpload")
+		add(new Link<Object>("imageUpload")
 		{
 			@Override
 			public void onClick()
@@ -46,7 +46,7 @@ public class AdministrationMenu extends Panel
 			}
 		});
 		
-		add(new Link("listAllImages")
+		add(new Link<Object>("listAllImages")
 		{
 			@Override
 			public void onClick()
@@ -55,7 +55,7 @@ public class AdministrationMenu extends Panel
 			}
 		});
 		
-		add(new Link("createCategory")
+		add(new Link<Object>("createCategory")
 		{
 			@Override
 			public void onClick()
@@ -64,7 +64,7 @@ public class AdministrationMenu extends Panel
 			}
 		});
 		
-		add(new Link("createDirectory")
+		add(new Link<Object>("createDirectory")
 		{
 			@Override
 			public void onClick()

@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import cz.zutrasoft.base.services.CommentService;
+import cz.zutrasoft.base.services.ICommentService;
 import cz.zutrasoft.database.dao.IArticleDao;
 import cz.zutrasoft.database.dao.ICommentDao;
 import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
@@ -17,28 +17,28 @@ import cz.zutrasoft.database.model.Comment;
 import cz.zutrasoft.database.model.User;
 
 /**
- * @author Michal
- *
+ * Singleton implementation of the I_CommentService interface
+ * 
+ * @author Michal Václavek
  */
-public class CommentServiceImpl implements CommentService
+public class CommentService implements ICommentService
 {
-	private static ICommentDao comentsDao = new CommentDaoImpl();
-	
-	
+	private ICommentDao comentsDao = new CommentDaoImpl();
+		
 	private static class SingletonHolder
 	{
-        private static final CommentServiceImpl SINGLE_INSTANCE = new CommentServiceImpl();
+        private static final CommentService SINGLE_INSTANCE = new CommentService();
     }
 	
 	/**
 	 * @return singleton instance of the CommentServiceImpl
 	 */
-	public static CommentServiceImpl getInstance()
+	public static CommentService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private CommentServiceImpl()
+	private CommentService()
 	{}
 	
 	/* (non-Javadoc)
@@ -47,14 +47,14 @@ public class CommentServiceImpl implements CommentService
 	@Override
 	public Comment saveTextAsComment(String commentText, int userID, int articleID)
 	{
-		// Vytvoření nového komentáře k ulozeni
+		// Creates new comment from text 
         Comment comment = new Comment();
         comment.setCreated(new Timestamp(new Date().getTime()));
         comment.setText(commentText);
         comment.setUserId(userID);
               
         IArticleDao articleDao = new ArticleDaoImpl();		
-		// Ziskani clanku k ulozeni komentare
+		// Get and assign Article
         Article article = articleDao.getArticleById(articleID);                
         comment.setArticle(article);
        

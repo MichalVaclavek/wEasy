@@ -9,30 +9,35 @@ import cz.zutrasoft.database.dao.IContactMessageDao;
 import cz.zutrasoft.database.daoimpl.ContactMessageDaoImpl;
 import cz.zutrasoft.database.model.ContactMessage;
 
-public class ContactMessageServiceImpl implements IContactMessageService
+/**
+ * Singleton implementation of the I_ContactMessageService interface.
+ * 
+ * @author Michal Václavek
+ */
+public class ContactMessageService implements IContactMessageService
 {
 	private static IContactMessageDao cmDao = new ContactMessageDaoImpl();
 	
 	private static class SingletonHolder
 	{
-        private static final ContactMessageServiceImpl SINGLE_INSTANCE = new ContactMessageServiceImpl();
+        private static final ContactMessageService SINGLE_INSTANCE = new ContactMessageService();
     }
 	
 	/**
-	 * @return singleton instance of the ContactMessageServiceImpl
+	 * @return singleton instance of the {@code ContactMessageService}
 	 */
-	public static ContactMessageServiceImpl getInstance()
+	public static ContactMessageService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private ContactMessageServiceImpl()
+	private ContactMessageService()
 	{}
 	
 	@Override
 	public void saveContactMessage(String userName, String userEmail, String message)
 	{
-		// Vytvoření nového komentáře k ulozeni
+		// Creates new ContactMessage
 		ContactMessage cMessage = new ContactMessage();
 		
 		cMessage.setUserName(userName);

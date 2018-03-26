@@ -17,15 +17,12 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.services.DirectoryService;
-import cz.zutrasoft.base.services.ImageService;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.DirectoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.ImageServiceImpl;
-import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
-import cz.zutrasoft.database.daoimpl.DirectoryDaoImpl;
-import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.services.IDirectoryService;
+import cz.zutrasoft.base.services.IImageService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
+import cz.zutrasoft.base.servicesimpl.DirectoryService;
+import cz.zutrasoft.base.servicesimpl.ImageService;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.Directory;
 import cz.zutrasoft.database.model.Image;
@@ -45,13 +42,14 @@ public class ImageUploadPage extends InternalBasePage
 	
 	private List<FileUpload> uploads;
 	
+	@SuppressWarnings({"serial"})
 	public ImageUploadPage()
 	{
 		final FeedbackPanel feedback = new FeedbackPanel("feedback");
 		feedback.setOutputMarkupId(true);
 		add(feedback);
 		
-		Form form = new Form("form")
+		Form<Object> form = new Form<Object>("form")
 		{
 			@Override
 			protected void onSubmit()
@@ -67,9 +65,7 @@ public class ImageUploadPage extends InternalBasePage
 						} else 
 						{
 							Image uploadedImagefile = new Image(selectedDirectory, fu);
-							//ImageDaoImpl dao = new ImageDaoImpl();
-							//ImageService imageService = new ImageServiceImpl();
-							ImageService imageService = ImageServiceImpl.getInstance();
+							IImageService imageService = ImageService.getInstance();
 							imageService.saveImageFile(uploadedImagefile);
 						}
 					}
@@ -83,15 +79,13 @@ public class ImageUploadPage extends InternalBasePage
 			@Override
 			public List<Category> getObject()
 			{
-				//CategoryDaoImpl dao = new CategoryDaoImpl();
-				//CategoryService caterService = new CategoryServiceImpl();
-				CategoryService categoryService = CategoryServiceImpl.getInstance();
+				ICategoryService categoryService = CategoryService.getInstance();
 				return categoryService.getAllCategories();
 			}
 		};
 		// shows Category "name" property
-		ChoiceRenderer choiceRenderer = new ChoiceRenderer("name");
-		categoryDDCH = new DropDownChoice("categories", new PropertyModel(this, "selectedCategory"), categoryModel, choiceRenderer);
+		ChoiceRenderer<Category> choiceRenderer = new ChoiceRenderer<Category>("name");
+		categoryDDCH = new DropDownChoice<Category>("categories", new PropertyModel<Category>(this, "selectedCategory"), categoryModel, choiceRenderer);
 		categoryDDCH.add(new OnChangeAjaxBehavior()
 		{
 			@Override
@@ -107,9 +101,7 @@ public class ImageUploadPage extends InternalBasePage
 			@Override
 			public List<Directory> getObject()
 			{
-				//DirectoryDaoImpl dao = new DirectoryDaoImpl();
-				//DirectoryService dirService = new DirectoryServiceImpl();
-				DirectoryService  dirService = DirectoryServiceImpl.getInstance();
+				IDirectoryService  dirService = DirectoryService.getInstance();
 				if (selectedCategory == null)
 				{
 					return dirService.getAllDirectories();
@@ -119,9 +111,9 @@ public class ImageUploadPage extends InternalBasePage
 				}
 			}
 		};
-		// shows Category "name" property
-		ChoiceRenderer directoryChoiceRenderer = new ChoiceRenderer("name");
-		directoryDDCH = new DropDownChoice("directories", new PropertyModel(this, "selectedDirectory"), directoryModel, directoryChoiceRenderer);
+		// shows Directory "name" property
+		ChoiceRenderer<Directory> directoryChoiceRenderer = new ChoiceRenderer<Directory>("name");
+		directoryDDCH = new DropDownChoice<Directory>("directories", new PropertyModel<Directory>(this, "selectedDirectory"), directoryModel, directoryChoiceRenderer);
 		directoryDDCH.setRequired(true);
 		directoryDDCH.setOutputMarkupId(true);
 		form.add(directoryDDCH);

@@ -1,18 +1,14 @@
 package cz.zutrasoft.database.daoimpl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import cz.zutrasoft.database.dao.IUserDao;
 import cz.zutrasoft.database.model.User;
@@ -22,6 +18,7 @@ public class UserDaoImpl implements IUserDao
 
 	static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     
+	@SuppressWarnings("unchecked")
     @Override
     public User findById(Integer id)
     {
@@ -37,8 +34,7 @@ public class UserDaoImpl implements IUserDao
 			String sql = "Select u from " + User.class.getName() + " u "
 		               	+ " Where u.id = :id";
 		    
-			Query<User> query = session.createQuery(sql);
-		       
+			Query<User> query = session.createQuery(sql);		       
 		    query.setParameter("id", id);
 		       
 		     if (query.getResultList().size() > 0)
@@ -61,15 +57,17 @@ public class UserDaoImpl implements IUserDao
     }
     
     /**
-     * SSO a username jsou synonyma. SSO používá Spring.
+     * Find user according username.
+     * 
+     * @param username of the User to get from DB.
+     * @return User object corresponding to username
      */
+	@SuppressWarnings("unchecked")
     @Override
     public User findByUsername(String username)
     {
         User user = null;
-    	
-    	logger.info("Username : {}", username);
-        
+    	      
     	SessionFactory factory = HibernateUtils.getSessionFactory();		 
 	    Session session = factory.getCurrentSession();
     	
@@ -80,8 +78,7 @@ public class UserDaoImpl implements IUserDao
 			String sql = "Select u from " + User.class.getName() + " u "
 		               	+ " Where u.username = :username";
 		    
-			Query<User> query = session.createQuery(sql);
-		       
+			Query<User> query = session.createQuery(sql);		       
 		    query.setParameter("username", username);
 		       
 		    if (query.getResultList().size() > 0)
@@ -119,15 +116,18 @@ public class UserDaoImpl implements IUserDao
 	        String sql = "Select u from " + User.class.getName() + " u order by u.username asc";
 	 
 	        // Create Query object.
-	        Query<User> query = session.createQuery(sql);
-	 
+	        Query<User> query = session.createQuery(sql);	 
 	        // Execute query.
 	        users = query.getResultList();
 	        session.getTransaction().commit();
 	        
-	        // Zobrazit pro test
+	        // Show or log for testing
+	        /*
 	        for (User u : users)
 	        	System.out.println(u.getUsername());
+	        
+	        //users.forEach(u -> logger.info(u.getUsername()));
+	        */	        	        	
     	}
         catch (Exception e)
 	    {
@@ -146,10 +146,8 @@ public class UserDaoImpl implements IUserDao
 	    	           
     	try
     	{
-    		session.getTransaction().begin();
-    		
-    		session.persist(user);
-    		
+    		session.getTransaction().begin();   		
+    		session.persist(user);    		
     		session.getTransaction().commit();
     	}
     	catch (Exception e)
@@ -167,23 +165,19 @@ public class UserDaoImpl implements IUserDao
 	    	           
     	try
     	{
-    		session.getTransaction().begin();
-    		
-    		session.saveOrUpdate(user);
-    		
+    		session.getTransaction().begin();    		
+    		session.saveOrUpdate(user);   		
     		session.getTransaction().commit();
     	}
     	catch (Exception e)
 	    {
 	    	logger.error("UserDaoImp.save() error: {}", e.getMessage());
 	    	session.getTransaction().rollback();
-	    }
-		
+	    }		
 	}
     
  
     @Override
-    //public void deleteByUsername(String sso)
     public void deleteByUserId(Integer userId)
     {        
     	SessionFactory factory = HibernateUtils.getSessionFactory();		 
@@ -204,10 +198,8 @@ public class UserDaoImpl implements IUserDao
 	    {
     		logger.error(e.getMessage());
 	    	session.getTransaction().rollback();
-	    }
-        
+	    }        
     }
-
 	
 	
 }

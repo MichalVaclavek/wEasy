@@ -8,7 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cz.zutrasoft.base.services.DirectoryService;
+import cz.zutrasoft.base.services.IDirectoryService;
 import cz.zutrasoft.database.dao.ICategoryDao;
 import cz.zutrasoft.database.dao.IDirectoryDao;
 import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
@@ -17,32 +17,33 @@ import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.Directory;
 
 /**
+ * Singleton implementation of the I_DirectoryService interface.
+ * 
  * @author Michal Václavek
- *
  */
-public class DirectoryServiceImpl implements DirectoryService
+public class DirectoryService implements IDirectoryService
 {
-	static final Logger logger = LoggerFactory.getLogger(DirectoryServiceImpl.class);
+	static final Logger logger = LoggerFactory.getLogger(DirectoryService.class);
 	
-	private IDirectoryDao directoryDao = new DirectoryDaoImpl();
-	
+	private IDirectoryDao directoryDao = new DirectoryDaoImpl();	
+	// To get Categories functions
 	private ICategoryDao categoryDao = new CategoryDaoImpl();
 	
 	
 		private static class SingletonHolder
 		{
-			private static final DirectoryServiceImpl SINGLE_INSTANCE = new DirectoryServiceImpl();
+			private static final DirectoryService SINGLE_INSTANCE = new DirectoryService();
 		}
 	
 	/**
-	* @return
+	* @return singleton instance of the {@code DirectoryService}
 	*/
-	public static DirectoryServiceImpl getInstance()
+	public static DirectoryService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private DirectoryServiceImpl()
+	private DirectoryService()
 	{}
 
 	/* (non-Javadoc)
@@ -93,39 +94,14 @@ public class DirectoryServiceImpl implements DirectoryService
 	@Override
 	public void saveDirectory(String directoryName, String categoryName)
 	{
-		Category category = categoryDao.getCategoryByName(categoryName);
-		
-        // Vytvoreni a ulozeni noveho adresare pro fotky
-        Directory directory = new Directory();       
-        directory.setName(directoryName);                 
-        directory.setCategory(category);
-        
-        directoryDao.saveDirectory(directory);
+		Category category = categoryDao.getCategoryByName(categoryName);		
+		saveDirectory(directoryName, category);		
 	}
 	
-	//@Override
-	/*
-	private void saveDirectory(String directoryName, Long categoryId)
-	{
-		Category category = null;
-		if (categoryId != null)
-			category = categoryDao.getCategoryById(categoryId);
-		
-        // Vytvoreni a ulozeni noveho adresare pro fotky 
-        Directory directory = new Directory();       
-        directory.setName(directoryName);                 
-        directory.setCategory(category);
-        
-        directoryDao.saveDirectory(directory);
-	}
-	*/
-	
-
 	@Override
 	public void saveDirectory(String directoryName, Category category)
 	{
-		//saveDirectory(directoryName, category.getId());
-		// Vytvoreni a ulozeni noveho adresare pro fotky 
+		// Creates and save new Directory
         Directory directory = new Directory();       
         directory.setName(directoryName);                 
         directory.setCategory(category);

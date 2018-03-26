@@ -5,9 +5,12 @@ import java.util.List;
 import cz.zutrasoft.database.model.UserProfile;
 
 
-
- 
-public interface UserProfileService
+/**
+ * Basic service methods to work with {@link UserProfile} .
+ * 
+ * @author Michal Václavek
+ */ 
+public interface IUserProfileService
 { 
     public UserProfile findById(int id);
     public UserProfile findByType(String type);

@@ -1,21 +1,21 @@
 package cz.zutrasoft.external.pages.contactpage;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
-import org.apache.wicket.authroles.authorization.strategies.role.Roles;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 
 import cz.zutrasoft.base.BasePage;
 import cz.zutrasoft.base.BasicAutorizationAndAuthenticationSession;
-import cz.zutrasoft.base.services.CommentService;
-import cz.zutrasoft.base.servicesimpl.CommentServiceImpl;
 
-
+/**
+ * Page with Form to allow sent a message to the web admin - so called Contact message
+ * 
+ * @author Michal Václavek
+ */
 public class ContactPage extends BasePage
 {
-    //private WebMarkupContainer formContainer;
-    
+	private static final long serialVersionUID = -3099704410092725502L;
+
+	@SuppressWarnings("rawtypes")
 	public ContactPage()
     {   	
 		String userName = "";
@@ -28,9 +28,9 @@ public class ContactPage extends BasePage
 			email = session.getEmail();
 		}
 				
- 		// Form for adding contact mesage.
+ 		// Form for editing contact message.
  		Form form = new ContactForm("contactForm", userName, email);		
- 		form.setOutputMarkupId(true); // ??
+ 		form.setOutputMarkupId(true); 
 
         add(form);
     }

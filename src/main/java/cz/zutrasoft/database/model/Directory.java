@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -17,29 +16,22 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * CREATE TABLE t_directory <br>
- * (<br>
- * 		id serial NOT NULL,<br>
- * 		category_id integer,<br>
- * 		name character varying(1000) NOT NULL,<br>
+ * Class to represent a Directory for the Images to be grouped together, especially to allow selection of the Image for the specific
+ * web Article.<br>
+ * If a new article is to be created, then both {@link  Category} and {@code Directory} has to be selected. The Images for that
+ * article are being chossing from that Directory.<br> 
+ * <br>
+ * Every Directory must be assigned to only one {@code Category} (@ManyToOne relation)<br>	
+ * One {@code Category} can contain more than one {@code Directory}
  *
- *  	PRIMARY KEY (id),<br>
- *  	FOREIGN KEY (category_id) REFERENCES t_category (id)<br>
- *	);
- * <p>
- * Tato třída je použita jako "úložiště obrázků" v DB. Jde tedy o identifikaci, která umožňuje obrázky
- * v DB poskládat do skupin "Directory". Při vytváření článku je pak vybrána nejen {@link  Category} článku,
- * ale i {@code Directory}, ve které jsou {@link  Image} pro daný článek. V rámci {@link Category} lze vytvořit více {@code Directory}.
- *	
- * @author Michal Václavek - přidání Hibernate, JPA anotací a rozchození příslušných DAO a Service tříd
- * @author vitfo - původní návrh atributů
+ * @author Michal Václavek - added JPA Hibernate anotation
+ * @author vitfo - original atributes
  *
  */
 @Entity
 @Table(name="t_directory", uniqueConstraints=@UniqueConstraint(columnNames={"name", "category_id"}) )
 public class Directory implements Serializable
 {
-
 	private static final long serialVersionUID = -5497756559058040097L;
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)

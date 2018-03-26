@@ -1,12 +1,5 @@
 package cz.zutrasoft.database.daoimpl;
 
-import java.io.ByteArrayInputStream;
-import java.sql.Connection;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,17 +10,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cz.zutrasoft.database.dao.ImageDao;
-import cz.zutrasoft.database.model.Article;
-import cz.zutrasoft.database.model.Category;
-import cz.zutrasoft.database.model.Comment;
+import cz.zutrasoft.database.dao.IImageDao;
 import cz.zutrasoft.database.model.Directory;
 import cz.zutrasoft.database.model.Image;
 
-public class ImageDaoImpl implements ImageDao
+public class ImageDaoImpl implements IImageDao
 {
 	static final Logger logger = LoggerFactory.getLogger(ImageDaoImpl.class);
 	
@@ -44,8 +35,7 @@ public class ImageDaoImpl implements ImageDao
            session.getTransaction().begin();
  	         	       
            CriteriaQuery<Image> cq = session.getCriteriaBuilder().createQuery(Image.class);
-           cq.from(Image.class);
-           
+           cq.from(Image.class);         
            images = (List<Image>)session.createQuery(cq).getResultList();
                                
            session.getTransaction().commit();
@@ -59,7 +49,7 @@ public class ImageDaoImpl implements ImageDao
         return images;
 	}
 
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Image> getAllImagesInDirectory(Directory directory)
 	{
@@ -77,10 +67,8 @@ public class ImageDaoImpl implements ImageDao
 				String sql = "Select i from " + Image.class.getName() + " i "
 			               	+ " Where i.directory.id = :id";
 			    
-				Query<Image> query = session.createQuery(sql);
-			       
-			    query.setParameter("id", directory.getId());
-			       		    		 
+				Query<Image> query = session.createQuery(sql);			       
+			    query.setParameter("id", directory.getId());			       		    		 
 			    images = query.getResultList();
 			    
 			    session.getTransaction().commit();
@@ -108,10 +96,10 @@ public class ImageDaoImpl implements ImageDao
 		    try
 		    {
 		        session.getTransaction().begin();	
-		        		        
-		        session.persist(uploadedImageFile);
-		  	            
-		        session.getTransaction().commit(); // ukonceni transakce
+	        		        
+		        session.persist(uploadedImageFile);	  	            
+		        session.getTransaction().commit(); // finish transaction
+		        
 		        logger.info("Image inserted. Image id: {} ", uploadedImageFile.getFileName());
 		     } 
 		     catch (Exception e)
@@ -123,6 +111,7 @@ public class ImageDaoImpl implements ImageDao
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Image getImageById(int id)
 	{
@@ -138,10 +127,8 @@ public class ImageDaoImpl implements ImageDao
 			String sql = "Select i from " + Image.class.getName() + " i "
 		               	+ " Where i.id = :id";
 		    
-			Query<Image> query = session.createQuery(sql);
-		       
-		    query.setParameter("id", id);
-		       		    		 
+			Query<Image> query = session.createQuery(sql);		       
+		    query.setParameter("id", id);		       		    		 
 		    image = query.getResultList().get(query.getFirstResult()); 
 		    
 		    session.getTransaction().commit();

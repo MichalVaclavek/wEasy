@@ -8,36 +8,38 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
+import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.internal.pages.InternalBasePage;
 import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
 
+
 public class CreateCategoryPage extends InternalBasePage
 {
+	private static final long serialVersionUID = 2423421019647782123L;
+	
 	private String category;
 	
+	@SuppressWarnings({"serial" })
 	public CreateCategoryPage()
 	{
 		FeedbackPanel feedback = new FeedbackPanel("feedback");
 		add(feedback);
 		
-		Form form = new Form("form")
+		Form<Object> form = new Form<Object>("form")
 		{
 			@Override
 			protected void onSubmit()
 			{
-				//CategoryDaoImpl dao = new CategoryDaoImpl();
-				//CategoryService categorService = new CategoryServiceImpl();
-				CategoryService categoryService = CategoryServiceImpl.getInstance();
+				ICategoryService categoryService = CategoryService.getInstance();
 				categoryService.saveCategory(category);
 				setResponsePage(EditPage.class);
 			}
 		};
 		add(form);
 		
-		TextField categoryTF = new TextField("category", new PropertyModel(this, "category"));
+		TextField<String> categoryTF = new TextField<String>("category", new PropertyModel<String>(this, "category"));
 		categoryTF.setRequired(true);
 		form.add(categoryTF);
 		

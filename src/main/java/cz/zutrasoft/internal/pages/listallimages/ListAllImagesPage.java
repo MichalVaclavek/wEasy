@@ -13,10 +13,8 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.resource.ByteArrayResource;
 
-import cz.zutrasoft.base.services.ImageService;
-import cz.zutrasoft.base.servicesimpl.ImageServiceImpl;
-import cz.zutrasoft.database.dao.ImageDao;
-import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
+import cz.zutrasoft.base.services.IImageService;
+import cz.zutrasoft.base.servicesimpl.ImageService;
 import cz.zutrasoft.database.model.Image;
 import cz.zutrasoft.internal.pages.InternalBasePage;
 
@@ -25,6 +23,7 @@ public class ListAllImagesPage extends InternalBasePage
 
 	private static final long serialVersionUID = -6842730542504808757L;
 
+	@SuppressWarnings("serial")
 	public ListAllImagesPage()
 	{
 		IModel<List<Image>> imagesModel = new AbstractReadOnlyModel<List<Image>>()
@@ -32,9 +31,7 @@ public class ListAllImagesPage extends InternalBasePage
 			@Override
 			public List<Image> getObject()
 			{
-				//ImageDaoImpl dao = new ImageDaoImpl();
-				//ImageService imageService = new ImageServiceImpl();
-				ImageService imageService = ImageServiceImpl.getInstance();
+				IImageService imageService = ImageService.getInstance();
 				return imageService.getAllImages();
 			}
 		}; 
@@ -44,21 +41,20 @@ public class ListAllImagesPage extends InternalBasePage
 		container.setOutputMarkupId(true);
 		add(container);
 		
-		ListView images = new ListView<Image>("images", imagesModel) 
+		ListView<Image> images = new ListView<Image>("images", imagesModel) 
 		{
+			//@SuppressWarnings("rawtypes")
 			@Override
 			protected void populateItem(ListItem<Image> item)
 			{
 				final Image img = item.getModelObject();
 				item.add(new org.apache.wicket.markup.html.image.Image("image", new ByteArrayResource(null, img.getBytes())));
 				item.add(new Label("name", img.getFileName()));
-				item.add(new AjaxLink("delete") {
+				item.add(new AjaxLink<Object>("delete") {
 					@Override
 					public void onClick(AjaxRequestTarget target)
 					{
-						//ImageDao dao = new ImageDaoImpl();
-						//ImageService imageService = new ImageServiceImpl();
-						ImageService imageService = ImageServiceImpl.getInstance();
+						IImageService imageService = ImageService.getInstance();
 						imageService.deleteImageById(img.getId());
 						
 						target.add(container);
@@ -70,7 +66,9 @@ public class ListAllImagesPage extends InternalBasePage
 	}
 	
 	@Override
-	protected IModel<String> getSubTitle() {
+	protected IModel<String> getSubTitle()
+	{
 		return new ResourceModel("submenu.listAllImagesPage");
 	}
+	
 }

@@ -3,9 +3,9 @@ package cz.zutrasoft.database.model;
 import java.io.Serializable;
 
 /**
- * Základní třída pro výčet identifikátorů použitých v {@link UserProfile} <br>
- * Převzato z projektu SpringMVCSecureLogin na stránkách websystique.? <br>
- *
+ * Class to enumerate basic {@link UserProfile} identifiers.
+ * 
+ * @author Michal Václavek
  */
 public enum UserProfileType implements Serializable
 {

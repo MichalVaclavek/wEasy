@@ -6,10 +6,9 @@ package cz.zutrasoft.base.services;
 import cz.zutrasoft.database.model.TrackInfo;
 
 /**
- * @author Michal
- *
+ * @author Michal Václavek
  */
-public interface TrackInfoService
+public interface ITrackInfoService
 {
 	public void save(TrackInfo info);
 }

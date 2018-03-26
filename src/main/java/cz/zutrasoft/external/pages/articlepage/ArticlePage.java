@@ -17,21 +17,20 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
 
 import cz.zutrasoft.base.BasicAutorizationAndAuthenticationSession;
-import cz.zutrasoft.base.services.CommentService;
-import cz.zutrasoft.base.servicesimpl.CommentServiceImpl;
-import cz.zutrasoft.database.daoimpl.CommentDaoImpl;
+import cz.zutrasoft.base.services.ICommentService;
+import cz.zutrasoft.base.servicesimpl.CommentService;
 import cz.zutrasoft.database.model.Comment;
 import cz.zutrasoft.external.pages.ExternalBasePage;
 
 /**
- * Page in which appropriate article is shown and comments to this article.
+ * Page in which appropriate article is shown including comments to this article.
  * The article showed depends on page parameters.
  * 
  * @author vitfo
+ * @author Michal Václavek
  */
 public class ArticlePage extends ExternalBasePage
 {
-
 	private static final long serialVersionUID = -1729677244556988098L;
 	
 	private WebMarkupContainer commentsContainer;
@@ -39,6 +38,7 @@ public class ArticlePage extends ExternalBasePage
 	
 	private String commentText;
 	
+	@SuppressWarnings({ "serial"})
 	public ArticlePage(PageParameters pp)
 	{		
 		// Get parameter and parse it to the int (article id).
@@ -66,7 +66,7 @@ public class ArticlePage extends ExternalBasePage
 		add(formContainer);
 		
 		// Form for adding comments.
-		Form form = new Form("form")
+		Form<Object> form = new Form<Object>("form")
 		{
 			@Override
 			protected void onSubmit()
@@ -75,10 +75,8 @@ public class ArticlePage extends ExternalBasePage
 				
 				// Getting our implementation of a AuthenticatedWebSession that contains some usefull properties (user id).
 				BasicAutorizationAndAuthenticationSession session = (BasicAutorizationAndAuthenticationSession)Session.get();
-				//Integer i = session.getUserId();
 											
-				//CommentService commentService = new CommentServiceImpl();
-				CommentService commentService = CommentServiceImpl.getInstance();
+				ICommentService commentService = CommentService.getInstance();
 				commentService.saveTextAsComment(commentText, session.getUserId(), articleId);
 								
 				commentText = "";

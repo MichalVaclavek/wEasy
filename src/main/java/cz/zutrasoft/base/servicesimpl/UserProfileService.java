@@ -2,33 +2,33 @@ package cz.zutrasoft.base.servicesimpl;
 
 import java.util.List;
 
-import cz.zutrasoft.base.services.UserProfileService;
+import cz.zutrasoft.base.services.IUserProfileService;
 import cz.zutrasoft.database.dao.IUserProfileDao;
 import cz.zutrasoft.database.daoimpl.UserProfileDaoImpl;
 import cz.zutrasoft.database.model.UserProfile;
  
  
-//@Service("userProfileService")
-//@Transactional
-public class UserProfileServiceImpl implements UserProfileService
+//@Service("userProfileService") // Spring annotation
+//@Transactional // Spring annotation
+public class UserProfileService implements IUserProfileService
 {     
-    //@Autowired
+    //@Autowired // Spring annotation
     IUserProfileDao dao = new UserProfileDaoImpl();
     
     private static class SingletonHolder
 	{
-        private static final UserProfileServiceImpl SINGLE_INSTANCE = new UserProfileServiceImpl();
+        private static final UserProfileService SINGLE_INSTANCE = new UserProfileService();
     }
 	
 	/**
-	 * @return singleton instance of the UserProfileServiceImpl
+	 * @return singleton instance of the UserProfileService
 	 */
-	public static UserProfileServiceImpl getInstance()
+	public static UserProfileService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private UserProfileServiceImpl()
+	private UserProfileService()
 	{}
      
     public UserProfile findById(int id)

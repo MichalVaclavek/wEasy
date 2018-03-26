@@ -4,8 +4,8 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
-import cz.zutrasoft.base.services.UserService;
-import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
+import cz.zutrasoft.base.services.IUserService;
+import cz.zutrasoft.base.servicesimpl.UserService;
 import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
 
@@ -32,14 +32,14 @@ public class BasicAutorizationAndAuthenticationSession extends AuthenticatedWebS
 	}
 
 	/**
-	 * Authenticate user using username and password using {@link UserServiceImpl}
+	 * Authenticate user using username and password using {@link UserService}
 	 */
 	@Override
     public boolean authenticate(String username, String password)
     {
     	boolean retV = false;  	  	
 
-    	UserService userService = UserServiceImpl.getInstance();
+    	IUserService userService = UserService.getInstance();
     	
     	if (userService.authenticate(username, password))
     	{

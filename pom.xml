@@ -24,15 +24,10 @@
 	<artifactId>weasy</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-		<!-- TODO project name  -->
-	<name>Fungisoft</name>
-	<description>fungisoft.cz stránky v Apache Wicket. Podle projektu weasy na github.</description>
-	<!--
-		<organization>
-			<name>company name</name>
-			<url>company url</url>
-		</organization>
-	-->
+
+	<name>wEasy enhanced</name>
+	<description>CMS in Apache Wicket with Hibernate DB access</description>
+	
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -42,7 +37,6 @@
 	</licenses>
 	
 	<properties>
-		<!--<wicket.version>6.17.0</wicket.version>-->
 		<wicket.version>7.10.0</wicket.version>
 		<jetty.version>7.6.13.v20130916</jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -90,7 +84,7 @@
 		
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<!-- Use this SLF4J dependency if Postgres DB .jar is not used - Postgres uses SLF4J 1.7.? version -->
-		<!-- Or <exclude> can be used  -->
+		<!-- or use <exclusion> -->
 		<!--	
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -225,7 +219,7 @@
 					<wtpversion>${wtp.version}</wtpversion>
 				</configuration>
 			</plugin>
-			<!-- For running maven build goal jetty:run  -->
+			<!-- For running Maven build goal jetty:run  -->
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>

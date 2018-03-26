@@ -1,11 +1,5 @@
 package cz.zutrasoft.database.daoimpl;
 
-import java.sql.Connection;
-//import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +7,6 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaQuery;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -23,14 +16,10 @@ import org.slf4j.LoggerFactory;
 import cz.zutrasoft.database.dao.IArticleDao;
 import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.database.model.Category;
-import cz.zutrasoft.database.model.CategoryWithArticles;
-import cz.zutrasoft.database.model.Comment;
-import cz.zutrasoft.database.model.User;
 
-//public class ArticleDaoImpl extends DaoImpl implements ArticleDao
+
 public class ArticleDaoImpl implements IArticleDao
 {
-
 	static final Logger logger = LoggerFactory.getLogger(ArticleDaoImpl.class);
 	
 	@Override
@@ -61,8 +50,8 @@ public class ArticleDaoImpl implements IArticleDao
        return list;
     }
 
+
 	@Override
-	//public void saveArticle(Article newArticle)
 	public Article saveArticle(Article newArticle)
     {    	
 		SessionFactory factory = HibernateUtils.getSessionFactory(); 
@@ -117,15 +106,14 @@ public class ArticleDaoImpl implements IArticleDao
 	     }		
 	}
 	
-	
-	
+		
 	@Override
 	public List<Article> getAllArticlesInCategory(Category category)
 	{
 		return getAllArticlesInCategory(category.getId());
 	}
 	
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Article getArticleById(int id)
 	{
@@ -146,7 +134,7 @@ public class ArticleDaoImpl implements IArticleDao
 		    query.setParameter("id", id);
 		    
 		    article = query.getResultList().get(query.getFirstResult()); 
-		    // ukonceni transakce
+		    // finish transaction
 		    session.getTransaction().commit();
 	    }
 		catch (Exception e)
@@ -159,6 +147,7 @@ public class ArticleDaoImpl implements IArticleDao
 		
 	}
 
+	
 	@Override
 	public void deleteArticle(Article article)
 	{
@@ -184,7 +173,7 @@ public class ArticleDaoImpl implements IArticleDao
 		
 	}
 
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Article> getAllArticlesInCategory(long categoryId)
 	{

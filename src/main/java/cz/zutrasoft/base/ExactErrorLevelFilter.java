@@ -5,6 +5,8 @@ import org.apache.wicket.feedback.IFeedbackMessageFilter;
 
 public class ExactErrorLevelFilter implements IFeedbackMessageFilter
 {
+	private static final long serialVersionUID = 3668824959988508881L;
+	
 	private int errorLevel;
 
 	public ExactErrorLevelFilter(int errorLevel)

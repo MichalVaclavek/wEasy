@@ -13,12 +13,10 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.services.DirectoryService;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.DirectoryServiceImpl;
-import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
-import cz.zutrasoft.database.daoimpl.DirectoryDaoImpl;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.services.IDirectoryService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
+import cz.zutrasoft.base.servicesimpl.DirectoryService;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.internal.pages.InternalBasePage;
 import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
@@ -31,18 +29,18 @@ public class CreateDirectoryPage extends InternalBasePage
 	private DropDownChoice<Category> categoryDDCH;
 	private Category selectedCategory = null;
 	
+	@SuppressWarnings({ "serial" })
 	public CreateDirectoryPage()
 	{
 		FeedbackPanel feedback = new FeedbackPanel("feedback");
 		add(feedback);
 		
-		Form form = new Form("form")
+		Form<Object> form = new Form<Object>("form")
 		{
 			@Override
 			protected void onSubmit()
 			{
-				//DirectoryService  directoryService = new DirectoryServiceImpl();
-				DirectoryService  directoryService = DirectoryServiceImpl.getInstance();
+				IDirectoryService  directoryService = DirectoryService.getInstance();
 				directoryService.saveDirectory(directoryName, (selectedCategory != null) ? selectedCategory : null);
 
 				setResponsePage(EditPage.class);
@@ -55,20 +53,17 @@ public class CreateDirectoryPage extends InternalBasePage
 			@Override
 			public List<Category> getObject()
 			{
-				//CategoryDaoImpl dao = new CategoryDaoImpl();
-				//CategoryService categorService = new CategoryServiceImpl();
-				CategoryService categoryService = CategoryServiceImpl.getInstance();
+				ICategoryService categoryService = CategoryService.getInstance();
 				return categoryService.getAllCategories();
 			}
 		};
 		
 		// shows Category "name" property
-		ChoiceRenderer choiceRenderer = new ChoiceRenderer("name");
-		categoryDDCH = new DropDownChoice<Category>("select", new PropertyModel(this, "selectedCategory"), categoryModel, choiceRenderer);
+		ChoiceRenderer<Category> choiceRenderer = new ChoiceRenderer<Category>("name");
+		categoryDDCH = new DropDownChoice<Category>("select", new PropertyModel<Category>(this, "selectedCategory"), categoryModel, choiceRenderer);
 		form.add(categoryDDCH);
 		
-		//TextField<String> directoryTF = new TextField<String>("directory", new PropertyModel<String>(this, "directory"));
-		TextField directoryTF = new TextField("directory", new PropertyModel(this, "directoryName"));
+		TextField<String> directoryTF = new TextField<String>("directory", new PropertyModel<String>(this, "directoryName"));
 		directoryTF.setRequired(true);
 		form.add(directoryTF);
 		

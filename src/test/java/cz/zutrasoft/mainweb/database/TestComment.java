@@ -16,17 +16,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runners.Parameterized.Parameter;
 
-import cz.zutrasoft.base.services.ArticleService;
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.services.CommentService;
-import cz.zutrasoft.base.services.UserService;
-import cz.zutrasoft.base.servicesimpl.ArticleServiceImpl;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.CommentServiceImpl;
-import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
-import cz.zutrasoft.database.dao.IArticleDao;
+import cz.zutrasoft.base.services.IArticleService;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.services.ICommentService;
+import cz.zutrasoft.base.services.IUserService;
+import cz.zutrasoft.base.servicesimpl.ArticleService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
+import cz.zutrasoft.base.servicesimpl.CommentService;
+import cz.zutrasoft.base.servicesimpl.UserService;
 import cz.zutrasoft.database.dao.ICommentDao;
-import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
 import cz.zutrasoft.database.daoimpl.CommentDaoImpl;
 import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.database.model.Category;
@@ -43,14 +41,14 @@ import cz.zutrasoft.database.model.UserProfile;
  */
 public class TestComment
 {	
-	private static ArticleService articleService;
+	private static IArticleService articleService;
 	
 	private static ICommentDao comentsDao;
-	private static CommentService commentsService;
+	private static ICommentService commentsService;
 	
-	private static UserService userServ;
+	private static IUserService userServ;
 	
-	private static CategoryService cs;
+	private static ICategoryService cs;
 	
 	@Parameter
 	private static Article artToComment;
@@ -69,15 +67,15 @@ public class TestComment
 	public static void setUpBeforeClass() throws Exception
 	{	
 		//articleService = new ArticleServiceImpl();	
-		articleService = ArticleServiceImpl.getInstance();
+		articleService = ArticleService.getInstance();
 		//userServ = new UserServiceImpl();
-		userServ = UserServiceImpl.getInstance();
+		userServ = UserService.getInstance();
 		//cs = new CategoryServiceImpl();
-		cs = CategoryServiceImpl.getInstance();
+		cs = CategoryService.getInstance();
 		
 		comentsDao = new CommentDaoImpl();
 		//comentsService = new CommentServiceImpl();
-		commentsService = CommentServiceImpl.getInstance();
+		commentsService = CommentService.getInstance();
 		
 		// Create user - author of the comments		
 		User testUser = new User();

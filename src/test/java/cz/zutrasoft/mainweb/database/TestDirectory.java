@@ -8,20 +8,17 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runners.Parameterized.Parameter;
 
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.services.DirectoryService;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
-import cz.zutrasoft.base.servicesimpl.DirectoryServiceImpl;
-import cz.zutrasoft.database.dao.ICategoryDao;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.services.IDirectoryService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
+import cz.zutrasoft.base.servicesimpl.DirectoryService;
 import cz.zutrasoft.database.dao.IDirectoryDao;
-import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
 import cz.zutrasoft.database.daoimpl.DirectoryDaoImpl;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.Directory;
@@ -38,8 +35,8 @@ public class TestDirectory
 
 	private static IDirectoryDao directoryDao;
 	
-	private static DirectoryService directoryService;
-	private static CategoryService categoryService;
+	private static IDirectoryService directoryService;
+	private static ICategoryService categoryService;
 	
 	private static Category categoryForDirectory;
 	
@@ -50,9 +47,9 @@ public class TestDirectory
 	public static void setUpBeforeClass() throws Exception
 	{
 		//categoryService = new CategoryServiceImpl();
-		categoryService = CategoryServiceImpl.getInstance();
+		categoryService = CategoryService.getInstance();
 		//directoryService = new DirectoryServiceImpl();
-		directoryService = DirectoryServiceImpl.getInstance();
+		directoryService = DirectoryService.getInstance();
 		directoryDao = new DirectoryDaoImpl();
 		
 		categoryForDirectory = new Category("Test_Category_For_Directory");		

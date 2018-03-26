@@ -2,13 +2,11 @@ package cz.zutrasoft.database.dao;
 
 import java.util.List;
 
-import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.Directory;
 import cz.zutrasoft.database.model.Image;
 
-public interface ImageDao
+public interface IImageDao
 {
-
 	public List<Image> getAllImages();
 
 	public List<Image> getAllImagesInDirectory(Directory directory);

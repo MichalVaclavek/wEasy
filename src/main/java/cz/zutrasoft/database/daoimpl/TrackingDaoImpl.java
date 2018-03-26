@@ -1,9 +1,5 @@
 package cz.zutrasoft.database.daoimpl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -34,8 +30,7 @@ public class TrackingDaoImpl implements ITrackingDao
 	     {
 	    	 logger.error("Error saving comment into DB. Exception: {}", e.getMessage());
 	         session.getTransaction().rollback();
-	     }
-	 		
+	     }	 		
 	}
 	
 	

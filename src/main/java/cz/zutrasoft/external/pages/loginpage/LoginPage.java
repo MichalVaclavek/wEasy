@@ -1,16 +1,12 @@
 package cz.zutrasoft.external.pages.loginpage;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.feedback.FeedbackMessage;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.util.string.Strings;
 
@@ -19,20 +15,27 @@ import cz.zutrasoft.base.ExactErrorLevelFilter;
 import cz.zutrasoft.external.pages.ExternalBasePage;
 import cz.zutrasoft.external.pages.homepage.HomePage;
 import cz.zutrasoft.external.pages.registerpage.RegisterPage;
-import cz.zutrasoft.internal.pages.editwithmodal.EditPage;
 
+/**
+ * Page to log-in a user to the application.
+ * 
+ * @author vitfo
+ * @author Michal Václavek
+ */
 public class LoginPage extends ExternalBasePage
 {
+	private static final long serialVersionUID = 5097704449915649278L;
 	
-    private String username;
+	private String username;
 	private String password;
 	
+	@SuppressWarnings({ "serial" })
 	@Override
 	protected void onInitialize()
 	{
 		super.onInitialize();
 		
-		add(new Link("register")
+		add(new Link<Object>("register")
 		{
 			@Override
 			public void onClick()
@@ -41,13 +44,11 @@ public class LoginPage extends ExternalBasePage
 			}
 		});
 		
-		//final FeedbackPanel feedback = new FeedbackPanel("feedback");
 		final CustomMessageFP feedback = new CustomMessageFP("feedback",  new ExactErrorLevelFilter(FeedbackMessage.ERROR));
-	       //feedbackErr = new ContactMessageFP("errorFeedback", new ExactErrorLevelFilter(FeedbackMessage.ERROR));
 
 		add(feedback);
 		
-		StatelessForm form = new StatelessForm("loginForm")
+		StatelessForm<Void> form = new StatelessForm<Void>("loginForm")
 		{
 			@Override
 			protected void onSubmit()
@@ -66,7 +67,7 @@ public class LoginPage extends ExternalBasePage
 				}
 			}
 		};
-		form.setDefaultModel(new CompoundPropertyModel(this));
+		form.setDefaultModel(new CompoundPropertyModel<LoginPage>(this));
 		add(form);
 		
 		form.add(new TextField<String>("username").setRequired(true));

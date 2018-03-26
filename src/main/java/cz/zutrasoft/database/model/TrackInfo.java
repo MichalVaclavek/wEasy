@@ -12,32 +12,18 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * CREATE TABLE t_tracking<br>
-(<br>
-  id serial NOT NULL,<br>
-  ip character varying (1000),<br>
-  url character varying (1000),<br>
-  session character varying (100),<br>
-  "time" timestamptz,<br>
-
-  PRIMARY KEY (id)<br>
-);
-<p>
-	Mělo by jít o třídu uchovávající informace o historii procházení stránek kvůli možnosti správně se vracet
-	při prohlížení v prohlížeči. Jde o objekt podporovaný přímo Wicketem?
-<p>
- * @author Michal Václavek - přidání Hibernate, JPA anotací a rozchození příslušných DAO a Service tříd
- * @author vitfo - původní návrh atributů
+ *	Class to keep track on user's activity on web i.e. history of visited pages.
+ *
+ * @author Michal Václavek - added JPA Hibernate
+ * @author vitfo - original atributes
  *
  */
 @Entity
 @Table(name="t_tracking")
 public class TrackInfo implements Serializable
 {
-
 	private static final long serialVersionUID = -5037260703516787376L;
 
 	@Id

@@ -5,9 +5,19 @@ import java.util.List;
 import cz.zutrasoft.database.model.Directory;
 import cz.zutrasoft.database.model.Image;
 
-public interface ImageService
+/**
+ * Basic service methods to work with Images.
+ * 
+ * @author Michal Václavek
+ */
+public interface IImageService
 {
 	public List<Image> getAllImages();
+	/**
+	 * Get list of Images belonging to specified {@link Directory}
+	 * @param directory {@code Directory} object the returned Images belongs to
+	 * @return list of Images belonging to specified {@link Directory}
+	 */
 	public List<Image> getAllImagesInDirectory(Directory directory);
 	
 	/**

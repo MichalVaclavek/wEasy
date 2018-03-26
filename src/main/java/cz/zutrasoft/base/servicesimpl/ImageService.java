@@ -5,35 +5,35 @@ package cz.zutrasoft.base.servicesimpl;
 
 import java.util.List;
 
-import cz.zutrasoft.base.services.ImageService;
-import cz.zutrasoft.database.dao.ImageDao;
+import cz.zutrasoft.base.services.IImageService;
+import cz.zutrasoft.database.dao.IImageDao;
 import cz.zutrasoft.database.daoimpl.ImageDaoImpl;
 import cz.zutrasoft.database.model.Directory;
 import cz.zutrasoft.database.model.Image;
 
 /**
- * @author Michal
+ * @author Michal Václavek
  *
  */
-public class ImageServiceImpl implements ImageService
+public class ImageService implements IImageService
 {
 
-	private ImageDao imageDao = new ImageDaoImpl();
+	private IImageDao imageDao = new ImageDaoImpl();
 		
 	private static class SingletonHolder
 	{
-        private static final ImageServiceImpl SINGLE_INSTANCE = new ImageServiceImpl();
+        private static final ImageService SINGLE_INSTANCE = new ImageService();
     }
 	
 	/**
-	 * @return singleton instance of the ImageServiceImpl
+	 * @return singleton instance of the ImageService
 	 */
-	public static ImageServiceImpl getInstance()
+	public static ImageService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private ImageServiceImpl()
+	private ImageService()
 	{}
 	
 	/* (non-Javadoc)

@@ -1,11 +1,8 @@
 package cz.zutrasoft.database.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,11 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-//import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,31 +20,16 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * CREATE TABLE t_comment
-	(
-  	id serial NOT NULL,
-  	"text" text NOT NULL,
-  	created timestamptz NOT NULL,
-  	article_id int NOT NULL,
-  	user_id int NOT NULL,
-
-  	PRIMARY KEY (id),
-  	FOREIGN KEY (article_id) REFERENCES t_article (id),
-  	FOREIGN KEY (user_id) REFERENCES t_user (id)
-);
-<p>
-	Třída reprezentující komentář k článku. Obsahuje tedy zvláště odkaz na příslušný {@link Article}
-<p>
- * @author Michal Václavek - přidání Hibernate, JPA anotací a rozchození příslušných DAO a Service tříd
- * @author vitfo - původní návrh atributů
  *
+ * Class representing comment to the article. One of the atributes is the reference to the {@link Article} the comment relates to.
+ * 
+ * @author Michal Václavek - added JPA Hibernate
+ * @author vitfo - original atributes
  */
-
 @Entity
 @Table(name="t_comment")
 public class Comment implements Serializable
 {
-
 	private static final long serialVersionUID = -4668072504757454270L;
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)

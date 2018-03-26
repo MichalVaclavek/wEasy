@@ -7,43 +7,35 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
-import cz.zutrasoft.base.services.ArticleService;
-//import cz.zutrasoft.base.servicesimpl.EncoderDecoder.SingletonHolder;
+import cz.zutrasoft.base.services.IArticleService;
 import cz.zutrasoft.database.dao.IArticleDao;
-import cz.zutrasoft.database.dao.IUserDao;
 import cz.zutrasoft.database.daoimpl.ArticleDaoImpl;
-import cz.zutrasoft.database.daoimpl.HibernateUtils;
-import cz.zutrasoft.database.daoimpl.UserDaoImpl;
 import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.database.model.Category;
-import cz.zutrasoft.database.model.Comment;
 
 /**
- * @author Michal
- *
+ * Singleton implementation of the I_ArticleService interface.
+ * 
+ * @author Michal Václavek
  */
-public class ArticleServiceImpl implements ArticleService
+public class ArticleService implements IArticleService
 {
-
 	private IArticleDao articleDao = new ArticleDaoImpl();
 	
 	private static class SingletonHolder
 	{
-        private static final ArticleServiceImpl SINGLE_INSTANCE = new ArticleServiceImpl();
+        private static final ArticleService SINGLE_INSTANCE = new ArticleService();
     }
 	
 	/**
-	 * @return singleton instance of the ArticleServiceImpl
+	 * @return singleton instance of the ArticleService
 	 */
-	public static ArticleServiceImpl getInstance()
+	public static ArticleService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private ArticleServiceImpl()
+	private ArticleService()
 	{}
 	
 	/* (non-Javadoc)
@@ -70,9 +62,10 @@ public class ArticleServiceImpl implements ArticleService
 	}
 	
 	/**
-	 * Pomocná metoda ...
-	 * Gets text of Article from the text edited by user within client form
-	 * @return
+	 * Gets header from the Article's text.
+	 * 
+	 * @param text of the Article conteining header
+	 * @return header of the {@link Article} derived from it's text
 	 */
 	private String getHeadeFromSource(String text)
 	{
@@ -81,9 +74,8 @@ public class ArticleServiceImpl implements ArticleService
     		throw new IllegalArgumentException("Argument [text] cannot be null.");
 		}		
 				 
-    	// Upravy pred ulozenim. Header nesmi byt prazdny
+    	// Header must not be empty
 		String header = "Header?";
-		// Hledani html tagu <h1> </h1> apod.
 		if (text.contains("<"))
 		{
 			header = text.substring(0, text.indexOf("</"));

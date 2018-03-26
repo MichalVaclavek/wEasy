@@ -9,10 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Vyuzivaji ostatni tridy k jednodussimi otevreni a zavreni session do DB
- * pomoci Hibernate
- * 
- * @author Michal V.
+ * Utilities to open connection to DB using Hibernate.
+ *
+ * @author Michal Václavek
  *
  */
 public class HibernateUtils
@@ -21,7 +20,7 @@ public class HibernateUtils
 	
     private static final SessionFactory sessionFactory = buildSessionFactory();
  
-    // Hibernate 5: Otevreni spojeni s db pomoci Hibernate
+    // Hibernate 5: Opening connection to DB.
     private static SessionFactory buildSessionFactory()
     {
         try

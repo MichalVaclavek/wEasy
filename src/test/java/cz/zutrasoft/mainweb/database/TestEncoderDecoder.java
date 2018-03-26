@@ -10,19 +10,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import cz.zutrasoft.base.servicesimpl.EncoderDecoder;
+import cz.zutrasoft.base.servicesimpl.EncoderDecoderService;
 
 public class TestEncoderDecoder
 {
 
-	private static EncoderDecoder ed;
+	private static EncoderDecoderService ed;
 	
 	/**
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass()
 	{
-		ed = EncoderDecoder.init("12goro.45.7");		
+		ed = EncoderDecoderService.init("12goro.45.7");		
 	}
 
 

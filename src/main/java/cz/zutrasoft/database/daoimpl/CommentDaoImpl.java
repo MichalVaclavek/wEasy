@@ -1,11 +1,5 @@
 package cz.zutrasoft.database.daoimpl;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +7,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-//import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,12 +42,11 @@ public class CommentDaoImpl implements ICommentDao
 	         session.getTransaction().rollback();
 	     }
 	 
-	    // Zatim slouzi pro kontrolu, ve vyslednem kodu nemusi byt
 	    logger.info("Comment inserted. User id: {} ", comment.getUserId());
 
 	}
 
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Comment> getAllComments()
 	{
@@ -87,7 +80,7 @@ public class CommentDaoImpl implements ICommentDao
 	public List<Comment> getAllCommentsFromUser(int userID)	
 	{
 		List<Comment> comments = new ArrayList<>();
-        
+        				
 		SessionFactory factory = HibernateUtils.getSessionFactory();		 
 	    Session session = factory.getCurrentSession();
 	 
@@ -95,8 +88,8 @@ public class CommentDaoImpl implements ICommentDao
 	    {           	                    
 	        session.getTransaction().begin();
 	 	        	 	    	           
-	        // Varianta, kdy neni pot5eba psat HQL prikaz sql = "Select c from " + Comment.class.getName() + " c order by c.email";
-	        // Podle stackowvrflow.com - https://stackoverflow.com/questions/39415703/alternative-code-for-createcriteria-method-in-hibernate-5-2-2
+	        // According stackowvrflow.com - https://stackoverflow.com/questions/39415703/alternative-code-for-createcriteria-method-in-hibernate-5-2-2
+	        // Could be done using HQL query sql = "Select c from " + Comment.class.getName() + " c order by c.email";
 	        CriteriaBuilder cb = session.getCriteriaBuilder();
 	        CriteriaQuery<Comment> cq = cb.createQuery(Comment.class);
 	        Root<Comment> comms = cq.from(Comment.class);
@@ -105,17 +98,9 @@ public class CommentDaoImpl implements ICommentDao
 	        
 	        comments = (List<Comment>)session.createQuery(cq).getResultList();
 	 
-	        logger.info("All comments from userID: {}", userID);
+	        logger.info("All comments from userID: {} loaded.", userID);        
 	        
-	        /*
-	        for (Comment comm : comments)
-	        {
-	        	logger.info("Comment from user id: {} and for article id: {}", comm.getUserId() , comm.getArticle().getHeader());
-	        }
-	        logger.info("======================================");
-	        */
-
-	         session.getTransaction().commit();
+	        session.getTransaction().commit();
 	     } catch (Exception e)
 	     {
 	    	 logger.error("Error retrieving commnets of user id {} from DB. Exception: {}", userID, e.getMessage());
@@ -125,7 +110,7 @@ public class CommentDaoImpl implements ICommentDao
         return comments;
 	}
 
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Comment> getAllCommentsForArticleId(int artId)
 	{
@@ -151,7 +136,7 @@ public class CommentDaoImpl implements ICommentDao
 	    }
 		catch (Exception e)
 		{
-			logger.error("Chyba při hledání komentařů k Article.id {} . Exception: {}", artId, e.getMessage());
+			logger.error("Error searching comments for Article.id {} . Exception: {}", artId, e.getMessage());
 			session.getTransaction().rollback();
 		}
 	    
@@ -162,10 +147,13 @@ public class CommentDaoImpl implements ICommentDao
 	@Override
 	public List<Comment> getAllCommentsForArticle(Article a)
 	{
+		/*
 		if (a != null)
 			return getAllCommentsForArticleId(a.getId());
 		else
 			return null;
+		*/
+		return (a != null) ? getAllCommentsForArticleId(a.getId()) : null;
 	}
 
 
@@ -195,7 +183,7 @@ public class CommentDaoImpl implements ICommentDao
 		
 	}
 
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public Comment getById(int id)
 	{
@@ -211,10 +199,8 @@ public class CommentDaoImpl implements ICommentDao
 			String sql = "Select c from " + Comment.class.getName() + " c "
 		               	+ " Where c.id = :id";
 		    
-			Query<Comment> query = session.createQuery(sql);
-		       
-		    query.setParameter("id", id);
-		       		    		 
+			Query<Comment> query = session.createQuery(sql);	       
+		    query.setParameter("id", id);		       		    		 
 		    comment = query.getResultList().get(query.getFirstResult()); 
 		    
 		    session.getTransaction().commit();

@@ -22,16 +22,15 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * Základní třída pro uchování informací o vytvořeném uživateli stránek. Je převzato z projektu SpringMVCSecureLogin
- * na stránkách websystique.? <br>
- * Obsahuje všechny obvyklé atributy, některé nejsou povinné.
- *
+ * Class to hold all usual user's atributes, like username, password, e-mail etc.
+ * Some of these atributes can be emty or null.
+ * 
+ * @author Michal Václavek
  */
 @Entity
 @Table(name="t_user")
 public class User implements Serializable
 {
-
 	private static final long serialVersionUID = -8492376775257003577L;
 
 	@Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,8 +53,7 @@ public class User implements Serializable
     @NotEmpty
     @Column(name="password", nullable=false)
 	private String password;
-	
-	
+		
 	@NotEmpty
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_to_user_profile", 
@@ -64,7 +62,7 @@ public class User implements Serializable
     private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 	
 		
-	public User() { }
+	public User() {}
 	
 	public Integer getId()
 	{

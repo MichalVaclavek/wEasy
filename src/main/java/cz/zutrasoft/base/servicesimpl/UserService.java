@@ -7,49 +7,41 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cz.zutrasoft.base.exceptions.UserSsoNotUniqueException;
-import cz.zutrasoft.base.services.UserService;
+import cz.zutrasoft.base.services.IUserService;
 import cz.zutrasoft.database.dao.IUserDao;
-import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
 import cz.zutrasoft.database.daoimpl.UserDaoImpl;
 import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
 
-
-//@Transactional // Jde o anotaci Springu
-public class UserServiceImpl implements UserService
+//@Transactional // Spring annotation if Spring is used
+public class UserService implements IUserService
 {
-	static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	
 	private IUserDao userDao = new UserDaoImpl();
  
-    //private EncoderDecoder passwordEncoder = EncoderDecoder.init();
-    private static EncoderDecoder passwordEncoder = EncoderDecoder.init("12goro.45.7");
+    private static EncoderDecoderService passwordEncoder = EncoderDecoderService.init("12goro.45.7");
     
     private static class SingletonHolder
 	{
-        private static final UserServiceImpl SINGLE_INSTANCE = new UserServiceImpl();
+        private static final UserService SINGLE_INSTANCE = new UserService();
     }
 	
 	/**
-	 * @return singleton instance of the UserServiceImpl
+	 * @return singleton instance of the UserService
 	 */
-	public static UserServiceImpl getInstance()
+	public static UserService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private UserServiceImpl()
+	private UserService()
 	{}
      
-	
 	
     @Override
     public User findById(Integer id)
@@ -64,6 +56,12 @@ public class UserServiceImpl implements UserService
         return user;
     }
  
+    /**
+     * Saves new User in DB. It is checked if the username is not already used for another user in DB.<br>
+     * Only basic USER role can be assigned.<br>
+     * ADMIN role can be assigned only using respective test method {@link TestCreateAdminUser} during develepment
+     * or directly within DB administration. 
+     */
     @Override
     public boolean saveUser(User user)
     {
@@ -77,6 +75,7 @@ public class UserServiceImpl implements UserService
         	if ((user.getUserProfiles() == null) || (user.getUserProfiles().size() == 0))
         	{
         		Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+        		// Only basic USER role can be assigned to commom user 
         		userProfiles.add(new UserProfile(1, "USER"));
         		user.setUserProfiles(userProfiles);
         	}
@@ -93,18 +92,11 @@ public class UserServiceImpl implements UserService
     }
  
     /**
-     * Komentář z původního zdroje, pokud je operace prováděna ve Springu: <br>
-     * 
-     * Since the method is running with Transaction, No need to call hibernate update explicitly.
-     * Just fetch the entity from db and update it with proper values within transaction.
-     * It will be updated in db once transaction ends.
-     * V73e uveden0 tedy platí pouze pro Spring, v této aplikaci je třeba volat update extra
-     * 
+	 * Updates User data in DB
      */
     @Override
     public void updateUser(User user)
     {
-        //User entity = userDao.findById(user.getId());
     	User entity = findById(user.getId());
         
         if (entity != null)
@@ -132,7 +124,6 @@ public class UserServiceImpl implements UserService
     }
  
     @Override 
-    //public void deleteUserByUsername(String userName)
     public void deleteUserByUserId(Integer userId)
     {
         userDao.deleteByUserId(userId);
@@ -150,17 +141,9 @@ public class UserServiceImpl implements UserService
         return ( user == null || ((id != null) && (user.getId() == id)));
     }
     
-    /*
-    @Override
-    public boolean isUsernameUnique(Integer id, String sso)
-    {
-        User user = findByUsername(sso);
-        return ( user == null || ((id != null) && (user.getId() == id)));
-    }
-*/
-    
     /**
-     * Authentikace noveho Usera. Jeho heslo se predpoklada jeste nezasifrovane ...
+     * Authenticates User. Password is not encrypted yet.
+     * @param userToAuthenticate - user object with password to be authenticated
      */
     @Override
     public boolean authenticate(User userToAuthenticate)
@@ -178,7 +161,7 @@ public class UserServiceImpl implements UserService
     }
     
     /**
-     * Authentikace username a password
+     * Authenticates username and password. Password is not encrypted yet.
      */
     @Override
     public boolean authenticate(String userName, String passw)

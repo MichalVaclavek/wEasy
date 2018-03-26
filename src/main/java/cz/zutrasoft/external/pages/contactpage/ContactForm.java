@@ -1,17 +1,12 @@
 package cz.zutrasoft.external.pages.contactpage;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.feedback.FeedbackMessage;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -20,18 +15,18 @@ import org.apache.wicket.validation.validator.EmailAddressValidator;
 import cz.zutrasoft.base.CustomMessageFP;
 import cz.zutrasoft.base.ExactErrorLevelFilter;
 import cz.zutrasoft.base.services.IContactMessageService;
-import cz.zutrasoft.base.servicesimpl.CommentServiceImpl;
-import cz.zutrasoft.base.servicesimpl.ContactMessageServiceImpl;
-import cz.zutrasoft.external.pages.homepage.HomePage;
+import cz.zutrasoft.base.servicesimpl.ContactMessageService;
 
 /**
- * Basic contact message form.
+ * Contact message form.
  * 
  * @author Michal Václavek
- *
  */
-public class ContactForm extends Form
+//@SuppressWarnings("rawtypes" )
+public class ContactForm extends Form<Object>
 {
+	private static final long serialVersionUID = -3701051598114443944L;
+	
 	private String authorName;
 	private String emailAddr;
     private String contactMessage;
@@ -43,28 +38,30 @@ public class ContactForm extends Form
     private Model<String> userNameMdl = new Model<>();
     private Model<String> emailMdl = new Model<>();
     
-    //private static IContactMessageService contactMessageService = new ContactMessageServiceImpl();
-    private static IContactMessageService contactMessageService = ContactMessageServiceImpl.getInstance();
+    private static IContactMessageService contactMessageService = ContactMessageService.getInstance();
 
-    public ContactForm(String id, String name, String email)
+    @SuppressWarnings({"serial" })
+	public ContactForm(String id, String name, String email)
     {
         super(id);
         
-        setDefaultModel(new CompoundPropertyModel(this));
+        setDefaultModel(new CompoundPropertyModel<ContactForm>(this));
            
-        // Predvyplnit userName a email, pokud jsou neprazdne   
+        // If name is known (usually loged-in username) than fill-in respective form field  
         if (!name.isEmpty())
         	authorName = name;
         
         if (!email.isEmpty())
         	emailAddr = email;
         
+        // Feedback panel to inform that message was sent/saved successfuly
         feedbackSuccess = new CustomMessageFP("successFeedback", new ExactErrorLevelFilter(FeedbackMessage.INFO));
 
 		feedbackSuccess.setOutputMarkupId(true);
 		feedbackSuccess.setOutputMarkupPlaceholderTag(true);		
 		add(feedbackSuccess);
 		
+		// Error Feedback panel to inform that something is wrong with the message
         feedbackErr = new CustomMessageFP("errorFeedback", new ExactErrorLevelFilter(FeedbackMessage.ERROR));
 
 		feedbackErr.setOutputMarkupId(true);
@@ -98,11 +95,11 @@ public class ContactForm extends Form
 				feedbackSuccess.setVisible(true);
 				this.info(getString("form.messageSentSuccess")); 
 				target.add(feedbackSuccess);
+				
 				messageTextArea.clearInput();
 				target.add(messageTextArea);
 				
 				Session.get().getFeedbackMessages().clear();
-				//target.add(feedbackSuccess);
 				target.add(feedbackErr);													
 			}
 						
@@ -114,7 +111,6 @@ public class ContactForm extends Form
 				
 				Session.get().getFeedbackMessages().clear();
 				target.add(feedbackSuccess);
-				//target.add(feedbackErr);
 			}						
 		});
  		
@@ -123,10 +119,9 @@ public class ContactForm extends Form
     @Override
     protected void onSubmit()
     {    	
-		super.onSubmit();									
-		
+		super.onSubmit();											
 		contactMessageService.saveContactMessage(userNameMdl.getObject(), emailMdl.getObject(), contactMessage);
-		contactMessage = "";					
+		contactMessage = ""; // after submmiting clears text of the message for the next ussage					
     }
     
     

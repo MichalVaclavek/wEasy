@@ -3,7 +3,7 @@
  */
 package cz.zutrasoft.base.servicesimpl;
 
-import cz.zutrasoft.base.services.TrackInfoService;
+import cz.zutrasoft.base.services.ITrackInfoService;
 import cz.zutrasoft.database.dao.ITrackingDao;
 import cz.zutrasoft.database.daoimpl.TrackingDaoImpl;
 import cz.zutrasoft.database.model.TrackInfo;
@@ -12,26 +12,27 @@ import cz.zutrasoft.database.model.TrackInfo;
  * @author Michal Václavek
  *
  */
-public class TrackingInfoServiceImpl implements TrackInfoService
+public class TrackingInfoService implements ITrackInfoService
 {
 
 	private static class SingletonHolder
 	{
-        private static final TrackingInfoServiceImpl SINGLE_INSTANCE = new TrackingInfoServiceImpl();
+        private static final TrackingInfoService SINGLE_INSTANCE = new TrackingInfoService();
     }
 	
 	/**
-	 * @return singleton instance of the ImageServiceImpl
+	 * @return singleton instance of the TrackingInfoService
 	 */
-	public static TrackingInfoServiceImpl getInstance()
+	public static TrackingInfoService getInstance()
 	{				
 		return SingletonHolder.SINGLE_INSTANCE;			
 	}
 	
-	private TrackingInfoServiceImpl()
+	private TrackingInfoService()
 	{}
 	
 	private ITrackingDao trackInfoDao = new TrackingDaoImpl();
+	
 	/* (non-Javadoc)
 	 * @see cz.zutrasoft.base.services.TrackInfoService#save(cz.zutrasoft.database.model.TrackInfo)
 	 */

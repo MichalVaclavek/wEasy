@@ -4,15 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Pomocná třída k uchování vazby mezi {@link Category} a články {@link Article} v této Category
+ * Helping class to hold relation between {@link Category} and it's {@link Article}s.
  * 
- * @author Michal Václavek - přidání Hibernate, JPA anotací a rozchození příslušných DAO a Service tříd
- * @author vitfo - původní návrh atributů
+ * @author Michal Václavek
+ * @author vitfo - original atributes
  *
  */
 public class CategoryWithArticles implements Serializable
 {
-
 	private static final long serialVersionUID = 3060015771689540302L;
 	
 	private Category category;

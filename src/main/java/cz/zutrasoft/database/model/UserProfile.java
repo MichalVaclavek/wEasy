@@ -10,16 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Základní třída pro uchování informací o user profilu, který se přiřazuje každému {@link User}.<br>
- * Je převzato z projektu SpringMVCSecureLogin na stránkách websystique.? <br>
+ * Class to hold one user profile. Every {@link User} must have assigned at least one instance of this class.
  *
+ * @author Michal Václavek
  */ 
 @Entity
 @Table(name="t_user_profile")
 public class UserProfile implements Serializable
 {
- 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private static final long serialVersionUID = 4048690834358259415L;
+
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; 
  
     @Column(name="type", length=15, unique=true, nullable=false)

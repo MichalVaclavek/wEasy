@@ -8,24 +8,29 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
 import cz.zutrasoft.base.CustomMessageFP;
 import cz.zutrasoft.base.ExactErrorLevelFilter;
-import cz.zutrasoft.base.services.UserService;
-import cz.zutrasoft.base.servicesimpl.UserServiceImpl;
-//import cz.zutrasoft.base.services.UserServiceImpl;
-//import cz.zutrasoft.database.daoimpl.DaoImpl;
-import cz.zutrasoft.database.daoimpl.UserDaoImpl;
+import cz.zutrasoft.base.services.IUserService;
+import cz.zutrasoft.base.servicesimpl.UserService;
 import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.external.pages.ExternalBasePage;
 import cz.zutrasoft.external.pages.homepage.HomePage;
 import cz.zutrasoft.external.pages.loginpage.LoginPage;
 
+/**
+ * Page to register a new User
+ * 
+ * @author vitfo
+ * @author Michal Václavek
+ *
+ */
 public class RegisterPage extends ExternalBasePage
 {	
+	private static final long serialVersionUID = 4587259321137833297L;
+	
 	private String username;
 	private String firstName;
 	private String lastName;
@@ -35,15 +40,15 @@ public class RegisterPage extends ExternalBasePage
 	
 	private AjaxSubmitLink submit;
 	
+	@SuppressWarnings({ "serial" })
 	public RegisterPage()
 	{
-		//final FeedbackPanel feedbackErr = new FeedbackPanel("errorFeedback");
         final CustomMessageFP feedbackErr = new CustomMessageFP("errorFeedback", new ExactErrorLevelFilter(FeedbackMessage.ERROR));
 
 		feedbackErr.setOutputMarkupId(true);
 		add(feedbackErr);
 			
-		final StatelessForm form = new StatelessForm("registerForm")
+		final StatelessForm<Void> form = new StatelessForm<Void>("registerForm")
 		{
 			@Override
 			protected void onSubmit()
@@ -55,20 +60,19 @@ public class RegisterPage extends ExternalBasePage
 				user.setFirstName(firstName);
 				user.setLastName(lastName);
 								
-				//UserService userService = new UserServiceImpl();
-				UserService userService = UserServiceImpl.getInstance();
+				IUserService userService = UserService.getInstance();
 				
 				if (userService.saveUser(user))	
 				{
 					AuthenticatedWebSession.get().signIn(username, password);
-					setResponsePage(HomePage.class); // po uspesne regitraci na homepage
+					setResponsePage(HomePage.class); // Go to HomePage after successful registration
 				}
 				else
 					setResponsePage(LoginPage.class);					
 			}
 		};
 		
-		form.setDefaultModel(new CompoundPropertyModel(this));
+		form.setDefaultModel(new CompoundPropertyModel<RegisterPage>(this));
 		add(form);
 		
 		form.add(new TextField<String>("username").setRequired(true));
@@ -77,7 +81,7 @@ public class RegisterPage extends ExternalBasePage
 		
 		TextField<String> emailTF = new TextField<String>("email");
 		emailTF.add(EmailAddressValidator.getInstance());
-		emailTF.setRequired(true); // Heslo se bude vyzadovat
+		emailTF.setRequired(true); // Email required
 		form.add(emailTF);
 		
 		form.add(new PasswordTextField("password"));

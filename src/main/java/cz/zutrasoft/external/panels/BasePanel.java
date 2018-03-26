@@ -11,14 +11,15 @@ import cz.zutrasoft.database.model.Article;
 
 /**
  * Panel that contains all links for articles from one category.
- * @author User
- *
+ * 
+ * @author vitfo
  */
 public abstract class BasePanel extends Panel
 {
 
 	private static final long serialVersionUID = 3513797842860694427L;
 
+	@SuppressWarnings("serial")
 	public BasePanel(String id, IModel<List<Article>> model)
 	{
 		super(id, model);
@@ -36,6 +37,7 @@ public abstract class BasePanel extends Panel
 	
 	/**
 	 * Gets the title of the panel.
+	 * 
 	 * @return title of the panel
 	 */
 	protected abstract String getPanelTitle();

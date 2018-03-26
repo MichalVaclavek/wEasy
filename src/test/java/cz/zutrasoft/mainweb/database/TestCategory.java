@@ -15,8 +15,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runners.Parameterized.Parameter;
 
-import cz.zutrasoft.base.services.CategoryService;
-import cz.zutrasoft.base.servicesimpl.CategoryServiceImpl;
+import cz.zutrasoft.base.services.ICategoryService;
+import cz.zutrasoft.base.servicesimpl.CategoryService;
 import cz.zutrasoft.database.dao.ICategoryDao;
 import cz.zutrasoft.database.daoimpl.CategoryDaoImpl;
 import cz.zutrasoft.database.model.Category;
@@ -34,7 +34,7 @@ public class TestCategory
 	
 	private static ICategoryDao categoryDao;
 	
-	private static CategoryService categoryService;
+	private static ICategoryService categoryService;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -44,7 +44,7 @@ public class TestCategory
 	{ 
 		categoryDao = new CategoryDaoImpl();
 		//categoryService = new CategoryServiceImpl();
-		categoryService = CategoryServiceImpl.getInstance();
+		categoryService = CategoryService.getInstance();
 		
 		Category categ = new Category("Test_Category1");		
 		categoryService.saveCategory(categ);
