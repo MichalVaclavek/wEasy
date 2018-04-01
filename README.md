@@ -45,7 +45,7 @@ Java 8 installed, Maven, created PostgreSQL DB, Tomcat 8.5 installed within IDE.
 ### Installing
 
 Importing project from Github:
-- in Eclipse go to File/Import/Git/Projects from Git, click Next. Select Clone URI, click Next. Then fill in form URI: https://github.com/MichalVaclavek/wEasy, click Next. Select "master" branch, click Next. Define your local destination Directory, click Next. Select Import Wizard (.. New Project) and click Finish. Projects will be created in your Eclipse.
+- in Eclipse go to File/Import/Git/Projects from Git, click Next. Select Clone URI, click Next. Then fill in form URI: https://github.com/MichalVaclavek/wEasy, click Next. Select "next_development" branch, click Next. Define your local destination Directory, click Next. Select Import Wizard (.. New Project) and click Finish. Projects will be created in your Eclipse.
 
 After importing project from GitHub, a DB must be created. If the PostgreSQL DB is used, you can create complete DB using /scripts/postgres_script.sql file included in the source code.
 
