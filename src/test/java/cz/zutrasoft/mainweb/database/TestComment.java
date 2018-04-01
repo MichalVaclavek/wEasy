@@ -65,16 +65,12 @@ public class TestComment
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
-	{	
-		//articleService = new ArticleServiceImpl();	
+	{		
 		articleService = ArticleService.getInstance();
-		//userServ = new UserServiceImpl();
 		userServ = UserService.getInstance();
-		//cs = new CategoryServiceImpl();
 		cs = CategoryService.getInstance();
 		
 		comentsDao = new CommentDaoImpl();
-		//comentsService = new CommentServiceImpl();
 		commentsService = CommentService.getInstance();
 		
 		// Create user - author of the comments		
@@ -115,18 +111,14 @@ public class TestComment
         comentsDao.saveComment(comment);         		              	
 	}
 	
-
 	
 	@AfterClass
 	public static void delete_Articles_And_Category() throws Exception
 	{		
 		articleService.getAllArticles().forEach(articleService::deleteArticle);	
-
-		cs.deleteCategory(categ);
-		
+		cs.deleteCategory(categ);		
 		userServ.deleteUserByUserId(testUser.getId());
 	}
-
 
 	/**
 	 * @throws java.lang.Exception
@@ -196,7 +188,6 @@ public class TestComment
 	@Test
     public void get_All_Comments_For_Article_Service()
 	{
-       // Nalezeni komentaru podle Article
        List<Comment> comments = commentsService.getAllCommentsForArticleId(artToComment.getId());
         
        assertNotNull(comments);
@@ -242,13 +233,11 @@ public class TestComment
 		
         String commentText = "No to je zase hrůza!";
         // Save one comment to DB
-        Comment comment = commentsService.saveTextAsComment(commentText, testUser.getId(), artToComment.getId());  
-                
+        Comment comment = commentsService.saveTextAsComment(commentText, testUser.getId(), artToComment.getId());                 
         assertTrue(commentsService.getAllComments().size() == (numberOfCommentsBeforeCreate + 1)); 
         
         // Delete one comment from DB
-        commentsService.deleteComment(comment);
-        
+        commentsService.deleteComment(comment);        
         assertTrue(commentsService.getAllComments().size() == numberOfCommentsBeforeCreate); 
 	}
     

@@ -13,7 +13,7 @@ import cz.zutrasoft.base.services.IContactMessageService;
 import cz.zutrasoft.base.servicesimpl.ContactMessageService;
 
 /**
- * * Otestuje vsechny metody dulezite pro praci s ContactMessage tj. jak metody v DAO vrstve {@code cz.zutrasoft.database.daoimpl},
+ * Otestuje vsechny metody dulezite pro praci s ContactMessage tj. jak metody v DAO vrstve {@code cz.zutrasoft.database.daoimpl},
  * tak i metody v Service vrsve {@code cz.zutrasoft.base.servicesimpl}
  * 
  * @author Michal Václavek
@@ -38,7 +38,6 @@ public class TestContactMessage
 	@Before
 	public void setUp() throws Exception
 	{
-		//cmServ = new ContactMessageServiceImpl();
 		cmServ = ContactMessageService.getInstance();
 	}
 
@@ -52,5 +51,4 @@ public class TestContactMessage
 		assertTrue(cmServ.getAllMessages().size() == (numOfCmBeforeAdd + 1));		
 	}
 	
-
 }

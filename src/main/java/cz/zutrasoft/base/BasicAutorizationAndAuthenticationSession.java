@@ -32,7 +32,7 @@ public class BasicAutorizationAndAuthenticationSession extends AuthenticatedWebS
 	}
 
 	/**
-	 * Authenticate user using username and password using {@link UserService}
+	 * Authenticate user's username and password using {@link UserService}
 	 */
 	@Override
     public boolean authenticate(String username, String password)

@@ -14,47 +14,38 @@ import cz.zutrasoft.base.servicesimpl.EncoderDecoderService;
 
 public class TestEncoderDecoder
 {
-
 	private static EncoderDecoderService ed;
 	
-	/**
-	 */
 	@BeforeClass
 	public static void setUpBeforeClass()
 	{
-		ed = EncoderDecoderService.init("12goro.45.7");		
+		ed = EncoderDecoderService.init("passwd_for_encrypt/decrypt");		
 	}
-
 
 	@Before
 	public void setUp() throws Exception
 	{
 	}
 
-
-
 	/**
-	 * Testovani zasifrovani a desifrovani hesla
+	 * Tests string encryption and decryption using {@link EncoderDecoderService}
 	 */
 	@Test
-	public void testPasswdEncryptDecrypt()
+	public void test_Passwd_Encrypt_Decrypt()
 	{		
 		try
 		{					
 			String originalPassword = "se545t2553ss";
 	        System.out.println("Original password: " + originalPassword);
 	        
-	        String encryptedPassword;
-	        
-	        encryptedPassword = ed.encrypt(originalPassword);
+	        String encryptedPassword = ed.encrypt(originalPassword);;	       
 			
 	        assertNotNull(encryptedPassword);
 	        
 			System.out.println("Encrypted password: " + encryptedPassword);
 			String decryptedPassword = ed.decrypt(encryptedPassword);
 			
-			assertNotNull(decryptedPassword);
-			
+			assertNotNull(decryptedPassword);			
 			assertTrue(originalPassword.equals(decryptedPassword));
 			
 			System.out.println("Decrypted password: " + decryptedPassword);
@@ -65,8 +56,7 @@ public class TestEncoderDecoder
 		} catch (IOException e)
 		{
 			System.out.println("Chyba pri kodovani hesla." + e.getMessage());
-		} 
-		       		
+		} 		       		
 	}
 
 }

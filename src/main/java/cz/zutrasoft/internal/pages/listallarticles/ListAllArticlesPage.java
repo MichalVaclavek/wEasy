@@ -60,7 +60,7 @@ public class ListAllArticlesPage extends InternalBasePage
 						Article article = (Article) model.getObject();
 						PageParameters pp = new PageParameters();
 						pp.set(0, article.getId());
-//						setResponsePage(EditPage.class, pp);		
+						//setResponsePage(EditPage.class, pp);		
 						setResponsePage(new EditPage(pp));
 					}
 				});

@@ -20,12 +20,12 @@ public abstract class BaseLinkPanel extends Panel
 {
 	private static final long serialVersionUID = 2653710423208593686L;
 
-	@SuppressWarnings({"serial", "unchecked" })
+	@SuppressWarnings({"serial"})
 	public BaseLinkPanel(String id, final IModel<Article> model)
 	{
 		super(id, model);
 		
-		Link<?> link = new Link<Object>("link")
+		Link<Object> link = new Link<Object>("link")
 		{
 			@Override
 			public void onClick()

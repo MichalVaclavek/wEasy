@@ -14,13 +14,17 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.WebRequest;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import cz.zutrasoft.base.services.ICategoryService;
 import cz.zutrasoft.base.servicesimpl.CategoryService;
 import cz.zutrasoft.base.servicesimpl.TrackingInfoService;
 import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.TrackInfo;
+import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.external.menus.TopMenuPanel;
+import cz.zutrasoft.external.pages.articlepage.ArticlePage;
+import cz.zutrasoft.external.pages.registerpage.RegisterPage;
 import cz.zutrasoft.external.panels.CategoryPanel;
 import cz.zutrasoft.external.panels.CategoryPanelModel;
 
@@ -63,17 +67,24 @@ public abstract class BasePage extends WebPage
 		trackUser();
 		
 		// Add top menu panel
-		TopMenuPanel topMenuPanel = new TopMenuPanel("topMenu");
+		TopMenuPanel topMenuPanel = new TopMenuPanel("topMenu");				
+				
+		Model<String> strUserMdl = new Model<>();
 		
-		// Model for displaying username of the logged-in user
-		Model<String> strMdl = new Model<>();
-					
-		// Label with logged-in user info into TopMenu Panel
-		final Label logedInUser = new Label("username", strMdl);
-		logedInUser.setVisible(false);
-		logedInUser.setOutputMarkupId(true);
-		add(logedInUser);
-		
+		Link<Object> linkUser = new Link<Object>("linkUser")
+		{
+			@Override
+			public void onClick()
+			{
+				// Create page parameter so the correct user data will be display in RegisterPage
+				PageParameters pp = new PageParameters();
+				pp.set(0, strUserMdl.getObject());
+				setResponsePage(RegisterPage.class, pp);
+			}
+		};
+		linkUser.setVisible(false);
+		linkUser.setOutputMarkupId(true);
+				
 		BasicAutorizationAndAuthenticationSession session = null;
 		if (AuthenticatedWebSession.get() instanceof BasicAutorizationAndAuthenticationSession)
 		{
@@ -86,13 +97,15 @@ public abstract class BasePage extends WebPage
 			{
 				String userName = session.getUsername();
 				// Display the username
-				strMdl.setObject(getString("form.loggedinUser") + userName);
-				logedInUser.setVisible(true);
+				//strUserMdl.setObject(getString("form.loggedinUser") + userName);
+				strUserMdl.setObject(userName);
+				linkUser.setVisible(true);
+				add(linkUser.add(new Label("linkUserLabel", new Model<String>(getString("form.loggedinUser") + userName))));
 			}
 		}
-		
-		topMenuPanel.add(logedInUser);
-		
+						
+		topMenuPanel.add(linkUser);
+				
 		add(topMenuPanel);
 				
 		// List of all article's Categories

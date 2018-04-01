@@ -199,11 +199,6 @@ a:hover {
     padding: 5px;
 }
 
-/*
-.feedbackPanel li {
-        padding: 2px 0;
-}
-*/
 
 nav ul {
 	font-size: 110%;
@@ -268,6 +263,13 @@ label {
 	margin: 5px 10px;
 }
 
+.linkUserLabel
+{
+	text-decoration: underline;
+	margin: 5px 10px;
+	float: right;
+}
+
 input[type="submit"], input[type="button"] {
 	margin-top: 5px;
 }
@@ -313,8 +315,6 @@ input[type="submit"], input[type="button"] {
 	margin: 5px 5px;
 	padding: 5px;
 }
-
-
 
 
 /* ======= Comments =========== */

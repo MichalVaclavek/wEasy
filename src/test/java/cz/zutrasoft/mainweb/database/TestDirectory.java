@@ -32,7 +32,6 @@ import cz.zutrasoft.database.model.Directory;
  */
 public class TestDirectory
 {
-
 	private static IDirectoryDao directoryDao;
 	
 	private static IDirectoryService directoryService;
@@ -46,9 +45,7 @@ public class TestDirectory
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-		//categoryService = new CategoryServiceImpl();
 		categoryService = CategoryService.getInstance();
-		//directoryService = new DirectoryServiceImpl();
 		directoryService = DirectoryService.getInstance();
 		directoryDao = new DirectoryDaoImpl();
 		
@@ -65,8 +62,7 @@ public class TestDirectory
         directory2.setName("TestDir2");                 
         directory2.setCategory(categoryForDirectory);
         
-        directoryService.saveDirectory(directory2);
-		
+        directoryService.saveDirectory(directory2);		
 	}
 	
 	@AfterClass
@@ -75,26 +71,20 @@ public class TestDirectory
 		directoryService.getAllDirectories().forEach(directoryService::deleteDirectory);
 		categoryService.deleteCategory(categoryForDirectory);
 	}
-	
-		
+			
     
     @Test
 	public void test_Get_AllDirectories_Service()
 	{  	
-    	// získání všech Directories z databáze
         List<Directory> directories = directoryService.getAllDirectories();
         assertNotNull(directories);
         assertTrue(directories.size() > 0);              
 	}
     
     /* ===== CREATE ======= READ ========= DELETE ================ */
-
 		
-	//@Parameter
-    //public String knownCategoryNameDAO = "Veverky";
 	@Parameter
     public String newDirectoryNameDAO = "ImagesDirInVeverkyDAO";	
-
 	
 	/**
 	 * Provede test 3 základních operací s DB pomocí DAO vrstvy, Create, Read, Delete (Update i Directory není potřeba)
@@ -104,37 +94,29 @@ public class TestDirectory
 	{
 		// ------ CREATE ----------- //
 		int numberOfDirectoriesBeforeCreate = directoryDao.getAllDirectories().size();    
-    	
-    	//ICategoryDao categoryDao = new CategoryDaoImpl();
-        //Category category = categoryDao.getCategoryByName(knownCategoryNameDAO);
         
-        // Vytvoreni a ulozeni noveho adresare, napr. pro fotky ?
+        // Create and save new Directory
         Directory directory = new Directory();       
         directory.setName(newDirectoryNameDAO);                 
         directory.setCategory(categoryForDirectory);
         
         directoryDao.saveDirectory(directory);
                
-        // Pocet vsech Directory se musi zvysit o 1
+        // Number of Directories increased by 1
         assertTrue(directoryDao.getAllDirectories().size() == (numberOfDirectoriesBeforeCreate + 1)); 
         
-        // 	------ READ ----------- //
-    	
+        // 	------ READ ----------- //    	
         Directory directoryRead = directoryDao.getDirectoryFromCategory(newDirectoryNameDAO, categoryForDirectory);
         
-        assertNotNull(directoryRead);
-        
+        assertNotNull(directoryRead);        
         assertTrue(directoryRead.getName().equalsIgnoreCase(newDirectoryNameDAO));
         assertTrue(directoryRead.getCategory().getName().equalsIgnoreCase(categoryForDirectory.getName())); 
         
         //  ------ DELETE ----------- //
-        //int numberOfDirectoriesBeforeDelete = directoryDao.getAllDirectoriesForCategory(categoryForDirectory).size();
-        
         directoryDao.delete(newDirectoryNameDAO, categoryForDirectory);
         
-        // Pocet vsech Direcory se snizil o 1
-        assertTrue(directoryDao.getAllDirectoriesForCategory(categoryForDirectory).size() == numberOfDirectoriesBeforeCreate); 
-        
+        // Number of Directories decreased by 1
+        assertTrue(directoryDao.getAllDirectoriesForCategory(categoryForDirectory).size() == numberOfDirectoriesBeforeCreate);         
 	}
 	
 	@Parameter
@@ -146,25 +128,21 @@ public class TestDirectory
 	/**
 	 * Provede test 3 základních operací s DB pomocí Service vrstvy, Create, Read, Delete (Update i Directory není potřeba)
 	 * 
-	 * Taky otestuje, ze Directory se stejnym jmenem v Category nemuye byt votvoreno
+	 * Taky otestuje, ze Directory se stejnym jmenem v Category nemuye byt votvoreno.
 	 */
 	@Test
 	public void test_CRD_Directory_Service()
 	{
 		// CREATE
 		int numberOfDirectoriesBeforeCreate = directoryService.getAllDirectories().size();       
-      	
-    	//CategoryService categoryService = new CategoryServiceImpl();
-        //Category category = categoryService.getCategoryByName(knownCategoryNameForService);
-        
-        // Vytvoreni a ulozeni noveho adresare, napr. pro fotky ?
+      	     
         Directory directory = new Directory();       
         directory.setName(newDirectoryNameService);                 
         directory.setCategory(categoryForDirectory);
         
         directoryService.saveDirectory(directory);
         
-        // Pocet vsech Directory se musi zvysit o 1
+        // Number of Directories increased by 1
         assertTrue(directoryService.getAllDirectories().size() == (numberOfDirectoriesBeforeCreate + 1));
         
         // SAVE SAME DIRECTORY AGAIN - THROWS EXCEPTION        
@@ -181,17 +159,15 @@ public class TestDirectory
         // READ
         Directory directoryRead = directoryService.getOneDirectoryFromCategory(newDirectoryNameService, categoryForDirectory);
         
-        assertNotNull(directoryRead);
-        
+        assertNotNull(directoryRead);       
         assertTrue(directoryRead.getName().equalsIgnoreCase(newDirectoryNameService));
         assertTrue(directoryRead.getCategory().getName().equalsIgnoreCase(categoryForDirectory.getName())); 
                 
         // DELETE       
         directoryService.deleteDirectory(newDirectoryNameService, categoryForDirectory);        
-        // Pocet vsech Direcory se snizil o 1
+        // Number of Directories decreased by 1
         assertTrue(directoryService.getAllDirectoriesForCategory(categoryForDirectory).size() == numberOfDirectoriesBeforeCreate);  
 	}
-		
-	
+			
 	
 }

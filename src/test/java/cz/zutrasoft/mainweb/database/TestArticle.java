@@ -144,9 +144,7 @@ public class TestArticle
 	 */
 	@Test
     public void test_Load_All_Articles_In_Category_Service()
-	{
-		//CategoryService categoryService = new CategoryServiceImpl();
-        
+	{      
         Category cater = categoryService .getCategoryByName(articleCategoryName);
 		
         // Load all Articles in one Category
@@ -261,7 +259,6 @@ public class TestArticle
         assertTrue(newArticleHeader.equals(a.getHeader())); 
         
         articleService.deleteArticle(a);
-
 	}
 	
 	@Test

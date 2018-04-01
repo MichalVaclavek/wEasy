@@ -35,7 +35,7 @@ public class TestUser
 {
 
 	private static IUserService userService;
-	private static EncoderDecoderService ed;
+	//private static EncoderDecoderService ed;
 	
 	private User uniqueUser;
 	private static String uniqueUserName = "uniqueUser";
@@ -45,7 +45,7 @@ public class TestUser
 	@BeforeClass
 	public static void setUpBeforeClass()
 	{
-		ed = EncoderDecoderService.init("12goro.45.7");	
+		//ed = EncoderDecoderService.init("12goro.45.7");	
 		userService = UserService.getInstance();
 	}
 	
@@ -220,14 +220,7 @@ public class TestUser
 		User loadedUserAfterUpdate = userService.findByUsername(testUpdateUserSso);
 		
 		assertTrue(loadedUserAfterUpdate.getFirstName().equals(newFirstName));
-		try
-		{			
-			assertTrue(ed.decrypt(loadedUserAfterUpdate.getPassword()).equals(newPasswd));
-		}
-		catch (GeneralSecurityException | IOException  e)
-		{
-			System.err.println("Chyba pri kodovani hesla." + e.getMessage());
-		}
+		assertTrue(loadedUserAfterUpdate.getPassword().equals(newPasswd));
 		assertTrue(loadedUserAfterUpdate.getEmail().equals(newEmail));
 		
 		// Smazani drive vytvoreneho usera, pro opakovani testu nezadouci
