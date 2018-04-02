@@ -13,7 +13,7 @@
      	
     <!-- Local development machine DB -->
     <property name="hibernate.connection.username">postgres</property>
-	<property name="hibernate.connection.password">Sicilia.2</property>
+	<property name="hibernate.connection.password">password</property>
 	<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/weasy</property>
 				
     <!-- JDBC connection pool (use the built-in) -->
