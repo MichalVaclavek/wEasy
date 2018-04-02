@@ -42,6 +42,12 @@ WITH (
 )
 TABLESPACE pg_default;
 
+INSERT INTO public.t_user_profile(id, type)
+	VALUES (1, 'USER');
+	
+INSERT INTO public.t_user_profile(id, type)
+	VALUES (2, 'ADMIN');
+
 -- ALTER TABLE public.t_user_profile
 --    OWNER to postgres;
 	
