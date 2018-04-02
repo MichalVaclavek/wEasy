@@ -52,7 +52,7 @@ In that new View click on "Clone a Git repository", fill in URI: https://github.
 2] Importing project from local Git repository to Eclipse:
 Go to File -> Import -> Maven -> Existing Maven Project -> Next, select Directory where you cloned the project (step 1). Click "Finish" and your project is imported into Eclipse and ready to run.
 
-After importing/creating project from GitHub, a DB must be created. If the PostgreSQL DB is used, you can create complete DB using /scripts/postgres_script.sql file included in the source code.
+After importing/creating project from GitHub, a DB must be created. If the PostgreSQL DB is used, create DB named "weasy" and create tables using /scripts/postgres_script.sql file included in the source code.
 
 Then go to src/main/resources/, open hibernate.cfg.xml and edit your local (or remote) PostgreSQL DB connection here.
 
