@@ -7,51 +7,52 @@
  
   <session-factory>
   
-     	<!-- Database connection settings -->
-     	<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-     	<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <!-- Database connection settings -->
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
      	
-     	<!-- Local development machine DB -->
-     	<property name="hibernate.connection.username">postgres</property>
-		<property name="hibernate.connection.password">password</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/weasy</property>
-					
-     	<!-- JDBC connection pool (use the built-in) -->
-     	<!-- <property name="connection_pool_size">1</property> -->
+    <!-- Local development machine DB -->
+    <property name="hibernate.connection.username">postgres</property>
+	<property name="hibernate.connection.password">Sicilia.2</property>
+	<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/weasy</property>
+				
+    <!-- JDBC connection pool (use the built-in) -->
+    <!-- <property name="connection_pool_size">1</property> -->
 
-		<!-- JDBC connection pool Hikari -->
-		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+	<!-- JDBC connection pool Hikari -->
+	<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
 
-		<!-- Properties for Hikari -->		
-		<!-- Maximum waiting time for a connection from the pool -->
-       <property name="hibernate.hikari.connectionTimeout">20000</property>
-       <!--Minimum number of ideal connections in the pool -->
-       <property name="hibernate.hikari.minimumIdle">10</property>
-       <!-- Maximum number of actual connection in the pool -->
-       <property name="hibernate.hikari.maximumPoolSize">20</property>
-       <!-- Maximum time that a connection is allowed to sit ideal in the pool -->
-       <property name="hibernate.hikari.idleTimeout">300000</property>
-	
-     	<!-- Enable Hibernate's automatic session context management -->
-     	<property name="current_session_context_class">thread</property>
+	<!-- Properties for Hikari CP --> 		
+	<!-- Maximum waiting time for a connection from the pool -->
+    <property name="hibernate.hikari.connectionTimeout">20000</property>
+    <!--Minimum number of ideal connections in the pool -->
+    <property name="hibernate.hikari.minimumIdle">10</property>
+    <!-- Maximum number of actual connection in the pool -->
+    <property name="hibernate.hikari.maximumPoolSize">20</property>
+    <!-- Maximum time that a connection is allowed to sit ideal in the pool -->
+    <property name="hibernate.hikari.idleTimeout">300000</property>
+ 	
  
-      	<!-- Disable the second-level cache -->
-      	<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+    <!-- Enable Hibernate's automatic session context management -->
+    <property name="current_session_context_class">thread</property>
  
-      	<!-- Echo all executed SQL to stdout -->
-      	<property name="show_sql">true</property>
+    <!-- Disable the second-level cache -->
+    <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
  
- 	  	<!-- Persistence classes -->
-      	<mapping class="cz.zutrasoft.database.model.Comment" />
-      	<mapping class="cz.zutrasoft.database.model.Article" />
-      	<mapping class="cz.zutrasoft.database.model.Category" />
-      	<mapping class="cz.zutrasoft.database.model.CategoryWithArticles" />
-      	<mapping class="cz.zutrasoft.database.model.Directory" />
-      	<mapping class="cz.zutrasoft.database.model.Image" />
-      	<mapping class="cz.zutrasoft.database.model.TrackInfo" />
-      	<mapping class="cz.zutrasoft.database.model.User" />
-      	<mapping class="cz.zutrasoft.database.model.UserProfile" />
-      	<mapping class="cz.zutrasoft.database.model.ContactMessage" />
+    <!-- Echo all executed SQL to stdout -->
+    <property name="show_sql">true</property>
+ 
+ 	<!-- Persistence classes -->
+    <mapping class="cz.zutrasoft.database.model.Comment" />
+    <mapping class="cz.zutrasoft.database.model.Article" />
+    <mapping class="cz.zutrasoft.database.model.Category" />
+    <mapping class="cz.zutrasoft.database.model.CategoryWithArticles" />
+    <mapping class="cz.zutrasoft.database.model.Directory" />
+    <mapping class="cz.zutrasoft.database.model.Image" />
+    <mapping class="cz.zutrasoft.database.model.TrackInfo" />
+    <mapping class="cz.zutrasoft.database.model.User" />
+    <mapping class="cz.zutrasoft.database.model.UserProfile" />
+    <mapping class="cz.zutrasoft.database.model.ContactMessage" />
  
   </session-factory>
  

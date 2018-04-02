@@ -23,7 +23,7 @@ import cz.zutrasoft.database.model.Article;
 import cz.zutrasoft.database.model.Category;
 
 /** 
- *	Performes all the important tests for operationg Articles - DAO (package {@code cz.zutrasoft.database.daoimpl}) and
+ *	Performs all the important tests for operating {@link cz.zutrasoft.database.model.Article}s - DAO (package {@code cz.zutrasoft.database.daoimpl}) and
  *  Service level (package {@code cz.zutrasoft.base.servicesimpl}) methods for basic CRUD operations.
  * 
  * @author Michal Václavek
@@ -41,7 +41,7 @@ public class TestArticle
 	private static Category testCategory;
 
 	/**
-	 * Crates Articles for tetsing methods retrieving Lists of Articles
+	 * Crates Articles for testing methods retrieving Lists of Articles
 	 * Also creates DAO and Service objects for all tests
 	 * 
 	 * @throws Exception
@@ -91,7 +91,7 @@ public class TestArticle
 	/* ================== START OF TESTING ============ */
 	
 	/**
-	 * Tests creation, saving, reading and deletition of the Article using {@code ArticleDaoImpl} object
+	 * Tests creation, saving, reading and delete of the Article using {@code ArticleDaoImpl} object
 	 */
 	@Test
     public void test_Create_New_Article_Dao()
@@ -118,7 +118,7 @@ public class TestArticle
               
         int numberOfArticlesBeforeDelete = articleDao.getAllArticles().size();        
         articleDao.deleteArticle(lastArticle);      
-        // Number of saved Articles decreased after deletition of one Article
+        // Number of saved Articles decreased after delete of one Article
         assertTrue(articleDao.getAllArticles().size() == (numberOfArticlesBeforeDelete - 1)); 
                         
 	}
@@ -144,9 +144,7 @@ public class TestArticle
 	 */
 	@Test
     public void test_Load_All_Articles_In_Category_Service()
-	{
-		//CategoryService categoryService = new CategoryServiceImpl();
-        
+	{      
         Category cater = categoryService .getCategoryByName(articleCategoryName);
 		
         // Load all Articles in one Category
@@ -186,7 +184,7 @@ public class TestArticle
 	
 	
 	/**
-	 * Tests creation, saving, reading and deletition of the Article using Service object
+	 * Tests creation, saving, reading and delete of the Article using Service object
 	 */
 	@Test
     public void testCreateNewArticleService()
@@ -219,7 +217,7 @@ public class TestArticle
 	}
 	
 	/**
-	 * Tests updating of the Articels functions of the DAO {@code ArticleDaoImpl} object 
+	 * Tests updating of the Articles functions of the DAO {@code ArticleDaoImpl} object 
 	 */
 	@Test
     public void test_Update_Article_Dao()
@@ -261,7 +259,6 @@ public class TestArticle
         assertTrue(newArticleHeader.equals(a.getHeader())); 
         
         articleService.deleteArticle(a);
-
 	}
 	
 	@Test

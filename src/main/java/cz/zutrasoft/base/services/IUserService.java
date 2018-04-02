@@ -16,9 +16,16 @@ public interface IUserService
 	 * Gets {@link User} object from DB according it's identity in DB.
 	 * 
 	 * @param id identity of the User who's instance is required.
-	 * @return found {@link User} object or null if not found.
+	 * @return found {@link User} object instance or null if not found.
 	 */
-	public User findById(Integer id);         
+	public User findById(Integer id);  
+	
+	/**
+	 * Gets {@link User} object from DB according it's username column in DB.
+	 * 
+	 * @param userName - value of username attribute of the {@link User} who's instance is required.
+	 * @return found {@link User} object instance or null if not found.
+	 */
     public User findByUsername(String userName);
 
     /**

@@ -17,19 +17,28 @@ import cz.zutrasoft.database.daoimpl.UserDaoImpl;
 import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
 
-//@Transactional // Spring annotation if Spring is used
+/**
+ * Implementation of {@link IUserService} interface.
+ * Contains actions needed to handle users (instances of the {@link User} ) of the web pages app.
+ * 
+ * @author Michal Václavek
+ *
+ */
 public class UserService implements IUserService
 {
 	static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	
 	private IUserDao userDao = new UserDaoImpl();
  
-    private static EncoderDecoderService passwordEncoder = EncoderDecoderService.init("12goro.45.7");
+	/**
+	 * Default encoding/decoding password. The source code should be obfuscated, if used like that.
+	 */
+    private static EncoderDecoderService passwordEncoder = EncoderDecoderService.init("your_password_for_encrypt/decrypt");
     
-    private static class SingletonHolder
-	{
-        private static final UserService SINGLE_INSTANCE = new UserService();
-    }
+    	private static class SingletonHolder
+    	{
+    		private static final UserService SINGLE_INSTANCE = new UserService();
+    	}
 	
 	/**
 	 * @return singleton instance of the UserService
@@ -42,25 +51,54 @@ public class UserService implements IUserService
 	private UserService()
 	{}
      
-	
+	/**
+	 * Finds and gets User instance from DB with password decoded.
+	 * 
+	 * @param id ID of the user to be found
+	 * @return {@link User} instance according it's ID
+	 */
     @Override
     public User findById(Integer id)
     {
-        return userDao.findById(id);
+        User user =  userDao.findById(id);
+        try
+		{
+        	if (user != null)
+        		user.setPassword(passwordEncoder.decrypt(user.getPassword()));
+		}
+		catch (GeneralSecurityException | IOException e)
+		{
+			logger.error("Error getting user. Exception: " + e.getMessage());
+		}
+    	return user;
     }
  
     @Override
     public User findByUsername(String sso)
     {
-        User user = userDao.findByUsername(sso);
-        return user;
+    	User user =  userDao.findByUsername(sso);
+        try
+		{
+			if (user != null)
+				user.setPassword(passwordEncoder.decrypt(user.getPassword()));
+		}
+		catch (GeneralSecurityException | IOException e)
+		{
+			logger.error("Error getting user. Exception: " + e.getMessage());
+		}
+    	return user;
     }
  
     /**
-     * Saves new User in DB. It is checked if the username is not already used for another user in DB.<br>
+     * Saves new User in DB. It is checked, if the username is not already used for another user in DB.<br>
      * Only basic USER role can be assigned.<br>
      * ADMIN role can be assigned only using respective test method {@link TestCreateAdminUser} during develepment
-     * or directly within DB administration. 
+     * or directly within DB administration.
+     * 
+     * It allows empty password to be saved. Is it fine?
+     * 
+     * @param a User instance to be saved. It's password is encrypted before saving.
+     * @return true if saved successfuly, false otherwise.
      */
     @Override
     public boolean saveUser(User user)
@@ -92,7 +130,9 @@ public class UserService implements IUserService
     }
  
     /**
-	 * Updates User data in DB
+	 * Updates User data in DB. If a user's password attribute is empty, it means no change of password is required.
+	 *  
+	 * @param user - a User instance with changed data to be saved. It's password is encrypted before save.
      */
     @Override
     public void updateUser(User user)
@@ -102,24 +142,22 @@ public class UserService implements IUserService
         if (entity != null)
         {
             entity.setUsername(user.getUsername());
-            
-            if (!user.getPassword().equals(entity.getPassword()))
-            {
-                try
-				{
-					entity.setPassword(passwordEncoder.encrypt(user.getPassword()));
-					
-					entity.setFirstName(user.getFirstName());
-		            entity.setLastName(user.getLastName());
-		            entity.setEmail(user.getEmail());
-		            entity.setUserProfiles(user.getUserProfiles());
-		            
-		            userDao.update(entity);
-				} catch (UnsupportedEncodingException | GeneralSecurityException e)
-				{					
-					logger.error("Error updating user. Exception: " + e.getMessage());
-				}
-            }           
+                      
+            try
+			{            	
+            	if (!user.getPassword().isEmpty()) // New password is not empty
+            		entity.setPassword(passwordEncoder.encrypt(user.getPassword())); // can be set as a new password
+				
+				entity.setFirstName(user.getFirstName());
+	            entity.setLastName(user.getLastName());
+	            entity.setEmail(user.getEmail());
+	            entity.setUserProfiles(user.getUserProfiles());
+	            
+	            userDao.update(entity);
+			} catch (GeneralSecurityException | IOException e)
+			{					
+				logger.error("Error updating user. Exception: " + e.getMessage());
+			}                       
         }
     }
  
@@ -142,7 +180,8 @@ public class UserService implements IUserService
     }
     
     /**
-     * Authenticates User. Password is not encrypted yet.
+     * Authenticates User. It's password is not encrypted yet.
+     * 
      * @param userToAuthenticate - user object with password to be authenticated
      */
     @Override
@@ -162,6 +201,9 @@ public class UserService implements IUserService
     
     /**
      * Authenticates username and password. Password is not encrypted yet.
+     * 
+     * @param userName - user name to be authenticated
+     * @param passws - password belonging to the userName to be checked
      */
     @Override
     public boolean authenticate(String userName, String passw)
@@ -170,18 +212,11 @@ public class UserService implements IUserService
     	
     	if (!userName.isEmpty() && !passw.isEmpty())
     	{
-	    	User entity = userDao.findByUsername(userName);
-	        
+    		User entity = findByUsername(userName);
 	        if (entity != null)
 	        {
-	           try
-	           {
-					if (passw.equals(passwordEncoder.decrypt(entity.getPassword())))
-						authenticated = true;
-				} catch (GeneralSecurityException | IOException e)
-				{
-					logger.error("Error decrypting password. Exception: " + e.getMessage());
-				}           
+	        	if (passw.equals(entity.getPassword()))
+					authenticated = true;				         
 	        }
     	}
     	

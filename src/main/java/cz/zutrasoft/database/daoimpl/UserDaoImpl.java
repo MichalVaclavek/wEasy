@@ -120,14 +120,7 @@ public class UserDaoImpl implements IUserDao
 	        // Execute query.
 	        users = query.getResultList();
 	        session.getTransaction().commit();
-	        
-	        // Show or log for testing
-	        /*
-	        for (User u : users)
-	        	System.out.println(u.getUsername());
-	        
-	        //users.forEach(u -> logger.info(u.getUsername()));
-	        */	        	        	
+	        	        	        	
     	}
         catch (Exception e)
 	    {

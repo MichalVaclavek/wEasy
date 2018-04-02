@@ -256,5 +256,4 @@ TABLESPACE pg_default;
 
 -- ALTER TABLE public.t_tracking
 --     OWNER to postgres;
-	
-	
+

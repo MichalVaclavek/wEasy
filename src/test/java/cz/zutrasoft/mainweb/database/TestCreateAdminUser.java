@@ -20,16 +20,13 @@ import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
 
 /**
- * Special test for creation ADMIN user
+ * Special test for creation ADMIN user. i.e. one test creates and save a user with ADMIN role.
  * 
  * @author Michal Václavek
  *
  */
 public class TestCreateAdminUser
 {
-
-	//private static EncoderDecoder passwordEncoder;
-	//private IUserDao userDao;
 	private IUserService userService;
 	
 	/**
@@ -37,10 +34,8 @@ public class TestCreateAdminUser
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
-	{
-		//passwordEncoder = EncoderDecoder.init("12goro.45.7");		
+	{	
 	}
-
 
 	/**
 	 * @throws java.lang.Exception
@@ -48,7 +43,6 @@ public class TestCreateAdminUser
 	@Before
 	public void setUp() throws Exception
 	{
-		//userService = new UserServiceImpl();
 		userService = UserService.getInstance();
 	}
 
@@ -61,26 +55,20 @@ public class TestCreateAdminUser
 	    User newUser = new User();
 	    
 	    newUser.setFirstName("Michal");
-	    newUser.setLastName("V");
-	    newUser.setUsername("michalv");
-	    	    
-		newUser.setPassword("Pes.goro54");
-				
+	    newUser.setLastName("Vc");
+	    newUser.setUsername("michalv");	    	    
+		newUser.setPassword("Pes.goro54");				
 	    newUser.setEmail("michalv@zutrasoft.cz");
 	    
 	    Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 	    userProfiles.add(new UserProfile(2, "ADMIN"));
 	    newUser.setUserProfiles(userProfiles);
-	        	            
-	    
-	    // Overeni, ze doslo ke zvyseni poctu uzivatelu v DB
+	        	            	    
         int numberOfUsersBeforeCreate= userService.findAllUsers().size();
         userService.saveUser(newUser);	                
-        // Pocet vsech Useru se zvysil o 1
-        assertTrue(userService.findAllUsers().size() == (numberOfUsersBeforeCreate + 1)); 
-	    	
+        // Number of users in DB increased by 1
+        assertTrue(userService.findAllUsers().size() == (numberOfUsersBeforeCreate + 1)); 	    	
 	}
 	
 	
-
 }
