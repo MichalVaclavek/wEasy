@@ -24,8 +24,8 @@ import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.Directory;
 
 /**
- * Otestuje vsechny metody dulezite pro praci s {@code Directory} tj. jak metody v DAO vrstve {@code cz.zutrasoft.database.daoimpl},
- * tak i metody v Service vrsve {@code cz.zutrasoft.base.servicesimpl}
+ * Tests all methods important for working with {@link cz.zutrasoft.database.model.Directory} - both methods in DAO level {@code cz.zutrasoft.database.daoimpl},
+ * and Service level {@code cz.zutrasoft.base.servicesimpl} are tested.
  * 
  * @author Michal Václavek
  *
@@ -87,7 +87,7 @@ public class TestDirectory
     public String newDirectoryNameDAO = "ImagesDirInVeverkyDAO";	
 	
 	/**
-	 * Provede test 3 základních operací s DB pomocí DAO vrstvy, Create, Read, Delete (Update i Directory není potřeba)
+	 * Performs 3 basic DB operations, Create, Read, Delete using DAO level methods.
 	 */
 	@Test
 	public void test_CRD_Directory_DAO()
@@ -126,9 +126,8 @@ public class TestDirectory
     public ExpectedException exception = ExpectedException.none();
 	
 	/**
-	 * Provede test 3 základních operací s DB pomocí Service vrstvy, Create, Read, Delete (Update i Directory není potřeba)
-	 * 
-	 * Taky otestuje, ze Directory se stejnym jmenem v Category nemuye byt votvoreno.
+	 * Performs 3 basic DB operations, Create, Read, Delete using Service level methods.
+	 * Also tests that a new {@code Directory} with already used name within {@code Category} cannot be created.
 	 */
 	@Test
 	public void test_CRD_Directory_Service()
@@ -153,7 +152,7 @@ public class TestDirectory
         exception.expect(javax.persistence.PersistenceException.class);
         directoryService.saveDirectory(directory2);
         
-        // Previous attemtp to save same Directory failed, number of Directories unchanged
+        // Previous attempt to save same Directory failed, number of Directories unchanged
         assertTrue(directoryService.getAllDirectories().size() == (numberOfDirectoriesBeforeCreate + 1));
                        
         // READ

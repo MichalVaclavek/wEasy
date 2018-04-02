@@ -23,8 +23,8 @@ import cz.zutrasoft.database.model.Category;
 import cz.zutrasoft.database.model.CategoryWithArticles;
 
 /**
- * Otestuje vsechny metody dulezite pro praci s Category tj. jak metody v DAO vrstve {@code cz.zutrasoft.database.daoimpl},
- * tak i metody v Service vrsve {@code cz.zutrasoft.base.servicesimpl}
+ * Tests all methods important for working with {@link cz.zutrasoft.database.model.Category} - both methods in DAO level {@code cz.zutrasoft.database.daoimpl},
+ * and Service level {@code cz.zutrasoft.base.servicesimpl} are tested.
  * 
  * @author Michal Václavek
  *
@@ -73,14 +73,12 @@ public class TestCategory
 	@Test
     public void test_Create_New_Category_DAO()
 	{	       				
-		// Vytvoreni a ulozeni nove kategorie clanku
 		int numberOfCategoriesBeforeCreate = categoryDao.getAllCategories().size();   
         
         Category category = new Category();       
         category.setName(newCategoryNameForDao);  
         
-        categoryDao.saveCategory(category);        
-        
+        categoryDao.saveCategory(category);                
         assertTrue(categoryDao.getAllCategories().size() == (numberOfCategoriesBeforeCreate + 1));         
 	}
 	
@@ -95,21 +93,16 @@ public class TestCategory
 		int numberOfCategoriesBeforeCreate = categoryService.getAllCategories().size(); 
 		
         Category category = new Category();       
-        category.setName(newCategoryNameForService);  
-        
-        categoryService.saveCategory(category);                
-        
+        category.setName(newCategoryNameForService);        
+        categoryService.saveCategory(category);                        
         assertTrue(categoryService.getAllCategories().size() == (numberOfCategoriesBeforeCreate + 1)); 
         
-        Category categoryGet = categoryService.getCategoryByName(newCategoryNameForService);
-        
+        Category categoryGet = categoryService.getCategoryByName(newCategoryNameForService);        
         assertTrue(categoryGet.getName().equals(category.getName()));
         
         // Delete Category
-        Category categorDel = categoryService.getCategoryByName(newCategoryNameForService);
-             
+        Category categorDel = categoryService.getCategoryByName(newCategoryNameForService);          
         categoryService.deleteCategory(categorDel);
-             
         // Number of Categories decreased by 1
         assertTrue(categoryService.getAllCategories().size() == numberOfCategoriesBeforeCreate);  
 	}
@@ -125,7 +118,6 @@ public class TestCategory
 	@Test
 	public void test_List_All_Categories_DAO()
 	{
-		// získání všech Categories z databáze
         List<Category> categories = categoryDao.getAllCategories();
         assertNotNull(categories);
         assertTrue(categories.size() > 0);       
@@ -139,21 +131,22 @@ public class TestCategory
     public String categoryNameToCreateAgain = "Jezecek2";
 	
 	/**
-	 * Otestuje, ze nejde vytvorit nova kategorie se jmenem ktere je uz pouzito
-	 * Mela by byt vyhozena vyjimka typu javax.persistence.PersistenceException.class
+	 * Tests that new Category cannot be saved if it's name is already used for another Category.
+	 * Exception javax.persistence.PersistenceException.class should be thrown.
 	 */
 	@Test
-	public void testNewCategoryCannotBeCreated_NameNotUnique()
+	public void test_New_Category_Cannot_Be_Created_NameNotUnique()
 	{
 		exception.expect(javax.persistence.PersistenceException.class);
 		
 		Category category = new Category();       
-        category.setName(categoryNameToCreateAgain);  
-        
+        category.setName(categoryNameToCreateAgain);        
         categoryService.saveCategory(category);    
         
+        // New Category with the same name
         Category category2 = new Category();       
-        category2.setName(categoryNameToCreateAgain);  
+        category2.setName(categoryNameToCreateAgain);
+        // Here the exception is thrown
         categoryService.saveCategory(category2); 
 	}
 	

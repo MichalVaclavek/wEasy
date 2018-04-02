@@ -1,9 +1,9 @@
 ## wEasy (Wicket Easy) Enhancement
-This is a fork of **wEasy** https://github.com/vitfo/wEasy - a simple CMS (Content Management System) written in Java using the [Apache Wicket framework!](http://wicket.apache.org/) with some enahancements.
+This is a fork of **wEasy** https://github.com/vitfo/wEasy - a simple CMS (Content Management System) written in Java using the [Apache Wicket framework!](http://wicket.apache.org/) with some enhancements.
 
 ## Getting Started
 
-The wEasy project's original purpose is to allow practicing on Apache Wicket development creating simple CMS web application (see https://github.com/vitfo/wEasy for original source).
+The wEasy project's original purpose is to allow practising on Apache Wicket development creating simple CMS web application (see https://github.com/vitfo/wEasy for original source).
 The application can be used for creating and managing simple web pages then. See http://fungisoft.cz web pages as an example of the web created by this application.
 
 
@@ -11,14 +11,14 @@ Following are enhancements added to the original project:
 
  Backend:
   - DAO level changed from JDBC to JPA Hibernate with some new DB entities and methods
-  - user authentiation added
+  - user authentication added
   - new DB tables added
   - Service level added
   
  Frontend (Wicket):
-  - Contact message form added,
-  - list of Categories added.
-  - Registration form extension
+  - Contact message form added
+  - list of Categories added
+  - Registration form extension (editing of user data allowed)
   - logged-in user label added
   
  Unit tests for testing work with DB.
@@ -44,16 +44,21 @@ Java 8 installed, Maven, created PostgreSQL DB, Tomcat 8.5 installed within IDE.
 
 ### Installing
 
-Importing project from Github:
-- in Eclipse go to File/Import/Git/Projects from Git, click Next. Select Clone URI, click Next. Then fill in form URI: https://github.com/MichalVaclavek/wEasy, click Next. Select "next_development" branch, click Next. Define your local destination Directory, click Next. Select Import Wizard (.. New Project) and click Finish. Projects will be created in your Eclipse.
+1] Cloning project from GitHub to your local Git repository:
 
-After importing project from GitHub, a DB must be created. If the PostgreSQL DB is used, you can create complete DB using /scripts/postgres_script.sql file included in the source code.
+Open Git Repositories View. Window -> Show View -> Other -> Git -> Git Repositories
+In that new View click on "Clone a Git repository", fill in URI: https://github.com/MichalVaclavek/wEasy and click "Next". Select "next_development" (or master) branch, and click "Next". Select directory where the local repository will be located/cloned to, click "Finish". 
 
-Then go to src/main/resources/ and open hibernate.cfg.xml. You can edit your local (or remote) PostgreSQL DB connection here.
+2] Importing project from local Git repository to Eclipse:
+Go to File -> Import -> Maven -> Existing Maven Project -> Next, select Directory where you cloned the project (step 1). Click "Finish" and your project is imported into Eclipse and ready to run.
 
-Then edit src/main/resources/log4j.properties file to configure app loging environment.
+After importing/creating project from GitHub, a DB must be created. If the PostgreSQL DB is used, you can create complete DB using /scripts/postgres_script.sql file included in the source code.
+
+Then go to src/main/resources/, open hibernate.cfg.xml and edit your local (or remote) PostgreSQL DB connection here.
+
+Then edit src/main/resources/log4j.properties file to configure app. loging environment, especially  then name and location of the log file.
   
-After that project should be ready to run either on Eclipse installed Tomcat 8.0 or 8.5 server or using Maven build ... goal jetty:run
+After that, project should be ready to run either on Eclipse installed Tomcat 8.0 or 8.5 server or using Maven build ... goal jetty:run
 
 
 ## Running the tests

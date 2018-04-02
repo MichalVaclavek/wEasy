@@ -26,7 +26,7 @@ import cz.zutrasoft.database.model.Image;
 
 /**
  * Tests methods working with {@code Image} i.e. methods for saving and deleting the Image.
- * Because the upload cannot be tested simply locally, the local image file is saved into DB instead
+ * Because the upload cannot be tested simply locally, the local image file is saved into DB instead.
  * 
  * @author Michal Václavek
  *

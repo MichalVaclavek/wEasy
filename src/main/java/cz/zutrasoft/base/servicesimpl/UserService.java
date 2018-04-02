@@ -19,7 +19,7 @@ import cz.zutrasoft.database.model.UserProfile;
 
 /**
  * Implementation of {@link IUserService} interface.
- * Contains actions needed to handle users (instancies of the {@link User} ) of the web pages app.
+ * Contains actions needed to handle users (instances of the {@link User} ) of the web pages app.
  * 
  * @author Michal Václavek
  *
@@ -180,7 +180,7 @@ public class UserService implements IUserService
     }
     
     /**
-     * Authenticates User. Password is not encrypted yet.
+     * Authenticates User. It's password is not encrypted yet.
      * 
      * @param userToAuthenticate - user object with password to be authenticated
      */

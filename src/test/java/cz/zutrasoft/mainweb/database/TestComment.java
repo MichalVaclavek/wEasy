@@ -33,8 +33,8 @@ import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
 
 /**
- * Otestuje vsechny metody dulezite pro praci s Comment tj. jak metody v DAO vrstve {@code cz.zutrasoft.database.daoimpl},
- * tak i metody v Service vrsve {@code cz.zutrasoft.base.servicesimpl}
+ * Tests all methods important for working with {@link cz.zutrasoft.database.model.Comment} - both methods in DAO level {@code cz.zutrasoft.database.daoimpl},
+ * and Service level {@code cz.zutrasoft.base.servicesimpl} are tested.
  * 
  * @author Michal Václavek
  *
@@ -102,15 +102,12 @@ public class TestComment
         Comment comment = new Comment();
         comment.setCreated(new Timestamp(25_808_000_004L));
         comment.setText("Testovací koment k testovacímu článku");
-
-        comment.setUserId(testUser.getId());
-              	
+        comment.setUserId(testUser.getId());              	
         comment.setArticle(artToComment);
         
         // Save comment to DB
         comentsDao.saveComment(comment);         		              	
 	}
-	
 	
 	@AfterClass
 	public static void delete_Articles_And_Category() throws Exception
@@ -126,11 +123,10 @@ public class TestComment
 	@Before
 	public void setUp() throws Exception
 	{		
-		// At least one Article was created in {@code setUpBeforeClass()}
+		// At least one Article in created in {@code setUpBeforeClass()}
 		testUser = userServ.findByUsername("test_u");
 	}
-	
-
+		
 	/* ======================== TESTS ================================ */
 	
 	
@@ -176,8 +172,7 @@ public class TestComment
 	@Test
     public void get_All_Comments_For_Article_DAO()
 	{				
-        List<Comment> comments = comentsDao.getAllCommentsForArticle(artToComment);
-        
+        List<Comment> comments = comentsDao.getAllCommentsForArticle(artToComment);       
         assertNotNull(comments);
         assertTrue(comments.size() > 0);        
 	}
@@ -188,8 +183,7 @@ public class TestComment
 	@Test
     public void get_All_Comments_For_Article_Service()
 	{
-       List<Comment> comments = commentsService.getAllCommentsForArticleId(artToComment.getId());
-        
+       List<Comment> comments = commentsService.getAllCommentsForArticleId(artToComment.getId());       
        assertNotNull(comments);
        assertTrue(comments.size() > 0);
 	}
@@ -218,20 +212,19 @@ public class TestComment
         Comment comment = comentsDao.getById(comments.get(0).getId());
         
         int numberOfCommentsBeforeDelete = comments.size();
-        comentsDao.deleteComment(comment);
-            
+        comentsDao.deleteComment(comment);            
         assertTrue(comentsDao.getAllComments().size() == (numberOfCommentsBeforeDelete - 1));  
 	}
     
     /**
-     * Tests creating and deleting one Comment  using Service object
+     * Tests creating and deleting one Comment  using Service object.
      */
     @Test
     public void test_Delete_Comment_Service()
 	{
 		int numberOfCommentsBeforeCreate = commentsService.getAllComments().size();
 		
-        String commentText = "No to je zase hrůza!";
+        String commentText = "Very nice/awful.";
         // Save one comment to DB
         Comment comment = commentsService.saveTextAsComment(commentText, testUser.getId(), artToComment.getId());                 
         assertTrue(commentsService.getAllComments().size() == (numberOfCommentsBeforeCreate + 1)); 

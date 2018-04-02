@@ -20,7 +20,7 @@ import cz.zutrasoft.database.model.User;
 import cz.zutrasoft.database.model.UserProfile;
 
 /**
- * Special test for creation ADMIN user
+ * Special test for creation ADMIN user. i.e. one test creates and save a user with ADMIN role.
  * 
  * @author Michal Václavek
  *
